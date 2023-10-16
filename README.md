@@ -2,7 +2,7 @@
 Proyecto de la asignatura Ingeniería Web
 # SGDMOVIL
 ## Proyecto de la asignatura Ingeniería web. Curso 2023/2024
-  
+El proyecto consiste en el desarrollo de una aplicación web de telefonía móvil usando los métodos, técnicas y herramientas de la Ingeniería Web
 
 ## Integrantes del equipo
 - Samuel Limones Cruz
