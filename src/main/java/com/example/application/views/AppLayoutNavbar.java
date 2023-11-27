@@ -1,9 +1,10 @@
 package com.example.application.views;
 
+import com.example.application.views.Registro.Registro;
 import com.example.application.views.Servicios.ServiciosView;
 import com.example.application.views.atcCliente.atccliente;
 import com.example.application.views.Contratar.ContratarView;
-import com.example.application.views.login.LoginRichContent;
+import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.tabs.Tab;
@@ -35,7 +36,7 @@ public class AppLayoutNavbar extends AppLayout {
         RouterLink serviciosLink = new RouterLink("Servicios", ServiciosView.class);
         RouterLink contratarLink = new RouterLink("Contratar", ContratarView.class);
         RouterLink AtcClienteLink = new RouterLink("Atc. Cliente", atccliente.class);
-        RouterLink loginlink = new RouterLink("Login", LoginRichContent.class);
+        RouterLink loginlink = new RouterLink("Login", LoginBasic.class);
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
 
