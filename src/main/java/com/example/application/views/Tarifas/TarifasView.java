@@ -1,17 +1,14 @@
-package com.example.application.views.Contratar;
+package com.example.application.views.Tarifas;
 
-import com.example.application.views.AppLayoutNavbar;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.dom.Style;
-import com.vaadin.flow.router.Route;
-@Route(value = "Contratar", layout = AppLayoutNavbar.class)
-public class ContratarView extends VerticalLayout {
 
-    public ContratarView() {
+public class TarifasView extends VerticalLayout {
+
+    public TarifasView() {
         Tab analytics = new Tab("Analytics");
         Tab customers = new Tab("Customers");
         Tab dashboards = new Tab("Dashboards");

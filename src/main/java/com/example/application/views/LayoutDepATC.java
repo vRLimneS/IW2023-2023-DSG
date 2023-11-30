@@ -1,9 +1,7 @@
 package com.example.application.views;
 
-import com.example.application.views.Registro.Registro;
-import com.example.application.views.Servicios.ServiciosView;
 import com.example.application.views.atcCliente.atccliente;
-import com.example.application.views.Contratar.ContratarView;
+import com.example.application.views.atcCliente.AtcclienteadminView;
 import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
@@ -11,14 +9,15 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
 
-public class AppLayoutNavbar extends AppLayout {
+public class LayoutDepATC extends AppLayout {
 
 
-    public AppLayoutNavbar() {
+    public LayoutDepATC() {
         H1 title = new H1("Inicio");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
                 .set("left", "var(--lumo-space-l)").set("margin", "0")
                 .set("position", "absolute");
+
 
         Tabs tabs = getTabs();
 
@@ -33,20 +32,16 @@ public class AppLayoutNavbar extends AppLayout {
 
         //Creamos los routerlinks de las pestañas posibles conectados a las clases
 
-        RouterLink serviciosLink = new RouterLink("Servicios", ServiciosView.class);
-        RouterLink contratarLink = new RouterLink("Contratar", ContratarView.class);
-        RouterLink AtcClienteLink = new RouterLink("Atc. Cliente", atccliente.class);
+        RouterLink ConsultasLink = new RouterLink("Consultas", AtcclienteadminView.class);
         RouterLink loginlink = new RouterLink("Login", LoginBasic.class);
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
 
-        Tab serviciosTab = new Tab(serviciosLink);
-        Tab contratarTab = new Tab(contratarLink);
-        Tab AtcClienteTab = new Tab(AtcClienteLink);
+        Tab ConsultasTab = new Tab(ConsultasLink);
         Tab logintab = new Tab(loginlink);
 
 
-        tabs.add(serviciosTab, contratarTab, AtcClienteTab, logintab);
+        tabs.add(ConsultasTab, logintab);
 
         return tabs;
     }

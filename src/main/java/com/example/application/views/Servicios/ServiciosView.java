@@ -1,18 +1,16 @@
 package com.example.application.views.Servicios;
 
-import com.example.application.views.AppLayoutNavbar;
+import com.example.application.views.LayoutCliente;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 @PageTitle("Servicios")
-@Route(value = "Servicios", layout = AppLayoutNavbar.class)
-@RouteAlias(value = "", layout = AppLayoutNavbar.class)
+@Route(value = "Servicios", layout = LayoutCliente.class)
 public class ServiciosView extends VerticalLayout {
 
     public ServiciosView() {

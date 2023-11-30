@@ -1,6 +1,6 @@
 package com.example.application.views.Registro;
 
-import com.example.application.views.AppLayoutNavbar;
+import com.example.application.views.LayoutCliente;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -14,7 +14,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("registro")
-@Route(value = "registro", layout = AppLayoutNavbar.class)
+@Route(value = "registro", layout = LayoutCliente.class)
 @Uses(Icon.class)
 public class Registro extends VerticalLayout {
 
@@ -81,7 +81,7 @@ public class Registro extends VerticalLayout {
 
         setAlignItems(Alignment.CENTER);
 
-        vl2.add(Nombre, Apellido, Correo, Contrasena, ConfirmarContrasena, Telefono, Direccion,FechaNacimiento, DNI);
+        vl2.add(Nombre, Apellido, DNI, Correo, Contrasena, ConfirmarContrasena, Telefono, Direccion, FechaNacimiento);
         vl2.setAlignItems(Alignment.CENTER);
         vl2.setWidth("69%");
         add(vl2,boton);

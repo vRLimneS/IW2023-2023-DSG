@@ -1,6 +1,6 @@
 package com.example.application.views.atcCliente;
 
-import com.example.application.views.AppLayoutNavbar;
+import com.example.application.views.LayoutCliente;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -17,46 +17,45 @@ import com.vaadin.flow.router.Route;
 
 
 @PageTitle("AtcCliente")
-@Route(value = "AtcCliente", layout = AppLayoutNavbar.class)
+@Route(value = "AtcCliente", layout = LayoutCliente.class)
 @Uses(Icon.class)
 public class atccliente extends FormLayout {
 
     public atccliente() {
 
-        EmailField field = new EmailField();
+        EmailField email = new EmailField();
         VerticalLayout vl = new VerticalLayout();
-        field.setLabel("Correo");
-        field.setHelperText("Introduce tu email");
-        field.setPlaceholder("Introduzca tu email con el dominio correspondiente");
-        field.setTooltipText("Tooltip text");
-        field.setClearButtonVisible(true);
-        field.setPrefixComponent(VaadinIcon.ENVELOPE.create());
-        field.setWidth("600px");
+        email.setLabel("Correo");
+        email.setHelperText("Introduce tu email");
+        email.setPlaceholder("Introduzca tu email con el dominio correspondiente");
+        email.setTooltipText("Tooltip text");
+        email.setClearButtonVisible(true);
+        email.setPrefixComponent(VaadinIcon.ENVELOPE.create());
+        email.setWidth("600px");
         vl.setHeight("calc(100vh - 32px)");
-        //vl.setAlignSelf(Alignment.START, field);
         vl.setJustifyContentMode(FlexComponent.JustifyContentMode.START);
 
-        TextArea text = new TextArea();
-        text.setLabel("Introduzca su consulta");
-        text.setPlaceholder("Introduzca su consulta");
-        text.setHeight("300px");
-        text.setWidth("600px");
+        TextArea Mensaje = new TextArea();
+        Mensaje.setLabel("Introduzca su consulta");
+        Mensaje.setPlaceholder("Introduzca su consulta");
+        Mensaje.setHeight("300px");
+        Mensaje.setWidth("600px");
 
         Button buton = new Button("Enviar");
         buton.addClickListener(e -> {
-            Notification.show(text.getValue());
-            Notification.show(field.getValue());
-            field.clear();
-            text.clear();
+            Notification.show(Mensaje.getValue());
+            Notification.show(email.getValue());
+            email.clear();
+            Mensaje.clear();
         });
 
         HorizontalLayout hl2 = new HorizontalLayout();
         hl2.setAlignSelf(FlexComponent.Alignment.CENTER, buton);
-        hl2.add(field, buton);
-        field.getStyle().set("padding", "var(--lumo-space-s)");
-        text.getStyle().set("padding", "var(--lumo-space-s)");
+        hl2.add(email, buton);
+        email.getStyle().set("padding", "var(--lumo-space-s)");
+        Mensaje.getStyle().set("padding", "var(--lumo-space-s)");
         vl.getStyle().set("padding", "var(--lumo-space-s)");
-        vl.add(text, hl2);
+        vl.add(Mensaje, hl2);
 
         add(vl);
 

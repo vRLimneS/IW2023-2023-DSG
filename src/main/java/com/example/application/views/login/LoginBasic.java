@@ -1,15 +1,15 @@
 package com.example.application.views.login;
 
-import com.example.application.views.AppLayoutNavbar;
+import com.example.application.views.LayoutInicial;
 import com.example.application.views.Registro.Registro;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.example.application.views.Contratar.ContratarView;
+import com.example.application.views.Tarifas.TarifasView;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
 
-@Route(value = "login-basic", layout = AppLayoutNavbar.class)
+
+@Route(value = "", layout = LayoutInicial.class)//Cambiar el layout para que sea un propio de solo los contratos
 public class LoginBasic extends VerticalLayout {
 
     public LoginBasic() {
