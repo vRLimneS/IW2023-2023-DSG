@@ -1,7 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.views.Tarifas.PublicTarifasView;
-import com.example.application.views.Tarifas.TarifasView;
+import com.example.application.views.Clientes.PublicTarifasView;
 import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;

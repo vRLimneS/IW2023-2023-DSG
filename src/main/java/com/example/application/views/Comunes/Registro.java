@@ -1,6 +1,7 @@
-package com.example.application.views.Registro;
+package com.example.application.views.Comunes;
 
 import com.example.application.views.LayoutCliente;
+import com.example.application.views.LayoutInicial;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -14,7 +15,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @PageTitle("registro")
-@Route(value = "registro", layout = LayoutCliente.class)
+@Route(value = "registro", layout = LayoutInicial.class)
 @Uses(Icon.class)
 public class Registro extends VerticalLayout {
 

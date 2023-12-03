@@ -1,4 +1,4 @@
-package com.example.application.views.atcCliente;
+package com.example.application.views.Clientes;
 
 import com.example.application.views.LayoutCliente;
 import com.vaadin.flow.component.button.Button;

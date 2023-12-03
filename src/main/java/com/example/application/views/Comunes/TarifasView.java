@@ -1,4 +1,4 @@
-package com.example.application.views.Tarifas;
+package com.example.application.views.Comunes;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;

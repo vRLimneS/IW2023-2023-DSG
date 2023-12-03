@@ -1,7 +1,8 @@
-package com.example.application.views.Tarifas;
+package com.example.application.views.Clientes;
 
+import com.example.application.views.Comunes.TarifasView;
 import com.example.application.views.LayoutInicial;
-import com.example.application.views.atcCliente.atccliente;
+import com.example.application.views.Comunes.TarifasView;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 

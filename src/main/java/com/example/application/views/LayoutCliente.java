@@ -1,8 +1,8 @@
 package com.example.application.views;
 
 import com.example.application.views.Servicios.ServiciosView;
-import com.example.application.views.atcCliente.atccliente;
-import com.example.application.views.Tarifas.TarifasView;
+import com.example.application.views.Clientes.atccliente;
+import com.example.application.views.Clientes.PublicTarifasView;
 import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
@@ -34,7 +34,7 @@ public class LayoutCliente extends AppLayout {
         //Creamos los routerlinks de las pestañas posibles conectados a las clases
 
         RouterLink serviciosLink = new RouterLink("Servicios", ServiciosView.class);
-        RouterLink TarifasLink = new RouterLink("Tarifas", TarifasView.class);
+        RouterLink TarifasLink = new RouterLink("Tarifas", PublicTarifasView.class);
         RouterLink AtcClienteLink = new RouterLink("Atc. Cliente", atccliente.class);
         RouterLink loginlink = new RouterLink("Login", LoginBasic.class);
 

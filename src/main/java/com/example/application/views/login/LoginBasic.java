@@ -1,11 +1,10 @@
 package com.example.application.views.login;
 
 import com.example.application.views.LayoutInicial;
-import com.example.application.views.Registro.Registro;
+import com.example.application.views.Comunes.Registro;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.example.application.views.Tarifas.TarifasView;
 import com.vaadin.flow.router.Route;
 
 

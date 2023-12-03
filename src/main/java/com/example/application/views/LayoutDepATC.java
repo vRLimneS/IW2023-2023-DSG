@@ -1,7 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.views.atcCliente.atccliente;
-import com.example.application.views.atcCliente.AtcclienteadminView;
+import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;

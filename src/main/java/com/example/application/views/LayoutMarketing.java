@@ -1,6 +1,6 @@
 package com.example.application.views;
 
-import com.example.application.views.Tarifas.PublicTarifasView;
+import com.example.application.views.Marketing.PrivateTarifasView;
 import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
@@ -31,7 +31,7 @@ public class LayoutMarketing extends AppLayout {
 
         //Creamos los routerlinks de las pestañas posibles conectados a las clases
 
-        RouterLink TarifasLink = new RouterLink("Tarifas", PublicTarifasView.class);
+        RouterLink TarifasLink = new RouterLink("Tarifas", PrivateTarifasView.class);
         RouterLink loginlink = new RouterLink("Login", LoginBasic.class);
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
