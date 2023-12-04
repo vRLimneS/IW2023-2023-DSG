@@ -29,6 +29,8 @@ public class CrearTarifas extends VerticalLayout {
         MinutosFijo.setLabel("Minutos Fijo");
         TextField VelocidadFibra = new TextField();
         VelocidadFibra.setLabel("Velocidad Fibra");
+        TextField DireccionDomicilio = new TextField();
+        DireccionDomicilio.setLabel("Direccion Domicilio (en caso de contratar fibra)");
 
         com.vaadin.flow.component.button.Button boton = new Button();
         boton.setText("Crear Tarifa");
@@ -43,7 +45,9 @@ public class CrearTarifas extends VerticalLayout {
         SMS.getStyle().set("padding", "var(--lumo-space-s)");
         MinutosFijo.getStyle().set("padding", "var(--lumo-space-s)");
         VelocidadFibra.getStyle().set("padding", "var(--lumo-space-s)");
+        DireccionDomicilio.getStyle().set("padding", "var(--lumo-space-s)");
         boton.getStyle().set("padding", "var(--lumo-space-s)");
+
 
         NombreTarifa.setWidth("50%");
         PrecioTarifa.setWidth("50%");
@@ -52,12 +56,13 @@ public class CrearTarifas extends VerticalLayout {
         SMS.setWidth("50%");
         MinutosFijo.setWidth("50%");
         VelocidadFibra.setWidth("50%");
+        DireccionDomicilio.setWidth("50%");
 
-        add(NombreTarifa, PrecioTarifa, MinutosMovil, Datos, SMS, MinutosFijo, VelocidadFibra, boton);
-        setHorizontalComponentAlignment(Alignment.CENTER, title, NombreTarifa, PrecioTarifa, MinutosMovil, Datos, SMS, MinutosFijo, VelocidadFibra, boton);
+        add(NombreTarifa, PrecioTarifa, MinutosMovil, Datos, SMS, MinutosFijo, VelocidadFibra, DireccionDomicilio, boton);
+        setHorizontalComponentAlignment(Alignment.CENTER, title, NombreTarifa, PrecioTarifa, MinutosMovil, Datos, SMS,
+                MinutosFijo, VelocidadFibra, DireccionDomicilio, boton);
         setSizeFull();
 
     }
 
 }
-
