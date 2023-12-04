@@ -14,7 +14,8 @@ public class ConsultaService {
     public ConsultaService(ConsultaRepository consultaRepository) {
         this.consultaRepository = consultaRepository;
     }
-    public List<Consulta> gettodasconsultas() {
-        return consultaRepository.findByTerminadoFalse();
+
+    public List<Consulta> findAll() {
+        return consultaRepository.findAll();
     }
 }

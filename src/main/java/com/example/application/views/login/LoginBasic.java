@@ -28,6 +28,7 @@ public class LoginBasic extends VerticalLayout {
         buton.getUI().ifPresent(ui ->
                         ui.navigate(Registro.class)));
 
+
     }
 
 }

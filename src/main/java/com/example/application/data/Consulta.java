@@ -2,6 +2,7 @@ package com.example.application.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 
 import java.util.Objects;
@@ -19,7 +20,8 @@ public class Consulta extends AbstractEntity{
 
     private String mensaje;
 
-    private boolean terminado;
+    @ManyToOne
+    private TipoEstado _tipoEstado;
 
 
 
@@ -35,8 +37,7 @@ public class Consulta extends AbstractEntity{
         return mensaje;
     }
 
-    public boolean isTerminado() {
-        return terminado;
+    public Object getEstado() {
+        return _tipoEstado.getTipo().toString();
     }
-
 }
