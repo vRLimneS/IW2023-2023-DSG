@@ -5,7 +5,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
