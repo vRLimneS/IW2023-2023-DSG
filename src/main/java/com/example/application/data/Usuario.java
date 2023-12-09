@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 @Entity
 public class Usuario extends AbstractEntity {
-
     private String firstName;
     private String lastName;
     @Email
