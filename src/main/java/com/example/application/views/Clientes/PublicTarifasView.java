@@ -1,12 +1,12 @@
 package com.example.application.views.Clientes;
 
 import com.example.application.views.Comunes.TarifasView;
-import com.example.application.views.LayoutInicial;
-import com.example.application.views.Comunes.TarifasView;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
-@Route(value = "TarifasPu", layout = LayoutInicial.class)
+@RolesAllowed("CLIENTE")
+@Route(value = "TarifasPu", layout = LayoutPrincipal.class)
 public class PublicTarifasView extends TarifasView {
 
     atccliente atc = new atccliente();

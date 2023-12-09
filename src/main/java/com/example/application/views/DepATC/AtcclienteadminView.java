@@ -1,12 +1,11 @@
 package com.example.application.views.DepATC;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.application.data.Consulta;
 import com.example.application.services.ConsultaService;
-import com.example.application.views.LayoutDepATC;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -14,8 +13,10 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 
 
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
-@Route(value = "AtcclienteadminView", layout = LayoutDepATC.class)
+@RolesAllowed("ATCCLT")
+@Route(value = "AtcclienteadminView", layout = LayoutPrincipal.class)
 public class AtcclienteadminView extends Div {
 
     private static final List<Consulta> consultas = new ArrayList<>();
@@ -37,7 +38,7 @@ public class AtcclienteadminView extends Div {
         grid.addColumn(Consulta::getEmail).setHeader("Email");
         grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
         grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
-        grid.addColumn(Consulta::getEstado).setHeader("Estado");
+        //grid.addColumn(Consulta::getEstado).setHeader("Estado");
         grid.addComponentColumn(select -> {
             Checkbox checkbox = new Checkbox();
             checkbox.addValueChangeListener(event -> {

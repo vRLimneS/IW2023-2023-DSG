@@ -1,16 +1,16 @@
 package com.example.application.views.Marketing;
 
-import com.example.application.views.LayoutMarketing;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
-import java.awt.*;
-
-@Route(value = "creartarifas", layout = LayoutMarketing.class)
+@RolesAllowed("MARKETING")
+@Route(value = "creartarifas", layout = LayoutPrincipal.class)
 public class CrearTarifas extends VerticalLayout {
     public CrearTarifas(){
         H1 title = new H1("Crear Tarifas");

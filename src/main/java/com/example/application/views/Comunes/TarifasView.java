@@ -6,6 +6,7 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
 import com.vaadin.flow.component.textfield.TextField;
 
+
 public class TarifasView extends VerticalLayout {
 
     public TarifasView() {

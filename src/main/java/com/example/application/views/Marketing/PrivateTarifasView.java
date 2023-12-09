@@ -1,9 +1,11 @@
 package com.example.application.views.Marketing;
 
-import com.example.application.views.LayoutCliente;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
-@Route(value = "TarifasPr", layout = LayoutCliente.class)
+@RolesAllowed("MARKETING")
+@Route(value = "TarifasPr", layout = LayoutPrincipal.class)
 public class PrivateTarifasView extends com.example.application.views.Comunes.TarifasView {
     public PrivateTarifasView(){
     }
