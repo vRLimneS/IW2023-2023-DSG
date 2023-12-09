@@ -1,7 +1,6 @@
 package com.example.application.views.Marketing;
 
-import com.example.application.data.TarifaService;
-import com.example.application.views.DepATC.TarifasATC;
+import com.example.application.services.TarifaService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
