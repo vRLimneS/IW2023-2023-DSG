@@ -1,6 +1,6 @@
-package com.example.application.views.Servicios;
+package com.example.application.views.Clientes;
 
-import com.example.application.views.LayoutCliente;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
@@ -8,9 +8,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
+import jakarta.annotation.security.RolesAllowed;
 
+@RolesAllowed("CLIENTE")
 @PageTitle("Servicios")
-@Route(value = "Servicios", layout = LayoutCliente.class)
+@Route(value = "Servicios", layout = LayoutPrincipal.class)
 public class ServiciosView extends VerticalLayout {
 
     public ServiciosView() {

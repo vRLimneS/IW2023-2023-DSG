@@ -1,6 +1,6 @@
 package com.example.application.views.Clientes;
 
-import com.example.application.views.LayoutCliente;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -14,10 +14,11 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
-
+@RolesAllowed("CLIENTE")
 @PageTitle("AtcCliente")
-@Route(value = "AtcCliente", layout = LayoutCliente.class)
+@Route(value = "AtcCliente", layout = LayoutPrincipal.class)
 @Uses(Icon.class)
 public class atccliente extends FormLayout {
 
