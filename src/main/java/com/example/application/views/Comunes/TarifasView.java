@@ -45,7 +45,6 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
         this.tarifaService = tarifaService;
         constructUI();
 
-
         VerticalLayout vl2 = new VerticalLayout();
         VerticalLayout vl3 = new VerticalLayout();
 
@@ -62,7 +61,7 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
             add(vl3);*/
 
         //mostrar todas las tarifas
-        for (Tarifa tarifa : tarifaService.findAllEnable()) {
+        /*for (Tarifa tarifa : tarifaService.findAllEnable()) {
             H1 nombre = new H1(tarifa.getNombre());
             Paragraph descripcion = new Paragraph(tarifa.getDescripcion());
             Paragraph precio = new Paragraph(String.valueOf(tarifa.getPrecio()));
@@ -73,27 +72,48 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
             vl3.add(nombre, descripcion, precio, minutosMovil, minutosFijo, velocidadFibra, datosMoviles);
             add(vl3);
         }
+         */
+
+       for (Tarifa tarifa : tarifaService.findAllEnable()) {
+           imageContainer.add(new ImageGalleryViewCard(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(), tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(), tarifa.getDatosMoviles(),
+                   "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"));
+          /* H1 nombre = new H1(tarifa.getNombre());
+           Paragraph descripcion = new Paragraph(tarifa.getDescripcion());
+           Paragraph precio = new Paragraph(String.valueOf(tarifa.getPrecio()));
+           Paragraph minutosMovil = new Paragraph(String.valueOf(tarifa.getMinutosMovil()));
+           Paragraph minutosFijo = new Paragraph(String.valueOf(tarifa.getMinutosFijo()));
+           Paragraph velocidadFibra = new Paragraph(String.valueOf(tarifa.getVelocidadFibra()));
+           Paragraph datosMoviles = new Paragraph(String.valueOf(tarifa.getDatosMoviles()));
+           vl3.add(nombre, descripcion, precio, minutosMovil, minutosFijo, velocidadFibra, datosMoviles);
+           add(vl3);*/
+       }
     }
 
     private void constructUI() {
         addClassNames("image-gallery-view");
-        addClassNames(LumoUtility.MaxWidth.SCREEN_LARGE, LumoUtility.Margin.Horizontal.AUTO, LumoUtility.Padding.Bottom.LARGE, LumoUtility.Padding.Horizontal.LARGE);
+        addClassNames(MaxWidth.SCREEN_LARGE, Margin.Horizontal.AUTO, Padding.Bottom.LARGE, Padding.Horizontal.LARGE);
 
         HorizontalLayout container = new HorizontalLayout();
-        container.addClassNames(LumoUtility.AlignItems.CENTER, LumoUtility.JustifyContent.BETWEEN);
+        container.addClassNames(AlignItems.CENTER, JustifyContent.BETWEEN);
 
         VerticalLayout headerContainer = new VerticalLayout();
-        H2 header = new H2("Tarifas actuales");
-        header.addClassNames(LumoUtility.Margin.Bottom.NONE, LumoUtility.Margin.Top.XLARGE, LumoUtility.FontSize.XXXLARGE);
+        H2 header = new H2("Beautiful photos");
+        header.addClassNames(Margin.Bottom.NONE, Margin.Top.XLARGE, FontSize.XXXLARGE);
         Paragraph description = new Paragraph("Royalty free photos and pictures, courtesy of Unsplash");
-        description.addClassNames(LumoUtility.Margin.Bottom.XLARGE, LumoUtility.Margin.Top.NONE, LumoUtility.TextColor.SECONDARY);
+        description.addClassNames(Margin.Bottom.XLARGE, Margin.Top.NONE, TextColor.SECONDARY);
         headerContainer.add(header, description);
 
-        OrderedList imageContainer = new OrderedList();
-        imageContainer.addClassNames(LumoUtility.Gap.MEDIUM, LumoUtility.Display.GRID, LumoUtility.ListStyleType.NONE, LumoUtility.Margin.NONE, LumoUtility.Padding.NONE);
+        Select<String> sortBy = new Select<>();
+        sortBy.setLabel("Sort by");
+        sortBy.setItems("Popularity", "Newest first", "Oldest first");
+        sortBy.setValue("Popularity");
 
-        container.add(headerContainer);
+        imageContainer = new OrderedList();
+        imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);
+
+        container.add(headerContainer, sortBy);
         add(container, imageContainer);
+
     }
 
     public TarifasView() {
