@@ -1,7 +1,6 @@
 package com.example.application.views.Comunes;
 
-import com.example.application.views.LayoutCliente;
-import com.example.application.views.LayoutInicial;
+import com.example.application.views.Layouts.LayoutInicial;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -13,7 +12,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
+@AnonymousAllowed
 @PageTitle("registro")
 @Route(value = "registro", layout = LayoutInicial.class)
 @Uses(Icon.class)
@@ -86,6 +87,8 @@ public class Registro extends VerticalLayout {
         vl2.setAlignItems(Alignment.CENTER);
         vl2.setWidth("69%");
         add(vl2,boton);
+
+
 
     }
 }

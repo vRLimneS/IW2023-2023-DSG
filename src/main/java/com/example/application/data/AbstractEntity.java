@@ -14,13 +14,17 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class AbstractEntity {
     @Id
+    @GeneratedValue
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
 
     @Version
     private int version;
 
-    public UUID getId() {return id;}
+    public UUID getId() {
+        return id;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }

@@ -1,34 +1,73 @@
 package com.example.application.views.login;
 
-import com.example.application.views.LayoutInicial;
-import com.example.application.views.Comunes.Registro;
-import com.vaadin.flow.component.login.LoginForm;
-import com.vaadin.flow.component.button.Button;
+import com.example.application.views.Layouts.LayoutInicial;
+import com.example.application.views.Security.AuthenticatedUser;
+import com.vaadin.flow.component.login.LoginI18n;
+import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.internal.RouteUtil;
+import com.vaadin.flow.server.VaadinService;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+
+import java.awt.*;
+
+@AnonymousAllowed
+@Route(value = "login")
+public class LoginBasic extends LoginOverlay{
+
+    private final AuthenticatedUser authenticatedUser;
+
+    public LoginBasic(AuthenticatedUser authenticatedUser) {
+        VerticalLayout layout = new VerticalLayout();
+        this.authenticatedUser = authenticatedUser;
+        setAction(RouteUtil.getRoutePath(VaadinService.getCurrent().getContext(), getClass()));
+
+        LoginI18n i18n = LoginI18n.createDefault();
+        i18n.setHeader(new LoginI18n.Header());
+        LoginI18n.Form i18nForm = i18n.getForm();
+        i18nForm.setTitle("SagoSL");
+        i18nForm.setUsername("Usuario");
+        i18nForm.setPassword("Contraseña");
+        i18nForm.setSubmit("Iniciar sesión");
+
+        i18n.getErrorMessage().setTitle("Usuario o contraseña incorrectos");
+        i18n.setForm(i18nForm);
+        i18n.getHeader().setTitle("SagoSL");
+        i18n.getHeader().setDescription("Conectamos a todo el mundo");
+        i18n.setAdditionalInformation(null);
+        setI18n(i18n);
+
+        setForgotPasswordButtonVisible(false);
+        setOpened(true);
 
 
-@Route(value = "", layout = LayoutInicial.class)//Cambiar el layout para que sea un propio de solo los contratos
-public class LoginBasic extends VerticalLayout {
-
-    public LoginBasic() {
-        getStyle().set("background-color", "var(--lumo-contrast-5pct)")
-                .set("display", "flex").set("justify-content", "center")
-                .set("padding", "var(--lumo-space-l)");
-
-        LoginForm loginForm = new LoginForm();
-        add(loginForm);
-        loginForm.getElement().setAttribute("no-autofocus", "");
-        Button buton = new Button("Registrarse");
-        add(loginForm, buton);
-        setHorizontalComponentAlignment(Alignment.CENTER, loginForm, buton);
-        setSizeFull();
-
-        buton.addClickListener(e ->
-        buton.getUI().ifPresent(ui ->
-                        ui.navigate(Registro.class)));
 
 
     }
+
+    /*
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        if (authenticatedUser.get().isPresent()) {
+            if(authenticatedUser.get().get().getRol().equals(TipoRol.CLIENTE)) {
+                setOpened(false);
+                event.forwardTo(ServiciosView.class);
+            } else if(authenticatedUser.get().get().getRol().equals(TipoRol.ATCCLT)){
+                setOpened(false);
+                event.forwardTo(AtcclienteadminView.class);
+                } else if(authenticatedUser.get().get().getRol().equals(TipoRol.MARKETING)) {
+                setOpened(false);
+                event.forwardTo(CrearTarifas.class);
+                    }
+                    else {
+                    setOpened(false);
+                    event.forwardTo("");
+                        }
+        }
+        setError(event.getLocation().getQueryParameters().getParameters().containsKey("error"));
+    }
+    */
 
 }
