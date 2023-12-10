@@ -1,11 +1,6 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -18,6 +13,8 @@ public class Tarifa extends AbstractEntity{
     private int velocidadFibra;
     private int datosMoviles;
     private boolean estado;
+    private String url;
+
 
     //Tarifa Sago
     public Tarifa(String nombre, String descripcion, BigDecimal precio, int minutosMovil, int minutosFijo, int velocidadFibra, int datosMoviles, boolean estado) {
@@ -49,4 +46,6 @@ public class Tarifa extends AbstractEntity{
     public void setDatosMoviles(int datosMoviles) { this.datosMoviles = datosMoviles;}
     public boolean getEstado() { return estado;}
     public void setEstado(boolean estado) { this.estado = estado;}
+    public String getUrl() { return url;}
+    public void setUrl(String url) { this.url = url;}
 }

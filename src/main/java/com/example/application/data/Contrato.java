@@ -2,13 +2,10 @@ package com.example.application.data;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-import java.util.UUID;
-
 @Entity
 public class Contrato extends AbstractEntity{
-    @ManyToMany
-    private List<Usuario> usuario;
+    @ManyToOne
+    private Usuario usuario;
     private int fijo;
     private int movil;
     @ManyToOne
@@ -21,7 +18,7 @@ public class Contrato extends AbstractEntity{
     public Contrato() {
     }
     public Contrato(Usuario usuario, int fijo, int movil, Tarifa tarifa, String fechaInicio, String fechaFin, String estado) {
-            this.usuario.add(usuario);
+            this.usuario = usuario;
             this.fijo = fijo;
             this.movil = movil;
             this.tarifa = tarifa;
@@ -29,6 +26,4 @@ public class Contrato extends AbstractEntity{
             this.fechaFin = fechaFin;
             this.estado = estado;
         }
-
-
 }

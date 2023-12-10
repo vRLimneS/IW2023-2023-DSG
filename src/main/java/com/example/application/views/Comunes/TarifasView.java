@@ -10,6 +10,7 @@ import com.vaadin.flow.component.html.OrderedList;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,8 +32,9 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
+import org.springframework.stereotype.Component;
 
-
+@AnonymousAllowed
 @PageTitle("Image Gallery")
 public class TarifasView extends VerticalLayout implements HasComponents, HasStyle{
     @Autowired
@@ -47,19 +49,6 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
 
         VerticalLayout vl2 = new VerticalLayout();
         VerticalLayout vl3 = new VerticalLayout();
-
-        //mostrar tarifa sago
-       /*tarifa = tarifaService.findByNombre("Tarifa SAGO");
-         H1 nombre = new H1(tarifa.getNombre());
-            Paragraph descripcion = new Paragraph(tarifa.getDescripcion());
-            Paragraph precio = new Paragraph(String.valueOf(tarifa.getPrecio()));
-            Paragraph minutosMovil = new Paragraph(String.valueOf(tarifa.getMinutosMovil()));
-            Paragraph minutosFijo = new Paragraph(String.valueOf(tarifa.getMinutosFijo()));
-            Paragraph velocidadFibra = new Paragraph(String.valueOf(tarifa.getVelocidadFibra()));
-            Paragraph datosMoviles = new Paragraph(String.valueOf(tarifa.getDatosMoviles()));
-            vl3.add(nombre, descripcion, precio, minutosMovil, minutosFijo, velocidadFibra, datosMoviles);
-            add(vl3);*/
-
         //mostrar todas las tarifas
         /*for (Tarifa tarifa : tarifaService.findAllEnable()) {
             H1 nombre = new H1(tarifa.getNombre());
@@ -75,17 +64,9 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
          */
 
        for (Tarifa tarifa : tarifaService.findAllEnable()) {
-           imageContainer.add(new ImageGalleryViewCard(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(), tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(), tarifa.getDatosMoviles(),
-                   "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"));
-          /* H1 nombre = new H1(tarifa.getNombre());
-           Paragraph descripcion = new Paragraph(tarifa.getDescripcion());
-           Paragraph precio = new Paragraph(String.valueOf(tarifa.getPrecio()));
-           Paragraph minutosMovil = new Paragraph(String.valueOf(tarifa.getMinutosMovil()));
-           Paragraph minutosFijo = new Paragraph(String.valueOf(tarifa.getMinutosFijo()));
-           Paragraph velocidadFibra = new Paragraph(String.valueOf(tarifa.getVelocidadFibra()));
-           Paragraph datosMoviles = new Paragraph(String.valueOf(tarifa.getDatosMoviles()));
-           vl3.add(nombre, descripcion, precio, minutosMovil, minutosFijo, velocidadFibra, datosMoviles);
-           add(vl3);*/
+           imageContainer.add(new ImageGalleryViewCard(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(),
+                   tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(),
+                   tarifa.getDatosMoviles(), tarifa.getUrl()));
        }
     }
 
@@ -97,21 +78,16 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
         container.addClassNames(AlignItems.CENTER, JustifyContent.BETWEEN);
 
         VerticalLayout headerContainer = new VerticalLayout();
-        H2 header = new H2("Beautiful photos");
+        H2 header = new H2("TARIFAS DISPONIBLES");
         header.addClassNames(Margin.Bottom.NONE, Margin.Top.XLARGE, FontSize.XXXLARGE);
-        Paragraph description = new Paragraph("Royalty free photos and pictures, courtesy of Unsplash");
+        Paragraph description = new Paragraph("Tarifas disponibles para contratar");
         description.addClassNames(Margin.Bottom.XLARGE, Margin.Top.NONE, TextColor.SECONDARY);
         headerContainer.add(header, description);
-
-        Select<String> sortBy = new Select<>();
-        sortBy.setLabel("Sort by");
-        sortBy.setItems("Popularity", "Newest first", "Oldest first");
-        sortBy.setValue("Popularity");
 
         imageContainer = new OrderedList();
         imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);
 
-        container.add(headerContainer, sortBy);
+        container.add(headerContainer);
         add(container, imageContainer);
 
     }

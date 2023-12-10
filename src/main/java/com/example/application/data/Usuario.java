@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.cglib.core.Local;
-
-import java.util.Date;
-import java.util.UUID;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Usuario extends AbstractEntity{
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Contrato> contrato;
 
     private String token;
 
@@ -29,12 +29,10 @@ public class Usuario extends AbstractEntity{
     private String email;
 
     @Column(name = "contraseña")
-
     private String contraseña;
 
     @Max(9)
     private String telefono;
-
 
     private LocalDate fechaNacimiento;
 
