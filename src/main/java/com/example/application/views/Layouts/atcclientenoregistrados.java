@@ -1,13 +1,11 @@
-package com.example.application.views.Clientes;
+package com.example.application.views.Layouts;
 
 import com.example.application.data.Consulta;
 import com.example.application.data.Usuario;
 import com.example.application.services.ConsultaService;
-import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.Security.AuthenticatedUser;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
@@ -20,22 +18,17 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.RolesAllowed;
-
-import java.util.Optional;
-
-@RolesAllowed("CLIENTE")
-@PageTitle("AtcCliente")
-@Route(value = "AtcCliente", layout = LayoutPrincipal.class)
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+@AnonymousAllowed
+@PageTitle("AtcClientenoregistrados")
+@Route(value = "AtcClientenoregistrados", layout = LayoutInicial.class)
 @Uses(Icon.class)
-public class atccliente extends Div {
+public class atcclientenoregistrados extends Div {
 
     private ConsultaService consultaService;
-    private AuthenticatedUser authenticatedUser;
 
-    public atccliente(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
+    public atcclientenoregistrados(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
 
-        this.authenticatedUser = authenticatedUser;
         this.consultaService = consultaService;
 
         EmailField email = new EmailField();
@@ -63,7 +56,6 @@ public class atccliente extends Div {
         asunto.setWidth("600px");
 
 
-
         Button buton = new Button("Enviar");
         HorizontalLayout hl2 = new HorizontalLayout();
         hl2.setAlignSelf(FlexComponent.Alignment.END, buton);
@@ -72,48 +64,19 @@ public class atccliente extends Div {
         email.getStyle().set("padding", "var(--lumo-space-s)");
         mensaje.getStyle().set("padding", "var(--lumo-space-s)");
         vl.getStyle().set("padding", "var(--lumo-space-s)");
-        vl.add(email,asunto, hl2);
-
-
+        vl.add(email, asunto, hl2);
 
 
         add(vl);
-        this.setupGrid(authenticatedUser);
 
         buton.addClickListener(e -> {
-            if(authenticatedUser.get().isPresent()){
-                consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue(), authenticatedUser.get().get()));
+                consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue()));
                 Notification.show("Consulta enviada");
                 email.clear();
                 mensaje.clear();
                 asunto.clear();
 
-            }else{
-                consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue()));
-                Notification.show("Consulta enviada");
-                email.clear();
-                mensaje.clear();
-                asunto.clear();}
         });
 
     }
-
-    public void setupGrid(AuthenticatedUser authenticatedUser){
-        Optional<Usuario> usuario = authenticatedUser.get();
-        Grid<Consulta> grid = new Grid<>(Consulta.class, false);
-        grid.setAllRowsVisible(true);
-        grid.addColumn(Consulta::getEmail).setHeader("Email");
-        grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
-        grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
-        grid.addColumn(Consulta::getEstado).setHeader("Estado");
-        grid.addColumn(Consulta::getUsername).setHeader("Usuario");
-
-        for (Consulta c : consultaService.findByCliente(usuario.get())){
-                grid.setItems(consultaService.findByCliente(usuario.get()));
-                grid.getDataProvider().refreshAll();
-        }
-
-        add(grid);
-    }
-
 }

@@ -56,6 +56,17 @@ public class DatabasePopulator implements CommandLineRunner {
             usuarioService.activateUser(user2.getEmail(), user2.gettoken());
             System.out.println("ATCLT created");
 
+            Usuario user3 = new Usuario();
+            user3.setUsername("user3");
+            user3.setContraseña("user3");
+            user3.setEmail("admin4@uca.es");
+            user3.setFechaNacimiento(LocalDate.of(2020, Month.MARCH, 8));
+            user3.setRol(TipoRol.ATCCLT);
+            usuarioService.registerUser(user3);
+            usuarioService.activateUser(user3.getEmail(), user3.gettoken());
+            System.out.println("ATCLT created");
+
+
         }
 
 
