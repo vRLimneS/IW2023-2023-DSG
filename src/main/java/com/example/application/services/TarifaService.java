@@ -1,5 +1,7 @@
-package com.example.application.data;
+package com.example.application.services;
 
+import com.example.application.data.Tarifa;
+import com.example.application.data.TarifaRepository;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;

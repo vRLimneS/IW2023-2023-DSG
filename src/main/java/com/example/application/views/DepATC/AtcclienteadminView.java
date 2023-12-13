@@ -2,16 +2,22 @@ package com.example.application.views.DepATC;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.application.data.Consulta;
+import com.example.application.data.Usuario;
 import com.example.application.services.ConsultaService;
 import com.example.application.views.Layouts.LayoutPrincipal;
+import com.example.application.views.Security.AuthenticatedUser;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.checkbox.Checkbox;
 
 
-
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
@@ -25,12 +31,16 @@ public class AtcclienteadminView extends Div {
     private static Div hint;
     private final ConsultaService consultaService;
 
-    public AtcclienteadminView(ConsultaService consultaService) {
+    private AuthenticatedUser authenticatedUser;
+
+    public AtcclienteadminView(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
         this.consultaService = consultaService;
-        this.setupGrid();
+        this.authenticatedUser = authenticatedUser;
+        this.setupGrid(authenticatedUser);
 
     }
-    private void setupGrid() {
+
+    private void setupGrid(AuthenticatedUser authenticatedUser) {
         // tag::snippet[]
         grid = new Grid<>(Consulta.class, false);
         grid.setAllRowsVisible(true);
@@ -38,39 +48,32 @@ public class AtcclienteadminView extends Div {
         grid.addColumn(Consulta::getEmail).setHeader("Email");
         grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
         grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
-        //grid.addColumn(Consulta::getEstado).setHeader("Estado");
-        grid.addComponentColumn(select -> {
-            Checkbox checkbox = new Checkbox();
-            checkbox.addValueChangeListener(event -> {
-                if (event.getValue()) {
-                    consultas.add(select);
-                } else {
-                    consultas.remove(select);
-                }
+        grid.addColumn(Consulta::getEstado).setHeader("Estado");
+        grid.addColumn(Consulta::getUsernameCliente).setHeader("Cliente");
+        grid.addComponentColumn(consulta -> {
+            Button button = new Button("Asignar");
+            button.addClickListener(click -> {
+                if(consulta.getEstado().equals("RESUELTO")){
+                    Notification.show("Consulta ya Resuelta");
+                    }else if(consulta.getEstado().equals("ATENDIDO")){
+                        Notification.show("Consulta ya Atendida");
+                        }else {
+                        consulta.setUsuario(authenticatedUser.get());
+                        Notification.show("Consulta asignada");
+                        consulta.setEstado("ATENDIDO");
+                        consultaService.save(consulta);
+                        grid.setItems(consultaService.findAll());
+                        grid.getDataProvider().refreshAll();
+                        }
             });
-            return checkbox;
-        }).setHeader("Seleccionar").setAutoWidth(true);
+            return button;
+        }).setHeader("Asignar");
+        grid.addColumn(Consulta::getUsername).setHeader("Usuario");
 
-
-
-
-
-        //grid.addColumn(
-        //        new ComponentRenderer<>(Button::new, (button, person) -> {
-        //            button.addThemeVariants(ButtonVariant.LUMO_ICON,
-        //                    ButtonVariant.LUMO_ERROR,
-        //                    ButtonVariant.LUMO_TERTIARY);
-        //            button.addClickListener(e -> this.removeInvitation(person));
-        //            button.setIcon(new Icon(VaadinIcon.TRASH));
-        //        })).setHeader("Manage");
 
 
         grid.setItems(consultaService.findAll());
 
-
         add(grid);
     }
-
-
-
 }

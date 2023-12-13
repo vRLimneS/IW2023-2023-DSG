@@ -9,4 +9,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, UUID> {
 
     List<Consulta> findAll();
 
+    List<Consulta> findBy_estadoConsulta(Estadoconsulta estado);
+
+    List<Consulta> findByCliente(Usuario cliente);
 }

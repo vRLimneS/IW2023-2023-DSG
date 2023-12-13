@@ -1,5 +1,6 @@
 package com.example.application.views.Layouts;
 
+import com.example.application.views.Clientes.atccliente;
 import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.Marketing.CrearTarifas;
 import com.example.application.views.Clientes.ServiciosView;
@@ -35,16 +36,18 @@ public class LayoutInicial extends AppLayout {
         RouterLink HomeCliente = new RouterLink("HomeClientes", ServiciosView.class);
         RouterLink HomeDepATC = new RouterLink("HomeDepATC", AtcclienteadminView.class);
         RouterLink HomeMarketing = new RouterLink("HomeMarketing", CrearTarifas.class);
+        RouterLink AtcCliente = new RouterLink("AtcCliente", atcclientenoregistrados.class);
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
 
         Tab TarifasTab = new Tab(HomeCliente);
         Tab DepATCTab = new Tab(HomeDepATC);
         Tab Marketingtab = new Tab(HomeMarketing);
+        Tab AtcClientetab = new Tab(AtcCliente);
 
 
 
-        tabs.add(TarifasTab, DepATCTab, Marketingtab);
+        tabs.add(TarifasTab, DepATCTab, Marketingtab, AtcClientetab);
 
         return tabs;
     }
