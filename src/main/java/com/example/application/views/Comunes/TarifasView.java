@@ -86,9 +86,5 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
 
     }
 
-    public TarifasView() {
-
-    }
-
 
 }

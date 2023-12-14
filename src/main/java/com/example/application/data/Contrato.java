@@ -14,6 +14,9 @@ public class Contrato extends AbstractEntity{
     private String fechaFin;
     private String estado;
 
+    @ManyToOne
+    private Tarjeta tarjeta;
+
     //Constructores
     public Contrato() {
     }

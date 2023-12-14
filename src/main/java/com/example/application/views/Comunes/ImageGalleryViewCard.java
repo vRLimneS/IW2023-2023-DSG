@@ -1,11 +1,13 @@
 package com.example.application.views.Comunes;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
 import com.vaadin.flow.theme.lumo.LumoUtility.Background;
 import com.vaadin.flow.theme.lumo.LumoUtility.BorderRadius;
@@ -59,5 +61,13 @@ public class ImageGalleryViewCard extends ListItem {
         button.setText("Contratar");
 
         add(div, header, subtitle, description, badge, button);
+
+
+        //Cuando se pulse el boton vaya a la clase pasareladepago
+        button.addClickListener(click -> {
+            UI navigate = UI.getCurrent();
+            navigate.navigate(PasareladePago.class);
+        });
+
     }
 }
