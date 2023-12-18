@@ -47,7 +47,7 @@ public class TarifaService {
         return tarifaEnable;
     }
 
-    public Tarifa findByNombre(String name){
-        return tarifaRepository.findByNombre(name);
+    public Tarifa findByNombre(String nombre){
+        return tarifaRepository.findByNombre(nombre);
     }
 }

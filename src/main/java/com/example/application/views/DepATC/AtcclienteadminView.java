@@ -1,25 +1,20 @@
 package com.example.application.views.DepATC;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import com.example.application.data.Consulta;
 import com.example.application.data.Usuario;
 import com.example.application.services.ConsultaService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.Security.AuthenticatedUser;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.checkbox.Checkbox;
-
-
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RolesAllowed("ATCCLT")
 @Route(value = "AtcclienteadminView", layout = LayoutPrincipal.class)
@@ -53,23 +48,24 @@ public class AtcclienteadminView extends Div {
         grid.addComponentColumn(consulta -> {
             Button button = new Button("Asignar");
             button.addClickListener(click -> {
-                if(consulta.getEstado().equals("RESUELTO")){
+                if (consulta.getEstado().equals("RESUELTO")) {
                     Notification.show("Consulta ya Resuelta");
-                    }else if(consulta.getEstado().equals("ATENDIDO")){
-                        Notification.show("Consulta ya Atendida");
-                        }else {
-                        consulta.setUsuario(authenticatedUser.get());
-                        Notification.show("Consulta asignada");
-                        consulta.setEstado("ATENDIDO");
-                        consultaService.save(consulta);
-                        grid.setItems(consultaService.findAll());
-                        grid.getDataProvider().refreshAll();
-                        }
+                } else if (consulta.getEstado().equals("ATENDIDO")) {
+                    Notification.show("Consulta ya Atendida");
+                } else {
+                    consulta.setUsuario(authenticatedUser.get());
+                    Optional<Usuario> user = authenticatedUser.get();
+                    Notification.show("Consulta asignada");
+                    consulta.setEstado("ATENDIDO");
+                    consulta.setUsername(user.get().getUsername());
+                    consultaService.save(consulta);
+                    grid.setItems(consultaService.findAll());
+                    grid.getDataProvider().refreshAll();
+                }
             });
             return button;
         }).setHeader("Asignar");
         grid.addColumn(Consulta::getUsername).setHeader("Usuario");
-
 
 
         grid.setItems(consultaService.findAll());

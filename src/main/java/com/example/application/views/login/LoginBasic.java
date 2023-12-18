@@ -1,6 +1,5 @@
 package com.example.application.views.login;
 
-import com.example.application.views.Layouts.LayoutInicial;
 import com.example.application.views.Security.AuthenticatedUser;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -9,13 +8,10 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.internal.RouteUtil;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.theme.lumo.LumoUtility;
-
-import java.awt.*;
 
 @AnonymousAllowed
 @Route(value = "login")
-public class LoginBasic extends LoginOverlay{
+public class LoginBasic extends LoginOverlay {
 
     private final AuthenticatedUser authenticatedUser;
 
@@ -41,10 +37,6 @@ public class LoginBasic extends LoginOverlay{
 
         setForgotPasswordButtonVisible(false);
         setOpened(true);
-
-
-
-
     }
 
     /*

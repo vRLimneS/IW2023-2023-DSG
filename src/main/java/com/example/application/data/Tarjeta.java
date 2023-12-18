@@ -1,41 +1,74 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 @Entity
-public class Tarjeta extends AbstractEntity{
+public class Tarjeta extends AbstractEntity {
 
-    private String iban;
+    @Max(16)
+    @NotNull
+    private int numeroTarjeta;
+    @NotEmpty
     private String titular;
+    @NotNull
     private LocalDate fechaCaducidad;
-    private String cvv;
+    @NotNull
+    private int cvv;
+
+    private Contrato contrato;
+
+    public Tarjeta() {
+    }
+
+    public Tarjeta(int numero, String titular, LocalDate fechaCaducidad, int cvv) {
+        this.numeroTarjeta = numero;
+        this.titular = titular;
+        this.fechaCaducidad = fechaCaducidad;
+        this.cvv = cvv;
+    }
+
 
     //getters
-    public String getIban() {
-        return iban;
+    public int getNumeroTarjeta() {
+        return numeroTarjeta;
     }
+
     public String getTitular() {
         return titular;
     }
-    public LocalDate getFechaCaducidad() {
-        return fechaCaducidad;
-    }
-    public String getCvv() {
-        return cvv;
-    }
-    //setters
-    public void setIban(String iban) {
-        this.iban = iban;
-    }
+
     public void setTitular(String titular) {
         this.titular = titular;
     }
+
+    public LocalDate getFechaCaducidad() {
+        return fechaCaducidad;
+    }
+
     public void setFechaCaducidad(LocalDate fechaCaducidad) {
         this.fechaCaducidad = fechaCaducidad;
     }
-    public void setCvv(String cvv) {
+
+    public int getCvv() {
+        return cvv;
+    }
+
+    public void setCvv(int cvv) {
         this.cvv = cvv;
     }
+
+    //setters
+    public void setIban(int numeroTarjeta) {
+        this.numeroTarjeta = numeroTarjeta;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato = contrato;
+    }
+
 }

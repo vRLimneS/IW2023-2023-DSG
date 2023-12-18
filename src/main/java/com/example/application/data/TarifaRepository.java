@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 public interface TarifaRepository extends JpaRepository<Tarifa, UUID> {
-    Tarifa findByNombre(String name);
+    Tarifa findByNombre(String nombre);
     Tarifa save(Tarifa tarifa);
 }

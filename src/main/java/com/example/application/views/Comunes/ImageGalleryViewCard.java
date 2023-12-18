@@ -2,25 +2,8 @@ package com.example.application.views.Comunes;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.ListItem;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
-import com.vaadin.flow.theme.lumo.LumoUtility.Background;
-import com.vaadin.flow.theme.lumo.LumoUtility.BorderRadius;
-import com.vaadin.flow.theme.lumo.LumoUtility.Display;
-import com.vaadin.flow.theme.lumo.LumoUtility.FlexDirection;
-import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
-import com.vaadin.flow.theme.lumo.LumoUtility.FontWeight;
-import com.vaadin.flow.theme.lumo.LumoUtility.JustifyContent;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import com.vaadin.flow.theme.lumo.LumoUtility.Overflow;
-import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
-import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
-import com.vaadin.flow.theme.lumo.LumoUtility.Width;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.theme.lumo.LumoUtility.*;
 
 import java.math.BigDecimal;
 
@@ -66,7 +49,7 @@ public class ImageGalleryViewCard extends ListItem {
         //Cuando se pulse el boton vaya a la clase pasareladepago
         button.addClickListener(click -> {
             UI navigate = UI.getCurrent();
-            navigate.navigate(PasareladePago.class);
+            navigate.navigate(PasareladePago.class, NombreTarifa);
         });
 
     }

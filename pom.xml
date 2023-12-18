@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/c2692336-19f2-44a2-ae4e-c0b649913a4e -->
     <groupId>com.example.application</groupId>
-    <artifactId>my-app</artifactId>
-    <name>my-app</name>
+    <artifactId>IW-2023-2024-DSG</artifactId>
+    <name>iw-2023-2024-DSG</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>17</java.version>
-        <vaadin.version>24.2.0</vaadin.version>
+        <vaadin.version>24.3.0</vaadin.version>
     </properties>
 
     <parent>
@@ -76,7 +77,6 @@
             <version>8.2.0</version>
             <scope>runtime</scope>
         </dependency>
-
 
 
         <dependency>

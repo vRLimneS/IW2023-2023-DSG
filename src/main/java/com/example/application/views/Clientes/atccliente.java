@@ -5,6 +5,7 @@ import com.example.application.data.Usuario;
 import com.example.application.services.ConsultaService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.Security.AuthenticatedUser;
+import com.vaadin.flow.component.Shortcuts;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -75,26 +76,31 @@ public class atccliente extends Div {
         vl.add(email,asunto, hl2);
 
 
-
-
-        add(vl);
+            add(vl);
         this.setupGrid(authenticatedUser);
 
-        buton.addClickListener(e -> {
-            if(authenticatedUser.get().isPresent()){
-                consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue(), authenticatedUser.get().get()));
-                Notification.show("Consulta enviada");
-                email.clear();
-                mensaje.clear();
-                asunto.clear();
 
-            }else{
-                consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue()));
-                Notification.show("Consulta enviada");
-                email.clear();
-                mensaje.clear();
-                asunto.clear();}
+        buton.addClickListener(e -> {
+            if(email.getValue().isEmpty() || mensaje.getValue().isEmpty() || asunto.getValue().isEmpty()){
+                Notification.show("Rellene todos los campos");
+            }else {
+                if (authenticatedUser.get().isPresent()) {
+                    consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue(), authenticatedUser.get().get()));
+                    Notification.show("Consulta enviada");
+                    email.clear();
+                    mensaje.clear();
+                    asunto.clear();
+
+                } else {
+                    consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue()));
+                    Notification.show("Consulta enviada");
+                    email.clear();
+                    mensaje.clear();
+                    asunto.clear();
+                }
+            }
         });
+
 
     }
 
