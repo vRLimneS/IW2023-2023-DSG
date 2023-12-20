@@ -16,7 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
 
     Usuario findByUsername(String name);
 
-    Optional<Usuario> findById(UUID userId);
+    Usuario findById(UUID userId);
 
     List<Usuario> findByActiveTrue();
 }

@@ -20,16 +20,15 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RolesAllowed({"CLIENTE", "ATCCLT", "ADMIN", "MARKETING"})
 @Route(value = "PasareladePago", layout = LayoutPrincipal.class)
 public class PasareladePago extends HorizontalLayout implements HasUrlParameter<String> {
 
-
+    private final ContratoService contratoService;
     private final TarifaService tarifaService;
     private final AuthenticatedUser authenticatedUser;
-
-    private final ContratoService contratoService;
     TextField Nombre = new TextField("Nombre");
     TextArea Descripcion = new TextArea("Descripcion");
     TextField Precio = new TextField("Precio");
@@ -41,13 +40,13 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
     private String nombtarifa;
 
 
-    public PasareladePago(AuthenticatedUser authenticatedUser, TarifaService tarifaService, ContratoService contratoService) {
+    public PasareladePago(ContratoService contratoService, AuthenticatedUser authenticatedUser, TarifaService tarifaService) {
 
-
+        this.contratoService = contratoService;
         this.authenticatedUser = authenticatedUser;
         Optional<Usuario> user = authenticatedUser.get();
+        UUID id = user.get().getId();
         this.tarifaService = tarifaService;
-        this.contratoService = contratoService;
 
         VerticalLayout vl = new VerticalLayout();
         VerticalLayout vl2 = new VerticalLayout();
@@ -80,8 +79,8 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
 
 
         boton.addClickListener(click -> {
-            if (NumeroTarjeta.isEmpty() || Titular.isEmpty() || FechaCaducidad.isEmpty() || CVV.isEmpty()) {
-                Notification.show("Rellene todos los campos");
+            if (!NumeroTarjeta.getValue().matches("\\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d") || NumeroTarjeta.isEmpty() || Titular.isEmpty() || !FechaCaducidad.getValue().matches("\\d\\d/\\d\\d") || FechaCaducidad.isEmpty() || CVV.isEmpty() || !CVV.getValue().matches("\\d\\d\\d")) {
+                Notification.show("Revise todos los campos");
             } else {
                 ConfirmDialog dialog = new ConfirmDialog();
                 dialog.setHeader("Confirmar Pago");
@@ -89,18 +88,22 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
                         "Esta seguro de que desea contratar esta tarifa?");
 
                 dialog.setCancelable(true);
-                dialog.addCancelListener(event -> Notification.show("Canceled"));
+                dialog.addCancelListener(event -> Notification.show("Cancelado"));
 
 
                 dialog.setRejectable(true);
-                dialog.setRejectText("Discard");
+                dialog.setRejectText("Descartar");
                 dialog.addRejectListener(event -> {
-                    Notification.show("Discarded");
+                    Notification.show("Descartar");
                     UI.getCurrent().navigate(PublicTarifasView.class);
                 });
 
-                dialog.setConfirmText("Save");
-                dialog.addConfirmListener(event -> contratar(contratoService, NumeroTarjeta.getValue(), Titular.getValue(), FechaCaducidad.getValue(), CVV.getValue(), user.get(), nombtarifa));
+                dialog.setConfirmText("Guardar");
+                dialog.addConfirmListener(event -> {
+                    contratar(contratoService, NumeroTarjeta.getValue(), Titular.getValue(), FechaCaducidad.getValue(), CVV.getValue(), id, nombtarifa);
+                    UI.getCurrent().navigate(PublicTarifasView.class);
+                    Notification.show("Contrato realizado");
+                });
 
                 dialog.open();
 
@@ -132,7 +135,7 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
         minutosMoviles.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosMovil()));
         velocidad.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
         gigas.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getDatosMoviles()));
-        permanencia.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPermanencia()));
+        permanencia.setValue(tarifaService.findByNombre(nombtarifa).getPermanencia() + " meses");
 
         Nombre.setWidth("400px");
         Descripcion.setWidth("400px");
@@ -164,8 +167,7 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
 
     }
 
-    public void contratar(ContratoService contratoService, String numero, String titular, String fechaCaducidad, String cvv, Usuario usuario, String nombretarifa) {
-        contratoService.contratarTarifa(numero, titular, fechaCaducidad, cvv, usuario, nombretarifa);
-
+    public void contratar(ContratoService contratoService, String numero, String titular, String fechaCaducidad, String cvv, UUID id, String nombretarifa) {
+        contratoService.contratarTarifa(numero, titular, fechaCaducidad, cvv, id, nombretarifa);
     }
 }

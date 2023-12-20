@@ -1,7 +1,7 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.Max;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -10,32 +10,40 @@ import java.time.LocalDate;
 @Entity
 public class Tarjeta extends AbstractEntity {
 
-    @Max(16)
     @NotNull
-    private int numeroTarjeta;
+    private String numeroTarjeta;
     @NotEmpty
     private String titular;
     @NotNull
     private LocalDate fechaCaducidad;
-    @NotNull
-    private int cvv;
+    @NotEmpty
+    private String cvv;
 
-    private Contrato contrato;
+    @ManyToOne
+    private Usuario usuario;
+
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "tarjeta")
+    //private List<Contrato> contrato;
 
     public Tarjeta() {
+
     }
 
-    public Tarjeta(int numero, String titular, LocalDate fechaCaducidad, int cvv) {
+    public Tarjeta(String numero, String titular, String fechaCaducidad, String cvv) {
         this.numeroTarjeta = numero;
         this.titular = titular;
-        this.fechaCaducidad = fechaCaducidad;
+        this.fechaCaducidad = LocalDate.parse(fechaCaducidad);
         this.cvv = cvv;
     }
 
 
     //getters
-    public int getNumeroTarjeta() {
+    public String getNumeroTarjeta() {
         return numeroTarjeta;
+    }
+
+    public void setNumeroTarjeta(String i) {
+        this.numeroTarjeta = i;
     }
 
     public String getTitular() {
@@ -54,21 +62,26 @@ public class Tarjeta extends AbstractEntity {
         this.fechaCaducidad = fechaCaducidad;
     }
 
-    public int getCvv() {
+    public String getCvv() {
         return cvv;
     }
 
-    public void setCvv(int cvv) {
+    public void setCvv(String cvv) {
         this.cvv = cvv;
     }
 
     //setters
-    public void setIban(int numeroTarjeta) {
+    public void setIban(String numeroTarjeta) {
         this.numeroTarjeta = numeroTarjeta;
     }
 
-    public void setContrato(Contrato contrato) {
-        this.contrato = contrato;
+    //public void setContrato(Contrato contrato) {
+    //    this.contrato.add(contrato);
+    //}
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
+
 
 }

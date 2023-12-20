@@ -10,7 +10,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import jakarta.annotation.security.RolesAllowed;
 
-@RolesAllowed("CLIENTE")
+@RolesAllowed({"CLIENTE", "ATCCLT", "ADMIN", "MARKETING"})
 @PageTitle("Servicios")
 @Route(value = "Servicios", layout = LayoutPrincipal.class)
 public class ServiciosView extends VerticalLayout {

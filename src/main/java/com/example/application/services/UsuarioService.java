@@ -1,19 +1,17 @@
 package com.example.application.services;
 
-import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.data.UsuarioRepository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Validated
@@ -44,11 +42,11 @@ public class UsuarioService {
         user.setContraseña(passwordEncoder.encode(user.getContraseña()));
         user.settoken(UUID.randomUUID().toString().substring(0, 5));
         user.setRol(user.getRol());
-        try{
+        try {
             usuarioRepository.save(user);
             //emailService.sendRegistrationEmail(user);
             return true;
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             return false;
         }
     }
@@ -64,7 +62,7 @@ public class UsuarioService {
     }
 
 
-    public Optional<Usuario> loadUserById(UUID userId) {
+    public Usuario loadUserById(UUID userId) {
         return usuarioRepository.findById(userId);
     }
 

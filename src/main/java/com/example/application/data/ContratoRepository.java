@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface ContratoRepository extends JpaRepository<Contrato, UUID> {
+
+    Contrato save(Contrato contrato);
 }

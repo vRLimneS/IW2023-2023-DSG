@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Entity
 public class Contrato extends AbstractEntity {
 
+
     private int fijo;
     private int movil;
     @ManyToOne

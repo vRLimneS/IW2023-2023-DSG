@@ -5,13 +5,14 @@ import com.example.application.data.Usuario;
 import com.example.application.views.Clientes.PublicTarifasView;
 import com.example.application.views.Clientes.ServiciosView;
 import com.example.application.views.Clientes.atccliente;
+import com.example.application.views.Comunes.Perfil;
 import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.DepATC.MisConsultas;
-import com.example.application.views.DepATC.TarifasATC;
 import com.example.application.views.Marketing.CrearTarifas;
-import com.example.application.views.Marketing.PrivateTarifasView;
 import com.example.application.views.Security.AuthenticatedUser;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
@@ -57,13 +58,15 @@ public class LayoutPrincipal extends AppLayout {
                 tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
             } else if (user.getRol().equals(TipoRol.ATCCLT)) {
-                tabs.add(new Tab(new RouterLink("Tarifas", TarifasATC.class)));
+                tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Consultas", AtcclienteadminView.class)));
                 tabs.add(new Tab(new RouterLink("Mis Consultas", MisConsultas.class)));
 
             } else if (user.getRol().equals(TipoRol.MARKETING)) {
+                tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
-                tabs.add(new Tab(new RouterLink("Tarifas", PrivateTarifasView.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
             }
         });
 
@@ -84,13 +87,19 @@ public class LayoutPrincipal extends AppLayout {
 
             MenuItem userName = userMenu.addItem("");
             Div div = new Div();
+            Avatar avatar = new Avatar();
+            avatar.setAbbreviation(user.getUsername().substring(0, 2));
+            div.add(avatar);
             div.add(user.getUsername());
             div.add(new Icon("lumo", "dropdown"));
             div.getElement().getStyle().set("display", "flex");
             div.getElement().getStyle().set("align-items", "center");
             div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
             userName.add(div);
-            userName.getSubMenu().addItem("Sign out", e -> {
+            userName.getSubMenu().addItem("Perfil", e -> {
+                UI.getCurrent().navigate(Perfil.class);
+            });
+            userName.getSubMenu().addItem("Cerrar sesión", e -> {
                 authenticatedUser.logout();
             });
 
