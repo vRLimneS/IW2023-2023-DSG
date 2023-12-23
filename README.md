@@ -5,17 +5,16 @@ El proyecto consiste en el desarrollo de una aplicación web de telefonía móvi
 ## Integrantes del equipo
 - Samuel Limones Cruz
 - Gonzalo Barba Rodríguez
-- Diego Buzón Pérez
 
 ## Roles del proyecto
 - Scrum Master -> Samuel
 - Product owner -> Samuel
-- Arquitecto software -> Diego
+- Arquitecto software -> Gonzalo
 - Analista -> Gonzalo
 - Diseñador de interfaz -> Samuel
-- Programador -> Diego
+- Programador -> Samuel
 - Tester -> Gonzalo
-- Administrador de sistemas -> Diego
+- Administrador de sistemas -> Gonzalo
 
 ## Rúbrica de evaluación
 https://docs.google.com/spreadsheets/d/1VQGEs_qNf-XY2jb1XwjVrr3ApGdyAUA6_ahjDb5SOhA
