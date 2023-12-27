@@ -2,7 +2,7 @@ package com.example.application.views.Layouts;
 
 import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.Marketing.CrearTarifas;
-import com.example.application.views.Clientes.ServiciosView;
+import com.example.application.views.Clientes.ContratosView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.tabs.Tab;
@@ -32,19 +32,21 @@ public class LayoutInicial extends AppLayout {
         //Creamos los routerlinks de las pestañas posibles conectados a las clases
 
 
-        RouterLink HomeCliente = new RouterLink("HomeClientes", ServiciosView.class);
+        RouterLink HomeCliente = new RouterLink("HomeClientes", ContratosView.class);
         RouterLink HomeDepATC = new RouterLink("HomeDepATC", AtcclienteadminView.class);
         RouterLink HomeMarketing = new RouterLink("HomeMarketing", CrearTarifas.class);
+        RouterLink HomeAdmin = new RouterLink("HomeAdmin", CrearTarifas.class);
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
 
         Tab TarifasTab = new Tab(HomeCliente);
         Tab DepATCTab = new Tab(HomeDepATC);
         Tab Marketingtab = new Tab(HomeMarketing);
+        Tab AdminTab = new Tab(HomeAdmin);
 
 
 
-        tabs.add(TarifasTab, DepATCTab, Marketingtab);
+        tabs.add(TarifasTab, DepATCTab, Marketingtab, AdminTab);
 
         return tabs;
     }

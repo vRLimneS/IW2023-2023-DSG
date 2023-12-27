@@ -2,7 +2,7 @@ package com.example.application.views.Layouts;
 
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
-import com.example.application.views.Clientes.ServiciosView;
+import com.example.application.views.Clientes.ContratosView;
 import com.example.application.views.Clientes.atccliente;
 import com.example.application.views.Clientes.PublicTarifasView;
 import com.example.application.views.DepATC.AtcclienteadminView;
@@ -52,7 +52,7 @@ public class LayoutPrincipal extends AppLayout {
 
         authenticatedUser.get().ifPresent(user -> {
             if (user.getRol().equals(TipoRol.CLIENTE)) {
-                tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
+                tabs.add(new Tab(new RouterLink("Servicios", ContratosView.class)));
                 tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
             }else
@@ -63,6 +63,14 @@ public class LayoutPrincipal extends AppLayout {
             if(user.getRol().equals(TipoRol.MARKETING)){
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
                 tabs.add(new Tab(new RouterLink("Tarifas", PrivateTarifasView.class)));
+            }
+            if(user.getRol().equals(TipoRol.ADMIN)){
+                tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", PrivateTarifasView.class)));
+                tabs.add(new Tab(new RouterLink("Consultas", AtcclienteadminView.class)));
+                tabs.add(new Tab(new RouterLink("Servicios", ContratosView.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
+                tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
             }
         });
 

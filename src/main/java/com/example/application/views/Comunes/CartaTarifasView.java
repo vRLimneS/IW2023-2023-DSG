@@ -22,19 +22,19 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Width;
 
 import java.math.BigDecimal;
 
-public class ImageGalleryViewCard extends ListItem {
+public class CartaTarifasView extends ListItem {
 
-    public ImageGalleryViewCard(String NombreTarifa, String Descripcion, BigDecimal precio, int minutosMovil, int minutosFijo, int velocidadFibra, int datosMovil, String url) {
+    public CartaTarifasView(String NombreTarifa, String Descripcion, BigDecimal precio, int minutosMovil, int minutosFijo, int velocidadFibra, int datosMovil, String url) {
         addClassNames(Background.CONTRAST_5, Display.FLEX, FlexDirection.COLUMN, AlignItems.START, Padding.MEDIUM,
                 BorderRadius.LARGE);
 
         Div div = new Div();
         div.addClassNames(Background.CONTRAST, Display.FLEX, AlignItems.CENTER, JustifyContent.CENTER,
-                Margin.Bottom.MEDIUM, Overflow.HIDDEN, BorderRadius.MEDIUM, Width.FULL);
+                Margin.Bottom.MEDIUM, Overflow.HIDDEN, BorderRadius.SMALL, Width.FULL);
         div.setHeight("160px");
 
         Image image = new Image();
-        image.setWidth("100%");
+        image.setWidth("160%");
         image.setSrc(url);
         image.setAlt(NombreTarifa);
 

@@ -26,7 +26,6 @@ public class Tarifa extends AbstractEntity{
         this.velocidadFibra = velocidadFibra;
         this.datosMoviles = datosMoviles;
         this.estado = estado;
-        //(añadir los otros atributos con un set)
     }
     public Tarifa(){}
 

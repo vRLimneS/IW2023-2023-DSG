@@ -10,6 +10,7 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
 @RolesAllowed("MARKETING")
+
 @Route(value = "creartarifas", layout = LayoutPrincipal.class)
 public class CrearTarifas extends VerticalLayout {
     public CrearTarifas(){
