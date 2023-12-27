@@ -1,6 +1,9 @@
 package com.example.application.views.login;
 
+import com.example.application.views.Comunes.Registro;
 import com.example.application.views.Security.AuthenticatedUser;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -35,7 +38,13 @@ public class LoginBasic extends LoginOverlay {
         i18n.setAdditionalInformation(null);
         setI18n(i18n);
 
-        setForgotPasswordButtonVisible(false);
+        setForgotPasswordButtonVisible(true);
+        Button buton = new Button();
+
+        getFooter().add(buton);
+        buton.addDetachListener(e -> UI.getCurrent().navigate(Registro.class));
+
+
         setOpened(true);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Usuario extends AbstractEntity {
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Contrato> contrato;
 
     private String token;
@@ -39,8 +39,6 @@ public class Usuario extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private TipoRol rol;
     private boolean active;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "usuario")
-    private List<Tarjeta> tarjeta;
 
 
     //getters
@@ -141,7 +139,4 @@ public class Usuario extends AbstractEntity {
         this.contrato.add(contrato);
     }
 
-    public void setTarjeta(Tarjeta tarjeta) {
-        this.tarjeta.add(tarjeta);
-    }
 }

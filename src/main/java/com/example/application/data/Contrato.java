@@ -2,15 +2,17 @@ package com.example.application.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import java.time.LocalDate;
 
 @Entity
 public class Contrato extends AbstractEntity {
 
-
-    private int fijo;
-    private int movil;
+    @OneToOne
+    private Numero fijo;
+    @OneToOne
+    private Numero movil;
     @ManyToOne
     private Tarifa tarifa;
     private LocalDate fechaInicio;
@@ -26,7 +28,7 @@ public class Contrato extends AbstractEntity {
     public Contrato() {
     }
 
-    public Contrato(Usuario usuario, int fijo, int movil, Tarifa tarifa, LocalDate fechaInicio, LocalDate fechaFin) {
+    public Contrato(Usuario usuario, Numero fijo, Numero movil, Tarifa tarifa, LocalDate fechaInicio, LocalDate fechaFin) {
         this.usuario = usuario;
         this.fijo = fijo;
         this.movil = movil;
@@ -64,21 +66,6 @@ public class Contrato extends AbstractEntity {
         this.usuario = usuario;
     }
 
-    public int getFijo() {
-        return fijo;
-    }
-
-    public void setFijo(int fijo) {
-        this.fijo = fijo;
-    }
-
-    public int getMovil() {
-        return movil;
-    }
-
-    public void setMovil(int movil) {
-        this.movil = movil;
-    }
 
     public Tarifa getTarifa() {
         return tarifa;
@@ -114,5 +101,13 @@ public class Contrato extends AbstractEntity {
         this.tarjeta = tarjeta;
     }
 
+
+    public void setFijo(Numero fijo) {
+        this.fijo = fijo;
+    }
+
+    public void setMovil(Numero movil) {
+        this.movil = movil;
+    }
 
 }

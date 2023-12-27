@@ -1,7 +1,6 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,8 +18,6 @@ public class Tarjeta extends AbstractEntity {
     @NotEmpty
     private String cvv;
 
-    @ManyToOne
-    private Usuario usuario;
 
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "tarjeta")
     //private List<Contrato> contrato;
@@ -78,10 +75,6 @@ public class Tarjeta extends AbstractEntity {
     //public void setContrato(Contrato contrato) {
     //    this.contrato.add(contrato);
     //}
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.application.data;
 
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
@@ -17,6 +18,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
     Usuario findByUsername(String name);
 
     Usuario findById(UUID userId);
+
+    @EntityGraph(attributePaths = {"contrato"})
+    Usuario findWithContratoById(UUID userId);
 
     List<Usuario> findByActiveTrue();
 }

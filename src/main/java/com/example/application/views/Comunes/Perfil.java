@@ -28,7 +28,6 @@ public class Perfil extends VerticalLayout {
         TextField DNI = new TextField("DNI");
         TextField Email = new TextField("Email");
         TextField fechaNacimiento = new TextField("Fecha de Nacimiento");
-        TextField contraseña = new TextField("Contraseña");
         TextField direccion = new TextField("Direccion");
 
 
@@ -38,7 +37,6 @@ public class Perfil extends VerticalLayout {
         DNI.setValue(usuario.getDNI());
         Email.setValue(usuario.getEmail());
         fechaNacimiento.setValue(usuario.getFechaNacimiento().toString());
-        contraseña.setValue(usuario.getContraseña());
         direccion.setValue(usuario.getDireccion());
 
         Nombre.setReadOnly(true);
@@ -47,11 +45,10 @@ public class Perfil extends VerticalLayout {
         DNI.setReadOnly(true);
         Email.setReadOnly(true);
         fechaNacimiento.setReadOnly(true);
-        contraseña.setReadOnly(true);
         direccion.setReadOnly(true);
 
 
-        add(Nombre, Apellido, username, DNI, Email, fechaNacimiento, contraseña, direccion);
+        add(Nombre, Apellido, username, DNI, Email, fechaNacimiento, direccion);
 
     }
 }
