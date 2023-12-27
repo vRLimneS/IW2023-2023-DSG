@@ -1,9 +1,9 @@
 package com.example.application.views.Layouts;
 
-import com.example.application.views.Clientes.atccliente;
+import com.example.application.views.Clientes.ServiciosView;
 import com.example.application.views.DepATC.AtcclienteadminView;
+import com.example.application.views.LandingPage;
 import com.example.application.views.Marketing.CrearTarifas;
-import com.example.application.views.Clientes.ContratosView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.tabs.Tab;
@@ -15,7 +15,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 public class LayoutInicial extends AppLayout {
 
     public LayoutInicial() {
-        H1 title = new H1("Inicio");
+        H1 title = new H1("SAGOSL");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
                 .set("left", "var(--lumo-space-l)").set("margin", "0")
                 .set("position", "absolute");
@@ -33,7 +33,8 @@ public class LayoutInicial extends AppLayout {
         //Creamos los routerlinks de las pestañas posibles conectados a las clases
 
 
-        RouterLink HomeCliente = new RouterLink("HomeClientes", ContratosView.class);
+        RouterLink Inicio = new RouterLink("Inicio", LandingPage.class);
+        RouterLink HomeCliente = new RouterLink("HomeClientes", ServiciosView.class);
         RouterLink HomeDepATC = new RouterLink("HomeDepATC", AtcclienteadminView.class);
         RouterLink HomeMarketing = new RouterLink("HomeMarketing", CrearTarifas.class);
         RouterLink AtcCliente = new RouterLink("AtcCliente", atcclientenoregistrados.class);
@@ -41,13 +42,15 @@ public class LayoutInicial extends AppLayout {
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
 
+        Tab InicioTab = new Tab(Inicio);
         Tab TarifasTab = new Tab(HomeCliente);
         Tab DepATCTab = new Tab(HomeDepATC);
         Tab Marketingtab = new Tab(HomeMarketing);
         Tab AtcClientetab = new Tab(AtcCliente);
         Tab AdminTab = new Tab(HomeAdmin);
 
-        tabs.add(TarifasTab, DepATCTab, Marketingtab, AtcClientetab, AdminTab);
+
+        tabs.add(InicioTab, TarifasTab, DepATCTab, Marketingtab, AtcClientetab, AdminTab);
 
         return tabs;
     }

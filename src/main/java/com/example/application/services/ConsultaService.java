@@ -39,4 +39,15 @@ public class ConsultaService {
     public List<Consulta> findByCliente(Usuario username) {
         return consultaRepository.findByCliente(username);
     }
+
+    public List<Consulta> findBy_estadoConsultaAndUsername(String estado, String username) {
+        if (estado.equals("PENDIENTE")) {
+            return consultaRepository.findBy_estadoConsultaAndUsername(Estadoconsulta.PENDIENTE, username);
+        } else if (estado.equals("ATENDIDO")) {
+            return consultaRepository.findBy_estadoConsultaAndUsername(Estadoconsulta.ATENDIDO, username);
+        } else if (estado.equals("RESUELTO")) {
+            return consultaRepository.findBy_estadoConsultaAndUsername(Estadoconsulta.RESUELTO, username);
+        }
+        return null;
+    }
 }
