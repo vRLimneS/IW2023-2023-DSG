@@ -4,6 +4,7 @@ import com.vaadin.flow.component.notification.Notification;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,12 +13,15 @@ import java.util.UUID;
 public class Numero extends AbstractEntity {
 
     private UUID idapi;
+    private String carrier;
     @OneToOne
     private Contrato contrato;
     private String numero;
     private TipoNumero Tipo;
     private int max;
-    private int consumido;
+    private float consumido;
+
+    private int datosconsumidos;
     @OneToMany
     private List<CallRecord> callRecord;
     @OneToMany
@@ -38,6 +42,8 @@ public class Numero extends AbstractEntity {
     public UUID getIdapi() {
         return idapi;
     }
+
+    //setters
 
     public void setIdapi(UUID idapi) {
         this.idapi = idapi;
@@ -69,13 +75,11 @@ public class Numero extends AbstractEntity {
         return max;
     }
 
-    //setters
-
     public void setMax(int max) {
         this.max = max;
     }
 
-    public int getConsumido() {
+    public float getConsumido() {
         return consumido;
     }
 
@@ -99,4 +103,40 @@ public class Numero extends AbstractEntity {
         this.dataUsageRecord = dataUsageRecord;
     }
 
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
+    public float getConsumidoTotal() {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        CallRecord[] callRecords = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + this.idapi + "/callrecords?carrier=" + this.carrier, CallRecord[].class);
+
+        for (CallRecord callRecord : callRecords) {
+            this.consumido += callRecord.getSeconds();
+        }
+        //Pasa a minutos
+        this.consumido = this.consumido / 60;
+        this.consumido = Math.round(this.consumido * 100) / 100f;
+
+        return consumido;
+    }
+
+    public int getDatosMoviles() {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        DataUsageRecord[] dataUsageRecords = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + this.idapi + "/datausagerecords?carrier=" + this.carrier, DataUsageRecord[].class);
+
+        for (DataUsageRecord dataUsageRecord : dataUsageRecords) {
+            this.datosconsumidos += dataUsageRecord.getMegaBytes();
+        }
+
+        return datosconsumidos;
+    }
 }

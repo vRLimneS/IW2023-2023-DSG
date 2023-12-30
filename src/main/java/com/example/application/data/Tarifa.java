@@ -110,4 +110,8 @@ public class Tarifa extends AbstractEntity {
     public int getPermanencia() {
         return Permanencia;
     }
+
+    public void setPermanencia(int permanencia) {
+        this.Permanencia = permanencia;
+    }
 }

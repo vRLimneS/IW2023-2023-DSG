@@ -3,9 +3,9 @@ package com.example.application.views.Layouts;
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.views.Clientes.PublicTarifasView;
-import com.example.application.views.Clientes.ServiciosView;
 import com.example.application.views.Clientes.atccliente;
 import com.example.application.views.Comunes.Perfil;
+import com.example.application.views.Comunes.ServiciosView;
 import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.DepATC.MisConsultas;
 import com.example.application.views.Marketing.CrearTarifas;
@@ -54,7 +54,7 @@ public class LayoutPrincipal extends AppLayout {
 
         authenticatedUser.get().ifPresent(user -> {
             if (user.getRol().equals(TipoRol.CLIENTE)) {
-                tabs.add(new Tab(new RouterLink("Servicios", ContratosView.class)));
+                tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
                 tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
             } else if (user.getRol().equals(TipoRol.ATCCLT)) {
@@ -68,11 +68,11 @@ public class LayoutPrincipal extends AppLayout {
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
                 tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
             }
-            if(user.getRol().equals(TipoRol.ADMIN)){
+            if (user.getRol().equals(TipoRol.ADMIN)) {
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
-                tabs.add(new Tab(new RouterLink("Tarifas", PrivateTarifasView.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Consultas", AtcclienteadminView.class)));
-                tabs.add(new Tab(new RouterLink("Servicios", ContratosView.class)));
+                tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
                 tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
             }

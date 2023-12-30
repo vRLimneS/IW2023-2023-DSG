@@ -101,13 +101,70 @@ public class Contrato extends AbstractEntity {
         this.tarjeta = tarjeta;
     }
 
+    public Numero getFijo() {
+        return fijo;
+    }
 
     public void setFijo(Numero fijo) {
         this.fijo = fijo;
+    }
+
+    public Numero getMovil() {
+        return movil;
     }
 
     public void setMovil(Numero movil) {
         this.movil = movil;
     }
 
+    public String getTarifanombre() {
+        return tarifa.getNombre();
+    }
+
+    public Object getFijonumero() {
+        if (fijo != null) {
+            return fijo.getNumero();
+        } else {
+            return "No tiene fijo";
+        }
+    }
+
+    public Object getMovilnumero() {
+        if (movil != null) {
+            return movil.getNumero();
+        } else {
+            return "No tiene movil";
+        }
+    }
+
+    public Object getMinutosFijo() {
+
+        if (fijo != null) {
+            float total = fijo.getConsumidoTotal();
+            if (total >= 0) {
+                return total;
+            } else {
+                return "No tiene minutos fijo";
+            }
+        } else {
+            return "No tiene fijo";
+        }
+    }
+
+    public Object getMinutosMovil() {
+        float total = movil.getConsumidoTotal();
+        if (total >= 0) {
+            return total;
+        } else {
+            return "No tiene minutos movil";
+        }
+    }
+
+    public Object getVelocidadFibra() {
+        return tarifa.getVelocidadFibra();
+    }
+
+    public Object getDatosMoviles() {
+        return movil.getDatosMoviles();
+    }
 }
