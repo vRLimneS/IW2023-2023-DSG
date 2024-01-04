@@ -1,37 +1,34 @@
-package com.example.application.views.Comunes;
+package com.example.application.views.Admin;
 
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.services.UsuarioService;
-import com.example.application.views.Layouts.LayoutInicial;
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Arrays;
 
 import static com.example.application.data.TipoRol.CLIENTE;
 
-@AnonymousAllowed
-@PageTitle("registro")
-@Route(value = "registro", layout = LayoutInicial.class)
-@Uses(Icon.class)
-public class Registro extends VerticalLayout {
+
+@RolesAllowed({"CLIENTE", "ADMIN"})
+@Route(value = "AdminRegistro", layout = LayoutPrincipal.class)
+public class AdminRegistro extends VerticalLayout {
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
 
-    public Registro(UsuarioService usuarioService, PasswordEncoder passwordEncoder) {
+    public AdminRegistro(UsuarioService usuarioService, PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
         this.passwordEncoder = passwordEncoder;
 
@@ -44,16 +41,16 @@ public class Registro extends VerticalLayout {
         TextField Apellido = new TextField();
         Apellido.setLabel("Apellido");
 
-        EmailField Correo = new EmailField();
+        TextField Correo = new TextField();
         Correo.setLabel("Correo Electronico");
 
         TextField Direccion = new TextField();
         Direccion.setLabel("Direccion");
 
-        PasswordField Contrasena = new PasswordField();
+        TextField Contrasena = new TextField();
         Contrasena.setLabel("Contraseña");
 
-        PasswordField ConfirmarContrasena = new PasswordField();
+        TextField ConfirmarContrasena = new TextField();
         ConfirmarContrasena.setLabel("Confirmar Contraseña");
 
         DatePicker FechaNacimiento = new DatePicker();
@@ -61,6 +58,8 @@ public class Registro extends VerticalLayout {
 
         TextField DNI = new TextField();
         DNI.setLabel("DNI");
+
+        ComboBox<TipoRol> rolComboBox = new ComboBox<>("Rol", Arrays.asList(TipoRol.values()));
 
         Button boton = new Button();
         boton.setText("Registrarse");
@@ -77,6 +76,7 @@ public class Registro extends VerticalLayout {
         ConfirmarContrasena.getStyle().set("padding", "var(--lumo-space-s)");
         FechaNacimiento.getStyle().set("padding", "var(--lumo-space-s)");
         DNI.getStyle().set("padding", "var(--lumo-space-s)");
+        rolComboBox.getStyle().set("padding", "var(--lumo-space-s)");
 
         username.setWidth("500px");
         Nombre.setWidth("500px");
@@ -88,10 +88,11 @@ public class Registro extends VerticalLayout {
         FechaNacimiento.setWidth("500px");
         DNI.setWidth("500px");
         boton.setWidth("500px");
+        rolComboBox.setWidth("500px");
 
         setAlignItems(Alignment.CENTER);
 
-        vl2.add(username, Nombre, Apellido, DNI, Correo, Contrasena, ConfirmarContrasena, Direccion, FechaNacimiento);
+        vl2.add(username, Nombre, Apellido, DNI, Correo, Contrasena, ConfirmarContrasena, Direccion, FechaNacimiento, rolComboBox);
         vl2.setAlignItems(Alignment.CENTER);
         vl2.setWidth("69%");
         add(vl2, boton);
@@ -106,7 +107,7 @@ public class Registro extends VerticalLayout {
 
                 TipoRol rol = CLIENTE;
                 usuarioService.registerUser(new Usuario(Nombre.getValue(),username.getValue(), Apellido.getValue(), Contrasena.getValue(),
-                         rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
+                        rolComboBox.getValue(), DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
                 Notification.show("Usuario registrado correctamente");
 
                 UI.getCurrent().navigate(LoginBasic.class);
@@ -114,5 +115,6 @@ public class Registro extends VerticalLayout {
                 Notification.show("Las contraseñas no coinciden");
             }
         });
+
     }
 }

@@ -31,7 +31,6 @@ public class Usuario extends AbstractEntity {
     @Column(name = "contraseña")
     private String contraseña;
 
-
     private LocalDate fechaNacimiento;
 
     private String direccion;
@@ -39,6 +38,25 @@ public class Usuario extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private TipoRol rol;
     private boolean active;
+
+    //constructor
+    public Usuario(String nombre, String username, String apellidos, String contraseña, TipoRol rol, String DNI,
+                   String email, String direccion, LocalDate fechaNacimiento, boolean b) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.contraseña = contraseña;
+        this.DNI = DNI;
+        this.username = username;
+        this.email = email;
+        this.rol = rol;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.active = b;
+    }
+
+    public Usuario() {
+
+    }
 
 
     //getters
@@ -137,6 +155,10 @@ public class Usuario extends AbstractEntity {
 
     public void setContrato(Contrato contrato) {
         this.contrato.add(contrato);
+    }
+
+    public List<Contrato> getContrato() {
+        return contrato;
     }
 
 }

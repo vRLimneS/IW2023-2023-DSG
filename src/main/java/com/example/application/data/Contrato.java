@@ -110,4 +110,12 @@ public class Contrato extends AbstractEntity {
         this.movil = movil;
     }
 
+    public Numero getFijo() {
+        return fijo;
+    }
+
+    public Numero getMovil() {
+        return movil;
+    }
+
 }

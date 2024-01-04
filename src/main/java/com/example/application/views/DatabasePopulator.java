@@ -34,7 +34,7 @@ public class DatabasePopulator implements CommandLineRunner {
             user.setRol(TipoRol.CLIENTE);
             usuarioService.registerUser(user);
             usuarioService.activateUser(user.getEmail(), user.gettoken());
-            System.out.println("Admin created");
+            System.out.println("Cliente created");
 
             Usuario user1 = new Usuario();
             user1.setUsername("user1");
@@ -45,6 +45,16 @@ public class DatabasePopulator implements CommandLineRunner {
             usuarioService.registerUser(user1);
             usuarioService.activateUser(user1.getEmail(), user1.gettoken());
             System.out.println("Marketing created");
+
+            Usuario usuario = new Usuario();
+            usuario.setUsername("usuario");
+            usuario.setContraseña("usuario");
+            usuario.setEmail("usuario@uca.es");
+            usuario.setFechaNacimiento(LocalDate.of(2020, Month.FEBRUARY, 8));
+            usuario.setRol(TipoRol.ADMIN);
+            usuarioService.registerUser(usuario);
+            usuarioService.activateUser(usuario.getEmail(), usuario.gettoken());
+            System.out.println("Admin created");
 
             Usuario user2 = new Usuario();
             user2.setUsername("user2");
@@ -66,12 +76,8 @@ public class DatabasePopulator implements CommandLineRunner {
             usuarioService.activateUser(user3.getEmail(), user3.gettoken());
             System.out.println("ATCLT created");
 
-
         }
 
-
-
     }
-
 
 }

@@ -1,12 +1,14 @@
-package com.example.application.views.Comunes;
+package com.example.application.views.Admin;
 
 import com.example.application.data.Tarifa;
 import com.example.application.services.TarifaService;
+import com.example.application.views.Marketing.CrearTarifas;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.OrderedList;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -23,25 +25,25 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
 @AnonymousAllowed
-public class TarifasView extends VerticalLayout implements HasComponents, HasStyle{
+public class AdminTarifasView extends VerticalLayout implements HasComponents, HasStyle{
     @Autowired
     private TarifaService tarifaService;
     private Tarifa tarifa;
 
     private OrderedList imageContainer;
 
-    public TarifasView(TarifaService tarifaService) {
+    public AdminTarifasView(TarifaService tarifaService) {
         this.tarifaService = tarifaService;
         constructUI();
 
-        for (Tarifa tarifa : tarifaService.findAllEnable()) {
-            imageContainer.add(new CartaTarifasView(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(),
+        for (Tarifa tarifa : tarifaService.findAll()) {
+            imageContainer.add(new AdminCartaTarifasView(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(),
                     tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(),
-                    tarifa.getDatosMoviles(), tarifa.getUrl()));
+                    tarifa.getDatosMoviles(),tarifa.getEstado(), tarifa.getPermanencia(), tarifa.getUrl(), tarifaService));
         }
     }
 
-    public TarifasView() {
+    public AdminTarifasView() {
     }
 
     private void constructUI() {
@@ -51,16 +53,24 @@ public class TarifasView extends VerticalLayout implements HasComponents, HasSty
         container.addClassNames(AlignItems.START, JustifyContent.BETWEEN);
 
         VerticalLayout headerContainer = new VerticalLayout();
-        H2 header = new H2("TARIFAS DISPONIBLES");
+        H2 header = new H2("TODAS LAS TARIFAS");
         header.addClassNames(Margin.Bottom.NONE, Margin.Top.XLARGE, FontSize.XXXLARGE);
-        Paragraph description = new Paragraph("Tarifas disponibles para contratar");
-        description.addClassNames(Margin.Bottom.XLARGE, Margin.Top.NONE, TextColor.SECONDARY);
-        headerContainer.add(header, description);
+        add(header);
+
+        Button BotonCrear = new Button();
+        BotonCrear.setText("Crear Tarifa");
+
 
         imageContainer = new OrderedList();
         imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);
 
-        container.add(headerContainer);
+        add(headerContainer);
+        add(BotonCrear);
         add(container, imageContainer);
+
+        BotonCrear.addClickListener(click -> {
+            UI navigate = UI.getCurrent();
+            navigate.navigate(CrearTarifas.class);
+        });
     }
 }

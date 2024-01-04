@@ -78,4 +78,7 @@ public class ContratoService {
     }
 
 
+    public Contrato[] findAll() {
+        return contratoRepository.findAll().toArray(new Contrato[0]);
+    }
 }

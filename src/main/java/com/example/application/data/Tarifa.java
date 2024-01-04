@@ -15,12 +15,10 @@ public class Tarifa extends AbstractEntity {
     private int datosMoviles;
     private boolean estado;
     private String url;
-
     private int Permanencia;
 
-
-    //Tarifa Sago
-    public Tarifa(String nombre, String descripcion, BigDecimal precio, int minutosMovil, int minutosFijo, int velocidadFibra, int datosMoviles, boolean estado, int permanencia) {
+    public Tarifa(String nombre, String descripcion, BigDecimal precio, int minutosMovil, int minutosFijo,
+                  int velocidadFibra, int datosMoviles, boolean estado, int permanencia, String url) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -30,6 +28,7 @@ public class Tarifa extends AbstractEntity {
         this.datosMoviles = datosMoviles;
         this.estado = estado;
         this.Permanencia = permanencia;
+        this.url = url;
     }
 
     public Tarifa() {
@@ -110,4 +109,6 @@ public class Tarifa extends AbstractEntity {
     public int getPermanencia() {
         return Permanencia;
     }
+
+    public void setPermanencia(int permanencia) {Permanencia = permanencia;}
 }

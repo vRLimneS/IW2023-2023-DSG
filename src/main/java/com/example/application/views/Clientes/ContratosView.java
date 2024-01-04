@@ -1,10 +1,7 @@
 package com.example.application.views.Clientes;
 
 import com.example.application.data.Contrato;
-import com.example.application.data.Tarifa;
-import com.example.application.data.Usuario;
-import com.example.application.data.ContratoService;
-import com.example.application.views.Comunes.CartaTarifasView;
+import com.example.application.services.ContratoService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
@@ -35,16 +32,15 @@ public class ContratosView extends VerticalLayout {
         Paragraph textLarge = new Paragraph();
         textLarge.setText(contrato.getUsuario().getNombre() +
                 " " + contrato.getUsuario().getApellidos()
-                + " con DNI " + contrato.getUsuario().getDni() +
+                + " con DNI " + contrato.getUsuario().getDNI() +
                 " tiene contratado el siguiente plan:");
         add(textLarge);
 
         //mostrar datos usuario
         H2 user = new H2(String.valueOf(contrato.getUsuario().getNombre()));
         H2 user2 = new H2(String.valueOf(contrato.getUsuario().getApellidos()));
-        H2 user3 = new H2(String.valueOf(contrato.getUsuario().getDni()));
+        H2 user3 = new H2(String.valueOf(contrato.getUsuario().getDNI()));
         H2 user4 = new H2(String.valueOf(contrato.getUsuario().getDireccion()));
-        H2 user5 = new H2(String.valueOf(contrato.getUsuario().getTelefono()));
         H2 user6 = new H2(String.valueOf(contrato.getUsuario().getEmail()));
 
         //mostrar datos tarifa

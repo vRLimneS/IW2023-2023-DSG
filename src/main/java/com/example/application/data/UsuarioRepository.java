@@ -18,6 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
     Usuario findByUsername(String name);
 
     Usuario findById(UUID userId);
+    Optional<Usuario> findByNombre(String nombre);
 
     @EntityGraph(attributePaths = {"contrato"})
     Usuario findWithContratoById(UUID userId);
