@@ -42,7 +42,8 @@ public class LoginBasic extends LoginOverlay {
         Button buton = new Button();
 
         getFooter().add(buton);
-        buton.addDetachListener(e -> UI.getCurrent().navigate(Registro.class));
+        buton.setText("Registrarse");
+        buton.addClickListener(e -> UI.getCurrent().navigate(Registro.class));
 
 
         setOpened(true);

@@ -1,6 +1,7 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
@@ -9,9 +10,10 @@ import java.time.LocalDate;
 @Entity
 public class Contrato extends AbstractEntity {
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.EAGER)
     private Numero fijo;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Numero movil;
     @ManyToOne
     private Tarifa tarifa;
@@ -51,7 +53,7 @@ public class Contrato extends AbstractEntity {
                 this._estadoContrato = EstadoContrato.TERMINADO;
             } else {
                 if (estadoContrato.equals("PENDIENTE")) {
-                    this._estadoContrato = EstadoContrato.PENDIENTE;
+                    this._estadoContrato = EstadoContrato.PENDIENTE_BAJA;
 
                 }
             }
@@ -101,21 +103,71 @@ public class Contrato extends AbstractEntity {
         this.tarjeta = tarjeta;
     }
 
+    public Numero getFijo() {
+        return fijo;
+    }
 
     public void setFijo(Numero fijo) {
         this.fijo = fijo;
+    }
+
+    public Numero getMovil() {
+        return movil;
     }
 
     public void setMovil(Numero movil) {
         this.movil = movil;
     }
 
-    public Numero getFijo() {
-        return fijo;
+    public String getTarifanombre() {
+        return tarifa.getNombre();
     }
 
-    public Numero getMovil() {
-        return movil;
+    public Object getFijonumero() {
+        if (fijo != null) {
+            return fijo.getNumero();
+        } else {
+            return "No tiene fijo";
+        }
+    }
+
+    public Object getMovilnumero() {
+        if (movil != null) {
+            return movil.getNumero();
+        } else {
+            return "No tiene movil";
+        }
+    }
+
+    public Object getMinutosFijo() {
+
+        if (fijo != null) {
+            float total = fijo.getConsumidoTotal();
+            if (total >= 0) {
+                return total;
+            } else {
+                return "No tiene minutos fijo";
+            }
+        } else {
+            return "No tiene fijo";
+        }
+    }
+
+    public Object getMinutosMovil() {
+        float total = movil.getConsumidoTotal();
+        if (total >= 0) {
+            return total;
+        } else {
+            return "No tiene minutos movil";
+        }
+    }
+
+    public Object getVelocidadFibra() {
+        return tarifa.getVelocidadFibra();
+    }
+
+    public Object getDatosMoviles() {
+        return movil.getDatosMoviles();
     }
 
 }

@@ -2,13 +2,14 @@ package com.example.application.services;
 
 import com.example.application.data.*;
 import com.example.application.views.Security.AuthenticatedUser;
-import com.vaadin.flow.component.notification.Notification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,6 +31,23 @@ public class ContratoService {
         this.numeroRepository = numeroRepository;
     }
 
+
+    public Contrato save(Contrato contrato) {
+        return contratoRepository.save(contrato);
+    }
+
+    public List<Contrato> findByUsuarioId(UUID id) {
+        return contratoRepository.findByUsuarioId(id);
+    }
+
+    public Contrato findByUsuario(Usuario usuario) {
+        return contratoRepository.findByUsuario(usuario);
+    }
+
+    public Contrato[] findAll() {
+        return contratoRepository.findAll().toArray(new Contrato[0]);
+    }
+
     @Transactional
     public void contratarTarifa(String numero, String titular, String fechaCaducidad, String cvv, UUID id, String nombretarifa) {
         Tarifa tarifa = tarifaRepository.findByNombre(nombretarifa);
@@ -47,36 +65,65 @@ public class ContratoService {
         contrato.set_estadoContrato("ACTIVO");
         contrato.setFechaInicio(LocalDate.now());
         contrato.setFechaFin(LocalDate.now().plusMonths(tarifa.getPermanencia()));
-        contrato.setFijo(Fijo(tarifa));
-        //contrato.setMovil(Movil(tarifa));
-        usuario.setContrato(contrato);
+
+        if (tarifa.getMinutosFijo() != 0) {
+            contrato.setFijo(generadorNumero(tarifa, "FIJO"));
+            numeroRepository.save(contrato.getFijo());
+        }
+
+        if (tarifa.getMinutosMovil() != 0) {
+            contrato.setMovil(generadorNumero(tarifa, "MOVIL"));
+            numeroRepository.save(contrato.getMovil());
+        }
+
         TarjetaRepository.save(tarjeta);
         contratoRepository.save(contrato);
+        usuario.setContrato(contrato);
         UsuarioRepository.save(usuario);
+
+
     }
 
-    public Numero Fijo(Tarifa tarifa) {
+    public Numero generadorNumero(Tarifa tarifa, String tipo) {
         CustomerLine fijo = new CustomerLine();
         fijo.setName("FIJO");
         fijo.setSurname("FIJO");
         fijo.setCarrier("UCA");
-        int numero = Integer.parseInt("9" + (int) (Math.random() * 10000000 + 10000000));
-        fijo.setPhoneNumber(String.valueOf(numero));
+        if (tipo.equals("FIJO")) {
+            fijo.setPhoneNumber("9" + (int) (Math.random() * 10000000 + 10000000));
+        } else
+            fijo.setPhoneNumber("6" + (int) (Math.random() * 10000000 + 10000000));
+
         RestTemplate restTemplate = new RestTemplate();
-        Notification.show("Numero fijo: " + fijo.getPhoneNumber());
         fijo = restTemplate.postForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com", fijo, CustomerLine.class);
-        // = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com", CustomerLine.class);
-        Notification.show("Numero fijo: " + fijo.getId());
         Numero fijo2 = new Numero();
         fijo2.setNumero(fijo.getPhoneNumber());
         fijo2.setTipo("FIJO");
         fijo2.setConsumido(0);
         fijo2.setMax(tarifa.getMinutosFijo());
         fijo2.setIdapi(fijo.getId());
-        numeroRepository.save(fijo2);
+        fijo2.setCarrier(fijo.getCarrier());
         return fijo2;
     }
 
+    public Contrato findById(UUID id) {
+
+        Optional<Contrato> contrato = contratoRepository.findById(id);
+        if (contrato.isPresent()) {
+            return contrato.get();
+        } else {
+            return null;
+        }
+    }
+
+
+    public void delete(Contrato c) {
+        contratoRepository.delete(c);
+    }
+
+    public List<Contrato> findBy_estadoContratoAndUsuarioId(EstadoContrato estadoContrato, UUID id) {
+        return contratoRepository.findBy_estadoContratoAndUsuarioId(estadoContrato, id);
+    }
 
     public Contrato[] findAll() {
         return contratoRepository.findAll().toArray(new Contrato[0]);

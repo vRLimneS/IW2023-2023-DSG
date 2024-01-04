@@ -102,7 +102,6 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
                 dialog.addConfirmListener(event -> {
                     contratar(contratoService, NumeroTarjeta.getValue(), Titular.getValue(), FechaCaducidad.getValue(), CVV.getValue(), id, nombtarifa);
                     UI.getCurrent().navigate(PublicTarifasView.class);
-                    Notification.show("Contrato realizado");
                 });
 
                 dialog.open();
@@ -117,7 +116,7 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
         vl2.setSpacing(false);
 
         vl.add(Nombre, Descripcion, permanencia);
-        vl2.add(Precio, minutosFijos, minutosMoviles, velocidad, gigas);
+        vl2.add(Precio, minutosFijos, minutosMoviles, gigas, velocidad);
         vl3.add(NumeroTarjeta, Titular, FechaCaducidad, CVV, boton);
 
         vl2.setAlignItems(Alignment.CENTER);

@@ -1,6 +1,6 @@
 package com.example.application.views.Layouts;
 
-import com.example.application.views.Clientes.ServiciosView;
+import com.example.application.views.Comunes.ServiciosView;
 import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.LandingPage;
 import com.example.application.views.Marketing.CrearTarifas;

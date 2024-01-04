@@ -3,6 +3,7 @@ package com.example.application.services;
 import com.example.application.data.Tarifa;
 import com.example.application.data.TarifaRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,20 +15,38 @@ public class TarifaService {
         this.tarifaRepository = tarifaRepository;
     }
 
-    public void save(Tarifa tarifa) throws Exception {tarifaRepository.save(tarifa);}
-    public void update(Tarifa tarifa) throws Exception {
-        if(findByNombre(tarifa.getNombre())!=null){
+    public void save(Tarifa tarifa) throws Exception {
+        if (tarifaRepository.findByNombre(tarifa.getNombre()) == null) {
             tarifaRepository.save(tarifa);
+        } else {
+            throw new Exception("Ya existe una tarifa con ese nombre");
         }
-        else{
+    }
+
+    public void saveinicial(Tarifa tarifa) throws Exception {
+        tarifaRepository.save(tarifa);
+    }
+
+    public void update(Tarifa tarifa) throws Exception {
+        if (tarifaRepository.findByNombre(tarifa.getNombre()) != null) {
+            tarifaRepository.save(tarifa);
+        } else {
             throw new Exception("No existe una tarifa con ese nombre");
         }
     }
-    public void delete(Tarifa tarifa) throws Exception {tarifaRepository.delete(tarifa);}
+
+    public void delete(Tarifa tarifa) throws Exception {
+        if (tarifaRepository.findByNombre(tarifa.getNombre()) != null) {
+            tarifaRepository.delete(tarifa);
+        } else {
+            throw new Exception("No existe una tarifa con ese nombre");
+        }
+    }
+
     public List<Tarifa> findAllEnable() {
         List<Tarifa> tarifaEnable = new ArrayList<>();
         for (Tarifa tarifa : tarifaRepository.findAll()) {
-            if(tarifa.getEstado()){
+            if (tarifa.getEstado()) {
                 tarifaEnable.add(tarifa);
             }
         }
@@ -39,6 +58,12 @@ public class TarifaService {
 
     public static Tarifa findByNombre(String nombre){
         return tarifaRepository.findByNombre(nombre);
+
     }
+
+    public int count() {
+        return (int) tarifaRepository.count();
+    }
+
 
 }

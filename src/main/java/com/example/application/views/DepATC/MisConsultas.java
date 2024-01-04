@@ -5,6 +5,7 @@ import com.example.application.data.Usuario;
 import com.example.application.services.ConsultaService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.Security.AuthenticatedUser;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
@@ -24,7 +25,7 @@ public class MisConsultas extends Div {
     private static Grid<Consulta> grid;
     private static Div hint;
     private final ConsultaService consultaService;
-    private AuthenticatedUser authenticatedUser;
+    private final AuthenticatedUser authenticatedUser;
 
     public MisConsultas(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
         this.authenticatedUser = authenticatedUser;
@@ -51,7 +52,7 @@ public class MisConsultas extends Div {
                         qconsulta.setEstado("PENDIENTE");
                         consultaService.save(qconsulta);
                         Notification.show("Consulta desasignada");
-                        grid.getDataProvider().refreshAll();
+                        UI.getCurrent().getPage().reload();
                     }
                 }
             });
