@@ -1,6 +1,7 @@
 package com.example.application.views.login;
 
 import com.example.application.views.Comunes.Registro;
+import com.example.application.views.LandingPage;
 import com.example.application.views.Security.AuthenticatedUser;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -30,7 +31,9 @@ public class LoginBasic extends LoginOverlay {
         i18nForm.setUsername("Usuario");
         i18nForm.setPassword("Contraseña");
         i18nForm.setSubmit("Iniciar sesión");
+        i18nForm.setForgotPassword("Recordar Contraseña");
 
+        
         i18n.getErrorMessage().setTitle("Usuario o contraseña incorrectos");
         i18n.setForm(i18nForm);
         i18n.getHeader().setTitle("SagoSL");
@@ -39,11 +42,14 @@ public class LoginBasic extends LoginOverlay {
         setI18n(i18n);
 
         setForgotPasswordButtonVisible(true);
-        Button buton = new Button();
+        Button registro = new Button();
+        Button principal = new Button();
 
-        getFooter().add(buton);
-        buton.setText("Registrarse");
-        buton.addClickListener(e -> UI.getCurrent().navigate(Registro.class));
+        getFooter().add(registro, principal);
+        registro.setText("Registrarse");
+        registro.addClickListener(e -> UI.getCurrent().navigate(Registro.class));
+        principal.setText("Pagina principal");
+        principal.addClickListener(e -> UI.getCurrent().navigate(LandingPage.class));
 
 
         setOpened(true);

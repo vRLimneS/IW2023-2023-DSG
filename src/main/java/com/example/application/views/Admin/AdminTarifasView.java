@@ -11,21 +11,12 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.OrderedList;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
+import com.vaadin.flow.theme.lumo.LumoUtility.*;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
-import com.vaadin.flow.theme.lumo.LumoUtility.Display;
-import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
-import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import com.vaadin.flow.theme.lumo.LumoUtility.JustifyContent;
-import com.vaadin.flow.theme.lumo.LumoUtility.ListStyleType;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
-import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
-import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
-@AnonymousAllowed
-public class AdminTarifasView extends VerticalLayout implements HasComponents, HasStyle{
+@RolesAllowed({"ADMIN", "MARKETING"})
+public class AdminTarifasView extends VerticalLayout implements HasComponents, HasStyle {
     @Autowired
     private TarifaService tarifaService;
     private Tarifa tarifa;
@@ -39,11 +30,8 @@ public class AdminTarifasView extends VerticalLayout implements HasComponents, H
         for (Tarifa tarifa : tarifaService.findAll()) {
             imageContainer.add(new AdminCartaTarifasView(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(),
                     tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(),
-                    tarifa.getDatosMoviles(),tarifa.getEstado(), tarifa.getPermanencia(), tarifa.getUrl(), tarifaService));
+                    tarifa.getDatosMoviles(), tarifa.getEstado(), tarifa.getPermanencia(), tarifa.getUrl(), tarifaService));
         }
-    }
-
-    public AdminTarifasView() {
     }
 
     private void constructUI() {
@@ -64,13 +52,12 @@ public class AdminTarifasView extends VerticalLayout implements HasComponents, H
         imageContainer = new OrderedList();
         imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);
 
+        BotonCrear.addClickListener(click -> {
+            UI.getCurrent().navigate(CrearTarifas.class);
+        });
+
         add(headerContainer);
         add(BotonCrear);
         add(container, imageContainer);
-
-        BotonCrear.addClickListener(click -> {
-            UI navigate = UI.getCurrent();
-            navigate.navigate(CrearTarifas.class);
-        });
     }
 }

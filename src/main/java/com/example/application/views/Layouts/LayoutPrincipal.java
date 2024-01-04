@@ -2,10 +2,8 @@ package com.example.application.views.Layouts;
 
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
+import com.example.application.views.Admin.AdminTarifas;
 import com.example.application.views.Clientes.PublicTarifasView;
-import com.example.application.views.Clientes.ContratosView;
-import com.example.application.views.Clientes.PublicTarifasView;
-import com.example.application.views.Clientes.ServiciosView;
 import com.example.application.views.Clientes.atccliente;
 import com.example.application.views.Comunes.Perfil;
 import com.example.application.views.Comunes.ServiciosView;
@@ -70,7 +68,7 @@ public class LayoutPrincipal extends AppLayout {
             } else if (user.getRol().equals(TipoRol.MARKETING)) {
                 tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
-                tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", AdminTarifas.class)));
             }
             if (user.getRol().equals(TipoRol.ADMIN)) {
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));

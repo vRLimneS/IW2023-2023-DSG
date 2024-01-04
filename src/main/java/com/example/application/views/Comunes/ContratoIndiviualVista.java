@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,6 +25,8 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -89,7 +92,8 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         baja.addClickListener(e -> {
             Dialog dialog = new Dialog();
             dialog.add(new H5("¿Estas seguro de que quieres dar de baja el contrato?"));
-            dialog.add(new H5("Se te cobrara una penalizacion de los meses que faltan por pagar, más el 20% del total del contrato"));
+            dialog.add(new H5("Se le cobrara una penalización de los meses que faltan por pagar, más el 20% del total del contrato"));
+            dialog.add(new H5(penalizacion(c)));
             HorizontalLayout hl5 = new HorizontalLayout();
             Button cancelButton = new Button("Cancelar");
             cancelButton.addClickListener(h -> {
@@ -129,7 +133,7 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         vl3.add(new H2("Datos Totales"), new H4(t.getDatosMoviles() + "GB"));
         vl4.add(new H2("Velocidad"), new H4(c.getVelocidadFibra() + "MB"));
         vl5.add(new H2("Fecha Inicio"), new H4(c.getFechaInicio().toString()), new H2("Fecha Fin"), new H4(c.getFechaFin().toString()));
-
+        vl5.add(new H2("Precio"), new H4(c.getTarifa().getPrecio() + "€/mes"));
         hl2.add(vl, vl2, vl3, vl4, vl5);
         hl2.setWidthFull();
 
@@ -238,6 +242,26 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         contratoService.save(c);
     }
 
+    public String penalizacion(Contrato c) {
+
+        int year = c.getFechaFin().getYear() - LocalDate.now().getYear();
+        Notification.show(c.getFechaFin().getYear() + " " + LocalDate.now().getYear());
+        Notification.show("año " + year);
+        int meses = year * 12 + c.getFechaFin().getMonthValue() - LocalDate.now().getMonthValue();
+
+        Notification.show("meses " + meses);
+
+        long porcentaje = c.getTarifa().getPermanencia() * c.getTarifa().getPrecio().longValue();
+        BigDecimal cien = BigDecimal.valueOf(100);
+        BigDecimal total;
+        if (meses == 0) {
+            total = c.getTarifa().getPrecio();
+        } else {
+            total = c.getTarifa().getPrecio().multiply(BigDecimal.valueOf(meses));
+        }
+        total = total.add(BigDecimal.valueOf(porcentaje * 20).divide(cien));
+        return "La penalizacion es de " + total + "€";
+    }
 
 }
 
