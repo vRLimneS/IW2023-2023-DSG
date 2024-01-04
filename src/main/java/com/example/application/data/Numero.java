@@ -1,17 +1,18 @@
 package com.example.application.data;
 
 import com.vaadin.flow.component.notification.Notification;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 public class Numero extends AbstractEntity {
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    public List<String> bloqueados;
     private UUID idapi;
     private String carrier;
     @OneToOne
@@ -21,11 +22,15 @@ public class Numero extends AbstractEntity {
     private int max;
     private float consumido;
 
-    private int datosconsumidos;
+    private float datosconsumidos;
     @OneToMany
     private List<CallRecord> callRecord;
     @OneToMany
     private List<DataUsageRecord> dataUsageRecord;
+
+    private boolean roaming;
+    private boolean compartir;
+
 
     public Numero() {
     }
@@ -87,16 +92,8 @@ public class Numero extends AbstractEntity {
         this.consumido = consumido;
     }
 
-    public List<CallRecord> getCallRecord() {
-        return callRecord;
-    }
-
     public void setCallRecord(List<CallRecord> callRecord) {
         this.callRecord = callRecord;
-    }
-
-    public List<DataUsageRecord> getDataUsageRecord() {
-        return dataUsageRecord;
     }
 
     public void setDataUsageRecord(List<DataUsageRecord> dataUsageRecord) {
@@ -127,7 +124,7 @@ public class Numero extends AbstractEntity {
         return consumido;
     }
 
-    public int getDatosMoviles() {
+    public float getDatosMoviles() {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -137,6 +134,53 @@ public class Numero extends AbstractEntity {
             this.datosconsumidos += dataUsageRecord.getMegaBytes();
         }
 
+        if (this.datosconsumidos > 0) {
+            this.datosconsumidos = this.datosconsumidos / 1024;
+            this.datosconsumidos = Math.round(this.datosconsumidos * 100) / 100f;
+        } else {
+            this.datosconsumidos = 0;
+        }
+
         return datosconsumidos;
+    }
+
+    public List<CallRecord> getCallRecords() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        CallRecord[] callRecords = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + this.idapi + "/callrecords?carrier=" + this.carrier, CallRecord[].class);
+
+        return Arrays.asList(callRecords);
+    }
+
+    public List<DataUsageRecord> getDataUsageRecords() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        DataUsageRecord[] dataUsageRecords = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + this.idapi + "/datausagerecords?carrier=" + this.carrier, DataUsageRecord[].class);
+
+        return Arrays.asList(dataUsageRecords);
+    }
+
+    public List<String> getNumerosBloqueados() {
+        return bloqueados;
+    }
+
+    public void setNumerosBloqueados(String bloqueados) {
+        this.bloqueados.add(bloqueados);
+    }
+
+    public boolean getRoaming() {
+        return roaming;
+    }
+
+    public void setRoaming(boolean roaming) {
+        this.roaming = roaming;
+    }
+
+    public boolean getCompartir() {
+        return compartir;
+    }
+
+    public void setCompartir(boolean compartir) {
+        this.compartir = compartir;
     }
 }

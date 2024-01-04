@@ -1,6 +1,7 @@
 package com.example.application.views.Comunes;
 
 import com.example.application.data.Contrato;
+import com.example.application.data.EstadoContrato;
 import com.example.application.data.Usuario;
 import com.example.application.services.ContratoService;
 import com.example.application.views.Layouts.LayoutPrincipal;
@@ -14,7 +15,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import jakarta.annotation.security.RolesAllowed;
 
-import java.util.List;
 import java.util.Optional;
 
 @RolesAllowed({"CLIENTE", "ATCCLT", "ADMIN", "MARKETING"})
@@ -31,15 +31,13 @@ public class ServiciosView extends VerticalLayout {
         this.authenticatedUser = authenticatedUser;
 
         Optional<Usuario> user = authenticatedUser.get();
-        List<Contrato> contrato = contratoService.findByUsuarioId(user.get().getId());
-
         addClassName(Margin.Top.XLARGE);
         H1 titulo = new H1("Tarifas Contratadas");
         add(titulo);
 
         grid = new Grid<>(Contrato.class, false);
         grid.setAllRowsVisible(true);
-        grid.setItems(contratoService.findByUsuarioId(user.get().getId()));
+        grid.setItems(contratoService.findBy_estadoContratoAndUsuarioId(EstadoContrato.ACTIVO, user.get().getId()));
         grid.addColumn(Contrato::getTarifanombre).setHeader("Tarifa");
         grid.addColumn(Contrato::getFijonumero).setHeader("Fijo");
         grid.addColumn(Contrato::getMinutosFijo).setHeader("Minutos Fijo");

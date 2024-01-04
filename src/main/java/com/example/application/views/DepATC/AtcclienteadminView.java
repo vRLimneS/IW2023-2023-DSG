@@ -26,7 +26,7 @@ public class AtcclienteadminView extends Div {
     private static Div hint;
     private final ConsultaService consultaService;
 
-    private AuthenticatedUser authenticatedUser;
+    private final AuthenticatedUser authenticatedUser;
 
     public AtcclienteadminView(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
         this.consultaService = consultaService;
@@ -60,7 +60,6 @@ public class AtcclienteadminView extends Div {
                     consulta.setUsername(user.get().getUsername());
                     consultaService.save(consulta);
                     grid.setItems(consultaService.findAll());
-                    grid.getDataProvider().refreshAll();
                 }
             });
             return button;

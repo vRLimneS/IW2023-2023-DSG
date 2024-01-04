@@ -3,7 +3,6 @@ package com.example.application.data;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface ContratoRepository extends JpaRepository<Contrato, UUID> {
@@ -13,7 +12,8 @@ public interface ContratoRepository extends JpaRepository<Contrato, UUID> {
 
     List<Contrato> findAll();
 
-    Optional<Contrato> findById(UUID id);
-
     List<Contrato> findByUsuarioId(UUID id);
+
+    List<Contrato> findBy_estadoContratoAndUsuarioId(EstadoContrato estadoContrato, UUID id);
+
 }

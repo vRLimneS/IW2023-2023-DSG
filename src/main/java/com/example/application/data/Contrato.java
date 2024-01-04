@@ -1,6 +1,7 @@
 package com.example.application.data;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
@@ -9,9 +10,10 @@ import java.time.LocalDate;
 @Entity
 public class Contrato extends AbstractEntity {
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.EAGER)
     private Numero fijo;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Numero movil;
     @ManyToOne
     private Tarifa tarifa;
@@ -51,7 +53,7 @@ public class Contrato extends AbstractEntity {
                 this._estadoContrato = EstadoContrato.TERMINADO;
             } else {
                 if (estadoContrato.equals("PENDIENTE")) {
-                    this._estadoContrato = EstadoContrato.PENDIENTE;
+                    this._estadoContrato = EstadoContrato.PENDIENTE_BAJA;
 
                 }
             }
@@ -167,4 +169,5 @@ public class Contrato extends AbstractEntity {
     public Object getDatosMoviles() {
         return movil.getDatosMoviles();
     }
+
 }

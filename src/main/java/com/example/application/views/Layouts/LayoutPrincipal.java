@@ -8,6 +8,7 @@ import com.example.application.views.Comunes.Perfil;
 import com.example.application.views.Comunes.ServiciosView;
 import com.example.application.views.DepATC.AtcclienteadminView;
 import com.example.application.views.DepATC.MisConsultas;
+import com.example.application.views.LandingPage;
 import com.example.application.views.Marketing.CrearTarifas;
 import com.example.application.views.Security.AuthenticatedUser;
 import com.vaadin.flow.component.UI;
@@ -109,6 +110,9 @@ public class LayoutPrincipal extends AppLayout {
             });
             userName.getSubMenu().addItem("Cerrar sesión", e -> {
                 authenticatedUser.logout();
+                UI.getCurrent().getPage().reload();
+                UI.getCurrent().navigate(LandingPage.class);
+
             });
 
             layout.add(userMenu);

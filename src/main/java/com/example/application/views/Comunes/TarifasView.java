@@ -5,40 +5,32 @@ import com.example.application.services.TarifaService;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.OrderedList;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
-import com.vaadin.flow.theme.lumo.LumoUtility.Display;
-import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
-import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import com.vaadin.flow.theme.lumo.LumoUtility.JustifyContent;
-import com.vaadin.flow.theme.lumo.LumoUtility.ListStyleType;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
-import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
-import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
 @AnonymousAllowed
-public class TarifasView extends VerticalLayout implements HasComponents, HasStyle{
+public class TarifasView extends Main implements HasComponents, HasStyle {
     @Autowired
     private TarifaService tarifaService;
     private Tarifa tarifa;
 
     private OrderedList imageContainer;
 
-   public TarifasView(TarifaService tarifaService) {
+    public TarifasView(TarifaService tarifaService) {
         this.tarifaService = tarifaService;
         constructUI();
 
-       for (Tarifa tarifa : tarifaService.findAllEnable()) {
-           imageContainer.add(new CartaTarifasView(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(),
-                   tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(),
-                   tarifa.getDatosMoviles(), tarifa.getUrl()));
-       }
+        for (Tarifa tarifa : tarifaService.findAllEnable()) {
+            imageContainer.add(new CartaTarifasView(tarifa.getNombre(), tarifa.getDescripcion(), tarifa.getPrecio(),
+                    tarifa.getMinutosMovil(), tarifa.getMinutosFijo(), tarifa.getVelocidadFibra(),
+                    tarifa.getDatosMoviles(), tarifa.getUrl()));
+        }
     }
 
     private void constructUI() {

@@ -2,6 +2,8 @@ package com.example.application.data;
 
 import jakarta.persistence.Entity;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class CallRecord extends AbstractEntity {
 
@@ -38,5 +40,17 @@ public class CallRecord extends AbstractEntity {
 
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public LocalDateTime getFecha() {
+        return LocalDateTime.parse(dateTime);
+    }
+
+    public String getDuracion() {
+        int horas = seconds / 3600;
+        int minutos = (seconds % 3600) / 60;
+        int segundos = seconds % 60;
+        return horas + ":" + minutos + ":" + segundos;
+
     }
 }

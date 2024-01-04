@@ -67,12 +67,12 @@ public class ContratoService {
         contrato.setFechaFin(LocalDate.now().plusMonths(tarifa.getPermanencia()));
 
         if (tarifa.getMinutosFijo() != 0) {
-            contrato.setFijo(Fijo(tarifa, "FIJO"));
+            contrato.setFijo(generadorNumero(tarifa, "FIJO"));
             numeroRepository.save(contrato.getFijo());
         }
 
         if (tarifa.getMinutosMovil() != 0) {
-            contrato.setMovil(Fijo(tarifa, "MOVIL"));
+            contrato.setMovil(generadorNumero(tarifa, "MOVIL"));
             numeroRepository.save(contrato.getMovil());
         }
 
@@ -84,15 +84,16 @@ public class ContratoService {
 
     }
 
-    public Numero Fijo(Tarifa tarifa, String tipo) {
+    public Numero generadorNumero(Tarifa tarifa, String tipo) {
         CustomerLine fijo = new CustomerLine();
         fijo.setName("FIJO");
         fijo.setSurname("FIJO");
         fijo.setCarrier("UCA");
-        if (tipo.equals("FIJO"))
+        if (tipo.equals("FIJO")) {
             fijo.setPhoneNumber("9" + (int) (Math.random() * 10000000 + 10000000));
-        else
+        } else
             fijo.setPhoneNumber("6" + (int) (Math.random() * 10000000 + 10000000));
+
         RestTemplate restTemplate = new RestTemplate();
         fijo = restTemplate.postForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com", fijo, CustomerLine.class);
         Numero fijo2 = new Numero();
@@ -105,8 +106,23 @@ public class ContratoService {
         return fijo2;
     }
 
-    public Optional<Contrato> findById(UUID id) {
+    public Contrato findById(UUID id) {
+
         Optional<Contrato> contrato = contratoRepository.findById(id);
-        return contrato;
+        if (contrato.isPresent()) {
+            return contrato.get();
+        } else {
+            return null;
+        }
     }
+
+
+    public void delete(Contrato c) {
+        contratoRepository.delete(c);
+    }
+
+    public List<Contrato> findBy_estadoContratoAndUsuarioId(EstadoContrato estadoContrato, UUID id) {
+        return contratoRepository.findBy_estadoContratoAndUsuarioId(estadoContrato, id);
+    }
+
 }
