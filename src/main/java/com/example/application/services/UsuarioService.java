@@ -17,7 +17,7 @@ import java.util.UUID;
 @Validated
 public class UsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
+    private static UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
     private final EmailRealService emailService;
@@ -73,5 +73,28 @@ public class UsuarioService {
     public void delete(Usuario testUser) {
         usuarioRepository.delete(testUser);
 
+    }
+    public Optional<Usuario> findByNombre(String nombre) {
+        return usuarioRepository.findByNombre(nombre);
+    }
+
+    //todos los usuarios
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
+    }
+
+
+    public Usuario findByUsername(String username) {
+        return usuarioRepository.findByUsername(username);
+    }
+    public Optional<Usuario> findById(UUID userId) {
+        return Optional.of(usuarioRepository.findById(userId));
+    }
+
+    public Optional<Usuario> findByNombreOptional(String nombre) {
+        return usuarioRepository.findByNombre(nombre);
+    }
+
+    public void save(Usuario usuario) {
     }
 }

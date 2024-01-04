@@ -3,6 +3,9 @@ package com.example.application.views.Layouts;
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.views.Clientes.PublicTarifasView;
+import com.example.application.views.Clientes.ContratosView;
+import com.example.application.views.Clientes.PublicTarifasView;
+import com.example.application.views.Clientes.ServiciosView;
 import com.example.application.views.Clientes.atccliente;
 import com.example.application.views.Comunes.Perfil;
 import com.example.application.views.Comunes.ServiciosView;
@@ -78,7 +81,6 @@ public class LayoutPrincipal extends AppLayout {
                 tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
             }
         });
-
         return tabs;
     }
 
@@ -120,7 +122,6 @@ public class LayoutPrincipal extends AppLayout {
             Anchor loginLink = new Anchor("login", "Sign in");
             layout.add(loginLink);
         }
-
         return layout;
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class TarifaService {
-    private final TarifaRepository tarifaRepository;
+    private static TarifaRepository tarifaRepository = null;
 
     public TarifaService(TarifaRepository tarifaRepository) {
         this.tarifaRepository = tarifaRepository;
@@ -52,9 +52,11 @@ public class TarifaService {
         }
         return tarifaEnable;
     }
+    public List<Tarifa> findAll() {
+        return tarifaRepository.findAll();
+    }
 
-    public Tarifa findByNombre(String nombre) {
-
+    public static Tarifa findByNombre(String nombre){
         return tarifaRepository.findByNombre(nombre);
 
     }
