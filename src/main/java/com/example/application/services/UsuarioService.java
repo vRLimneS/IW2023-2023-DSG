@@ -24,7 +24,7 @@ public class UsuarioService {
 
     @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, EmailRealService emailService) {
-        this.usuarioRepository = usuarioRepository;
+        UsuarioService.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
     }
@@ -74,6 +74,7 @@ public class UsuarioService {
         usuarioRepository.delete(testUser);
 
     }
+
     public Optional<Usuario> findByNombre(String nombre) {
         return usuarioRepository.findByNombre(nombre);
     }
@@ -87,6 +88,7 @@ public class UsuarioService {
     public Usuario findByUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
+
     public Optional<Usuario> findById(UUID userId) {
         return Optional.of(usuarioRepository.findById(userId));
     }
@@ -96,5 +98,9 @@ public class UsuarioService {
     }
 
     public void save(Usuario usuario) {
+    }
+
+    public boolean existsByUsername(String value) {
+        return usuarioRepository.existsByUsername(value);
     }
 }

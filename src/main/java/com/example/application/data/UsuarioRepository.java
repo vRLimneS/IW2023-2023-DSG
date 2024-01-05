@@ -15,13 +15,18 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
 
     Optional<Usuario> findByEmail(String name);
 
+    boolean existsByEmail(String email);
+
     Usuario findByUsername(String name);
 
     Usuario findById(UUID userId);
+
     Optional<Usuario> findByNombre(String nombre);
 
     @EntityGraph(attributePaths = {"contrato"})
     Usuario findWithContratoById(UUID userId);
 
     List<Usuario> findByActiveTrue();
+
+    boolean existsByUsername(String value);
 }

@@ -14,7 +14,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -245,11 +244,7 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
     public String penalizacion(Contrato c) {
 
         int year = c.getFechaFin().getYear() - LocalDate.now().getYear();
-        Notification.show(c.getFechaFin().getYear() + " " + LocalDate.now().getYear());
-        Notification.show("año " + year);
         int meses = year * 12 + c.getFechaFin().getMonthValue() - LocalDate.now().getMonthValue();
-
-        Notification.show("meses " + meses);
 
         long porcentaje = c.getTarifa().getPermanencia() * c.getTarifa().getPrecio().longValue();
         BigDecimal cien = BigDecimal.valueOf(100);

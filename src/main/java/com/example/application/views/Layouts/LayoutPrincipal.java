@@ -67,8 +67,9 @@ public class LayoutPrincipal extends AppLayout {
 
             } else if (user.getRol().equals(TipoRol.MARKETING)) {
                 tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
+                tabs.add(new Tab(new RouterLink("Tarifas", PublicTarifasView.class)));
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
-                tabs.add(new Tab(new RouterLink("Tarifas", AdminTarifas.class)));
+                tabs.add(new Tab(new RouterLink("ModTarifas", AdminTarifas.class)));
             }
             if (user.getRol().equals(TipoRol.ADMIN)) {
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));

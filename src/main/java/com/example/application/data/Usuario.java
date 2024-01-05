@@ -153,12 +153,12 @@ public class Usuario extends AbstractEntity {
         this.token = token;
     }
 
-    public void setContrato(Contrato contrato) {
-        this.contrato.add(contrato);
-    }
-
     public List<Contrato> getContrato() {
         return contrato;
+    }
+
+    public void setContrato(Contrato contrato) {
+        this.contrato.add(contrato);
     }
 
 }

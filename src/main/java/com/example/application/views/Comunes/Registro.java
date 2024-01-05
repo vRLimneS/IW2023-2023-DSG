@@ -9,27 +9,29 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static com.example.application.data.TipoRol.CLIENTE;
-
 @AnonymousAllowed
 @PageTitle("registro")
 @Route(value = "registro", layout = LayoutInicial.class)
 @Uses(Icon.class)
 public class Registro extends VerticalLayout {
+
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
+
+    PasswordField Contrasena = new PasswordField();
+    PasswordField ConfirmarContrasena = new PasswordField();
 
     public Registro(UsuarioService usuarioService, PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
@@ -50,10 +52,8 @@ public class Registro extends VerticalLayout {
         TextField Direccion = new TextField();
         Direccion.setLabel("Direccion");
 
-        PasswordField Contrasena = new PasswordField();
         Contrasena.setLabel("Contraseña");
 
-        PasswordField ConfirmarContrasena = new PasswordField();
         ConfirmarContrasena.setLabel("Confirmar Contraseña");
 
         DatePicker FechaNacimiento = new DatePicker();
@@ -101,15 +101,16 @@ public class Registro extends VerticalLayout {
                     Contrasena.isEmpty() || ConfirmarContrasena.isEmpty() || Direccion.isEmpty() || FechaNacimiento.isEmpty()) {
                 Notification.show("Todos los campos son obligatorios");
             } else if (Contrasena.getValue().equals(ConfirmarContrasena.getValue())) {
-                // Codificar la contraseña antes de guardarla
-                //String contraseñaCodificada = passwordEncoder.encode(Contrasena.getValue());
+                if (usuarioService.existsByUsername(username.getValue())) {
+                    Notification.show("El nombre de usuario ya existe.\n Por favor, elija otro nombre de usuario").setPosition(Notification.Position.MIDDLE);
+                } else {
+                    TipoRol rol = TipoRol.CLIENTE;
+                    usuarioService.registerUser(new Usuario(Nombre.getValue(), username.getValue(), Apellido.getValue(), Contrasena.getValue(),
+                            rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
+                    Notification.show("Usuario registrado correctamente");
 
-                TipoRol rol = CLIENTE;
-                usuarioService.registerUser(new Usuario(Nombre.getValue(),username.getValue(), Apellido.getValue(), Contrasena.getValue(),
-                         rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
-                Notification.show("Usuario registrado correctamente");
-
-                UI.getCurrent().navigate(LoginBasic.class);
+                    UI.getCurrent().navigate(LoginBasic.class);
+                }
             } else {
                 Notification.show("Las contraseñas no coinciden");
             }
