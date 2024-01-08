@@ -100,7 +100,10 @@ public class ContratoService {
         fijo2.setNumero(fijo.getPhoneNumber());
         fijo2.setTipo("FIJO");
         fijo2.setConsumido(0);
-        fijo2.setMax(tarifa.getMinutosFijo());
+        if (tipo.equals("FIJO"))
+            fijo2.setMax(tarifa.getMinutosFijo());
+        else
+            fijo2.setMax(tarifa.getMinutosMovil());
         fijo2.setIdapi(fijo.getId());
         fijo2.setCarrier(fijo.getCarrier());
         return fijo2;
@@ -123,9 +126,5 @@ public class ContratoService {
 
     public List<Contrato> findBy_estadoContratoAndUsuarioId(EstadoContrato estadoContrato, UUID id) {
         return contratoRepository.findBy_estadoContratoAndUsuarioId(estadoContrato, id);
-    }
-
-    public Contrato[] findAll() {
-        return contratoRepository.findAll().toArray(new Contrato[0]);
     }
 }

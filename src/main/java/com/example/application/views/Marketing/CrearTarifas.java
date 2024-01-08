@@ -8,19 +8,20 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
+
 import java.math.BigDecimal;
 
 @RolesAllowed({"MARKETING", "ADMIN", "CLIENTE"})
-
 @Route(value = "creartarifas", layout = LayoutPrincipal.class)
 public class CrearTarifas extends VerticalLayout {
-    private TarifaService tarifaService;
-    private AuthenticatedUser authenticatedUser;
+    private final TarifaService tarifaService;
+    private final AuthenticatedUser authenticatedUser;
+
     public CrearTarifas(TarifaService tarifaService, AuthenticatedUser authenticatedUser) {
         this.tarifaService = tarifaService;
         this.authenticatedUser = authenticatedUser;
@@ -85,7 +86,7 @@ public class CrearTarifas extends VerticalLayout {
         add(NombreTarifa, DescripcionTarifa, PrecioTarifa, MinutosMovil, Datos, SMS, MinutosFijo, VelocidadFibra,
                 Permanencia, Estado, Url, boton);
         setHorizontalComponentAlignment(Alignment.CENTER, title, NombreTarifa, PrecioTarifa, MinutosMovil, Datos, SMS,
-                MinutosFijo, VelocidadFibra,DescripcionTarifa, Permanencia, Estado, Url,  boton);
+                MinutosFijo, VelocidadFibra, DescripcionTarifa, Permanencia, Estado, Url, boton);
         setSizeFull();
         boton.addClickListener(e -> {
             if (NombreTarifa.getValue().isEmpty() || PrecioTarifa.getValue().isEmpty()) {

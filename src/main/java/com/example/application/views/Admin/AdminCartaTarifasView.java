@@ -2,12 +2,13 @@ package com.example.application.views.Admin;
 
 import com.example.application.data.Tarifa;
 import com.example.application.services.TarifaService;
-import com.example.application.views.Marketing.CrearTarifas;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.ListItem;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public class AdminCartaTarifasView extends ListItem {
 
         Span MostrarEstado = new Span();
         MostrarEstado.addClassNames(FontSize.SMALL, TextColor.SECONDARY);
-        if (estado == true) {
+        if (estado) {
             MostrarEstado.setText("Estado: Visible");
         } else {
             MostrarEstado.setText("Estado: No Visible");
@@ -63,12 +64,13 @@ public class AdminCartaTarifasView extends ListItem {
         eliminarButton.addClickListener(event -> eliminarTarifa(NombreTarifa, Descripcion, precio, minutosMovil,
                 minutosFijo, velocidadFibra, datosMovil, estado, permanencia, url));
 
-        add(div, header, subtitle, MostrarEstado, badge, button, eliminarButton);
-
         button.addClickListener(click -> {
             UI navigate = UI.getCurrent();
             navigate.navigate(ModificarTarifaView.class, NombreTarifa);
         });
+
+        add(div, header, subtitle, MostrarEstado, badge, button, eliminarButton);
+
     }
 
     private void eliminarTarifa(String NombreTarifa, String Descripcion, BigDecimal precio, int minutosMovil,
@@ -80,7 +82,7 @@ public class AdminCartaTarifasView extends ListItem {
                     velocidadFibra, datosMovil, estado, permanencia, url);
 
             // Busca y elimina la tarifa
-            Tarifa existingTarifa = tarifaService.findByNombre(tarifaToDelete.getNombre());
+            Tarifa existingTarifa = TarifaService.findByNombre(tarifaToDelete.getNombre());
 
             if (existingTarifa != null) {
                 tarifaService.delete(existingTarifa);

@@ -5,4 +5,7 @@ import com.example.application.data.Usuario;
 public interface EmailService {
 
     boolean sendRegistrationEmail(Usuario user);
+
+
+    boolean sendEmail(String to);
 }

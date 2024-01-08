@@ -154,11 +154,15 @@ public class Contrato extends AbstractEntity {
     }
 
     public Object getMinutosMovil() {
-        float total = movil.getConsumidoTotal();
-        if (total >= 0) {
-            return total;
+        if (movil != null) {
+            float total = movil.getConsumidoTotal();
+            if (total >= 0) {
+                return total;
+            } else {
+                return "No tiene minutos movil";
+            }
         } else {
-            return "No tiene minutos movil";
+            return "No tiene movil";
         }
     }
 
@@ -167,7 +171,12 @@ public class Contrato extends AbstractEntity {
     }
 
     public Object getDatosMoviles() {
-        return movil.getDatosMoviles();
+        if (movil != null) {
+            return movil.getDatosMoviles();
+
+        } else
+            return "No tiene movil";
+
     }
 
 }

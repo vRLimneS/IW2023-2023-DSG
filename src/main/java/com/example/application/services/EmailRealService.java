@@ -2,9 +2,9 @@ package com.example.application.services;
 
 
 import com.example.application.data.Usuario;
+import com.example.application.views.LandingPage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -39,7 +39,6 @@ public class EmailRealService implements EmailService {
 
     }
 
-
     @Override
     public boolean sendRegistrationEmail(Usuario user) {
 
@@ -68,5 +67,29 @@ public class EmailRealService implements EmailService {
         return true;
     }
 
+    @Override
+    public boolean sendEmail(String to) {
+
+        MimeMessage message = mailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+
+        String titulo = "Bienvenido a la compañia";
+        String cuerpo = "Para recuperar la contraseña vaya a la siguiente direccion: "
+                + LandingPage.class;
+
+        try {
+            helper.setFrom(defaultMail);
+            helper.setTo(to);
+            helper.setSubject(titulo);
+            helper.setText(cuerpo);
+            this.mailSender.send(message);
+        } catch (MailException | MessagingException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 
 }
