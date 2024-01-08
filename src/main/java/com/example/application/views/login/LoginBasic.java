@@ -10,6 +10,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -68,7 +69,6 @@ public class LoginBasic extends LoginOverlay {
             dialog.add(email, enviar);
             dialog.open();
             enviar.addClickListener(e2 -> {
-                /*
                 if (usuarioRepository.existsByEmail(email.getValue())) {
                     emailService.sendEmail(email.getValue());
                     dialog.close();
@@ -77,8 +77,7 @@ public class LoginBasic extends LoginOverlay {
                     Notification.show("El email no existe");
                 email.clear();
 
-                 */
-                emailService.sendEmail("1516.limonescruz.samuel@gmail.com");
+
             });
 
         });

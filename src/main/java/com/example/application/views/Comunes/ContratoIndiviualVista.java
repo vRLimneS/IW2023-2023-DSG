@@ -4,6 +4,9 @@ import com.example.application.data.*;
 import com.example.application.services.ContratoService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.Security.AuthenticatedUser;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -24,6 +27,8 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -83,9 +88,10 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         Button bloquear = new Button("Bloquear Numero");
         HorizontalLayout hl3 = new HorizontalLayout();
         Button baja = new Button("Dar de Baja Contrato");
+        Button pdf = new Button("Descargar PDF");
         hl3.setAlignSelf(Alignment.CENTER, roaming);
         hl3.setAlignSelf(Alignment.CENTER, compartir);
-        hl3.add(baja, bloquear, roaming, compartir);
+        hl3.add(pdf, baja, bloquear, roaming, compartir);
 
 
         baja.addClickListener(e -> {
@@ -223,6 +229,15 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         });
 
 
+        pdf.addClickListener(e -> {
+            try {
+                GenerarPDF(c);
+            } catch (DocumentException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+
         add(hl4, hl, hl2, hl3);
 
     }
@@ -256,6 +271,86 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         }
         total = total.add(BigDecimal.valueOf(porcentaje * 20).divide(cien));
         return "La penalizacion es de " + total + "€";
+    }
+
+
+    public void GenerarPDF(Contrato c) throws DocumentException {
+
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("Contrato.pdf"));
+        } catch (DocumentException ex) {
+            throw new RuntimeException(ex);
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Chunk titular = new Chunk("Nombre Titular: " + c.getUsuario().getNombre() + "\n", font);
+        Chunk dni = new Chunk("DNI: " + c.getUsuario().getDNI() + "\n", font);
+        Chunk numerofijo = new Chunk("Registro de llamadas del numero: " + c.getFijo().getNumero(), font);
+        Chunk numeromovil = new Chunk("Registro de llamadas del numero: " + c.getMovil().getNumero(), font);
+
+        Paragraph paragraph = new Paragraph("Contrato " + c.getTarifanombre(), font);
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        document.add(paragraph);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+        CallRecord[] fijorecord = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getFijo().getIdapi() + "/callrecords?carrier=" + c.getFijo().getCarrier(), CallRecord[].class);
+
+        PdfPTable table = new PdfPTable(3);
+        table.addCell("Numero Destino");
+        table.addCell("Duracion");
+        table.addCell("Fecha");
+
+
+        for (int i = 0; i < fijorecord.length; i++) {
+            table.addCell(fijorecord[i].getDestinationPhoneNumber());
+            table.addCell(fijorecord[i].getDuracion());
+            table.addCell(fijorecord[i].getFecha().toString());
+        }
+
+        CallRecord[] movilrecord = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/callrecords?carrier=" + c.getMovil().getCarrier(), CallRecord[].class);
+        PdfPTable table2 = new PdfPTable(3);
+        table2.addCell("Numero Destino");
+        table2.addCell("Duracion");
+        table2.addCell("Fecha");
+
+        for (int i = 0; i < movilrecord.length; i++) {
+            table2.addCell(movilrecord[i].getDestinationPhoneNumber());
+            table2.addCell(movilrecord[i].getDuracion());
+            table2.addCell(movilrecord[i].getFecha().toString());
+        }
+
+        DataUsageRecord[] datosmovil = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/datausagerecords?carrier=" + c.getMovil().getCarrier(), DataUsageRecord[].class);
+
+        PdfPTable table3 = new PdfPTable(2);
+        table3.addCell("Megas Consumidos");
+        table3.addCell("Fecha");
+
+        for (int i = 0; i < datosmovil.length; i++) {
+            table3.addCell(String.valueOf(datosmovil[i].getMegaBytes()));
+            table3.addCell(datosmovil[i].getDate());
+        }
+
+        document.add(titular);
+        document.add(dni);
+        document.add(numerofijo);
+        document.add(table);
+
+        document.newPage();
+        document.add(numeromovil);
+        document.add(table2);
+
+        document.newPage();
+        document.add(new Chunk("Registro de datos del numero: " + c.getMovil().getNumero(), font));
+        document.add(table3);
+
+
+        document.close();
+
+
     }
 
 }
