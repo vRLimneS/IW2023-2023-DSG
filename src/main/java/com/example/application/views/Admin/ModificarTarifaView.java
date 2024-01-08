@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-@RolesAllowed({"CLIENTE", "ADMIN"})
+@RolesAllowed({"MARKETING", "ADMIN"})
 @Route(value = "ModificarTarifa", layout = LayoutPrincipal.class)
 public class ModificarTarifaView extends HorizontalLayout implements HasUrlParameter<String> {
 
@@ -69,7 +69,6 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                 dialog.setCancelable(true);
                 dialog.addCancelListener(event -> Notification.show("Cancelado"));
 
-
                 dialog.setRejectable(true);
                 dialog.setRejectText("Descartar");
                 dialog.addRejectListener(event -> {
@@ -79,7 +78,10 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
 
             dialog.setConfirmText("Guardar");
             dialog.addConfirmListener(event -> {
-                if (Nombre.getValue().isEmpty() && Precio.getValue().isEmpty()) {
+                if (Nombre.getValue().isEmpty() || Precio.getValue().isEmpty() || Descripcion.getValue().isEmpty() ||
+                        minutosFijos.getValue().isEmpty() || minutosMoviles.getValue().isEmpty() ||
+                        velocidad.getValue().isEmpty() || gigas.getValue().isEmpty() ||
+                        permanencia.getValue().isEmpty() || estado.getValue().isEmpty() || url.getValue().isEmpty()) {
                     Notification.show("Rellene todos los campos");
                 } else {
                     try {

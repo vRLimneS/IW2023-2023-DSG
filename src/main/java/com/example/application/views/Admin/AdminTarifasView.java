@@ -22,9 +22,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.ListStyleType;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
-import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 
-@AnonymousAllowed
 public class AdminTarifasView extends VerticalLayout implements HasComponents, HasStyle{
     @Autowired
     private TarifaService tarifaService;

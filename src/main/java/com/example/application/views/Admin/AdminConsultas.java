@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@RolesAllowed({"CLIENTE", "ADMIN"})
+@RolesAllowed("ADMIN")
 @Route(value = "AdminConsultas", layout = LayoutPrincipal.class)
 public class AdminConsultas extends Div {
 

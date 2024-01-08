@@ -125,7 +125,4 @@ public class ContratoService {
         return contratoRepository.findBy_estadoContratoAndUsuarioId(estadoContrato, id);
     }
 
-    public Contrato[] findAll() {
-        return contratoRepository.findAll().toArray(new Contrato[0]);
-    }
 }
