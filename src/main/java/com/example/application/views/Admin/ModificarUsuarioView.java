@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
-@RolesAllowed({"CLIENTE", "ADMIN"})
+@RolesAllowed("ADMIN")
 @Route(value = "ModificarUsuario", layout = LayoutPrincipal.class)
 public class ModificarUsuarioView extends HorizontalLayout implements HasUrlParameter<String> {
 

@@ -22,7 +22,7 @@ import java.util.Arrays;
 import static com.example.application.data.TipoRol.CLIENTE;
 
 
-@RolesAllowed({"CLIENTE", "ADMIN"})
+@RolesAllowed("ADMIN")
 @Route(value = "AdminRegistro", layout = LayoutPrincipal.class)
 public class AdminRegistro extends VerticalLayout {
     private final UsuarioService usuarioService;

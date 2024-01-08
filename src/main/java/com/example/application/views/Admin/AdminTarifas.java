@@ -7,7 +7,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 @RolesAllowed({"ADMIN", "MARKETING"})
 @Route(value = "AdminViewTarifas", layout = LayoutPrincipal.class)
-public class AdminTarifas extends AdminTarifasView {
+public class AdminTarifas extends AdminTarifasView{
     private TarifaService tarifaService;
 
     public AdminTarifas(TarifaService tarifaService) {

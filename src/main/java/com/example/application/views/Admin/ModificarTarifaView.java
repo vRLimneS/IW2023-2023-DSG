@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-@RolesAllowed({"CLIENTE", "ADMIN", "MARKETING"})
+@RolesAllowed({"MARKETING", "ADMIN"})
 @Route(value = "ModificarTarifa", layout = LayoutPrincipal.class)
 public class ModificarTarifaView extends HorizontalLayout implements HasUrlParameter<String> {
 
@@ -68,19 +68,52 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                     dialog.setCancelable(true);
                     dialog.addCancelListener(event -> Notification.show("Cancelado"));
 
+                dialog.setRejectable(true);
+                dialog.setRejectText("Descartar");
+                dialog.addRejectListener(event -> {
+                    Notification.show("Descartar");
+                    UI.getCurrent().navigate(AdminTarifas.class);
+                });
 
-                    dialog.setRejectable(true);
-                    dialog.setRejectText("Descartar");
-                    dialog.addRejectListener(event -> {
-                        Notification.show("Descartar");
-                        UI.getCurrent().navigate(AdminTarifas.class);
-                    });
+            dialog.setConfirmText("Guardar");
+            dialog.addConfirmListener(event -> {
+                if (Nombre.getValue().isEmpty() || Precio.getValue().isEmpty() || Descripcion.getValue().isEmpty() ||
+                        minutosFijos.getValue().isEmpty() || minutosMoviles.getValue().isEmpty() ||
+                        velocidad.getValue().isEmpty() || gigas.getValue().isEmpty() ||
+                        permanencia.getValue().isEmpty() || estado.getValue().isEmpty() || url.getValue().isEmpty()) {
+                    Notification.show("Rellene todos los campos");
+                        }
+                
+                else {
+                    try {
+                        // Construye el objeto Tarifa con los parámetros del constructor
+                        Tarifa tarifaToUpdate = new Tarifa(Nombre.getValue(), Descripcion.getValue(),
+                                new BigDecimal(Precio.getValue().replace(",", "")),
+                                Integer.parseInt(minutosMoviles.getValue()), Integer.parseInt(minutosFijos.getValue()),
+                                Integer.parseInt(velocidad.getValue()), Integer.parseInt(gigas.getValue()),
+                                Boolean.parseBoolean(estado.getValue()), Integer.parseInt(permanencia.getValue()),
+                                url.getValue());
+                    
 
-                    dialog.setConfirmText("Guardar");
-                    dialog.addConfirmListener(event -> {
-                        if (Nombre.getValue().isEmpty() && Precio.getValue().isEmpty()) {
-                            Notification.show("Rellene todos los campos");
-                        } else {
+                        // Actualiza la tarifa existente
+                        Tarifa existingTarifa = tarifaService.findByNombre(nombtarifa);
+                        if (existingTarifa != null) {
+                            existingTarifa.setNombre(tarifaToUpdate.getNombre());
+                            existingTarifa.setDescripcion(tarifaToUpdate.getDescripcion());
+                            existingTarifa.setPrecio(tarifaToUpdate.getPrecio());
+                            existingTarifa.setMinutosMovil(tarifaToUpdate.getMinutosMovil());
+                            existingTarifa.setMinutosFijo(tarifaToUpdate.getMinutosFijo());
+                            existingTarifa.setVelocidadFibra(tarifaToUpdate.getVelocidadFibra());
+                            existingTarifa.setDatosMoviles(tarifaToUpdate.getDatosMoviles());
+                            existingTarifa.setEstado(tarifaToUpdate.getEstado());
+                            existingTarifa.setPermanencia(tarifaToUpdate.getPermanencia());
+                            existingTarifa.setUrl(tarifaToUpdate.getUrl());
+
+                            tarifaService.save(existingTarifa);
+                            Notification.show("Tarifa modificada correctamente");
+                            
+                        } 
+                        else {
                             try {
                                 // Construye el objeto Tarifa con los parámetros del constructor
                                 Tarifa tarifaToUpdate = new Tarifa(Nombre.getValue(), Descripcion.getValue(),
@@ -109,15 +142,24 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                                 } else {
                                     Notification.show("No se encontró la tarifa a modificar");
                                 }
+                                
 
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                                 Notification.show("Error al intentar modificar la tarifa: " + ex.getMessage(), 5000, Notification.Position.MIDDLE);
                             }
+
                             UI navigate = UI.getCurrent();
                             navigate.navigate(AdminTarifas.class);
                         }
-                    });
+                    
+                    
+                    }
+                    catch(Exception ex){
+                            
+                    }
+                }
+            });
 
                     dialog.open();
 

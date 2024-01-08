@@ -31,7 +31,7 @@ public class DatabasePopulator implements CommandLineRunner {
         Faker faker = new Faker();
 
 
-        if (tarifaService.count() == 1) {
+        if (tarifaService.count() == 0) {
 
             Tarifa tarifa = new Tarifa();
             tarifa.setNombre("LA COMPLETA");
@@ -115,7 +115,6 @@ public class DatabasePopulator implements CommandLineRunner {
 
         }
 
-        // Creamos admin
         if (usuarioService.count() == 0) {
             Usuario user = new Usuario();
             user.setUsername("user");
