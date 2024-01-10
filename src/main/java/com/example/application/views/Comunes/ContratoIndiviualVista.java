@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -286,72 +287,128 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         }
         document.open();
         Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
-        Chunk titular = new Chunk("Nombre Titular: " + c.getUsuario().getNombre() + "\n", font);
-        Chunk dni = new Chunk("DNI: " + c.getUsuario().getDNI() + "\n", font);
-        Chunk numerofijo = new Chunk("Registro de llamadas del numero: " + c.getFijo().getNumero(), font);
-        Chunk numeromovil = new Chunk("Registro de llamadas del numero: " + c.getMovil().getNumero(), font);
+        Font font1 = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
+        Chunk titular = new Chunk("\nNombre Titular: " + c.getUsuario().getNombre() + "\n", font1);
+        Chunk dni = new Chunk("\nDNI: " + c.getUsuario().getDNI() + "\n", font1);
 
         Paragraph paragraph = new Paragraph("Contrato " + c.getTarifanombre(), font);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
 
+        Chunk tarifa = new Chunk("Tarifa: " + c.getTarifanombre() + "\nMinutos Movil: " + c.getTarifa().getMinutosMovil() + "     Datos Totales: " + c.getTarifa().getDatosMoviles() + "\nMinutos Fijo: " + c.getTarifa().getMinutosFijo()
+                + "\nVelocidad Fibra: " + c.getTarifa().getVelocidadFibra() + "\nPrecio Base: " + c.getTarifa().getPrecio(), font1);
 
-        RestTemplate restTemplate = new RestTemplate();
-        CallRecord[] fijorecord = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getFijo().getIdapi() + "/callrecords?carrier=" + c.getFijo().getCarrier(), CallRecord[].class);
+        document.add(tarifa);
 
-        PdfPTable table = new PdfPTable(3);
-        table.addCell("Numero Destino");
-        table.addCell("Duracion");
-        table.addCell("Fecha");
-
-
-        for (int i = 0; i < fijorecord.length; i++) {
-            table.addCell(fijorecord[i].getDestinationPhoneNumber());
-            table.addCell(fijorecord[i].getDuracion());
-            table.addCell(fijorecord[i].getFecha().toString());
-        }
-
-        CallRecord[] movilrecord = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/callrecords?carrier=" + c.getMovil().getCarrier(), CallRecord[].class);
-        PdfPTable table2 = new PdfPTable(3);
-        table2.addCell("Numero Destino");
-        table2.addCell("Duracion");
-        table2.addCell("Fecha");
-
-        for (int i = 0; i < movilrecord.length; i++) {
-            table2.addCell(movilrecord[i].getDestinationPhoneNumber());
-            table2.addCell(movilrecord[i].getDuracion());
-            table2.addCell(movilrecord[i].getFecha().toString());
-        }
-
-        DataUsageRecord[] datosmovil = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/datausagerecords?carrier=" + c.getMovil().getCarrier(), DataUsageRecord[].class);
-
-        PdfPTable table3 = new PdfPTable(2);
-        table3.addCell("Megas Consumidos");
-        table3.addCell("Fecha");
-
-        for (int i = 0; i < datosmovil.length; i++) {
-            table3.addCell(String.valueOf(datosmovil[i].getMegaBytes()));
-            table3.addCell(datosmovil[i].getDate());
-        }
-
+        Chunk contrato = new Chunk("Fecha: " + LocalDate.now().minusMonths(1) + " / " + LocalDate.now(), font1);
         document.add(titular);
         document.add(dni);
-        document.add(numerofijo);
-        document.add(table);
+        document.add(contrato);
+
+        if (c.getFijo() != null) {
+            Chunk fijo = new Chunk("\nNumero Fijo y minutos consumidos: " + c.getFijonumero() + " -> " + c.getMinutosFijo() + "min", font1);
+            document.add(fijo);
+        }
+        if (c.getMovil() != null) {
+            Chunk movil = new Chunk("\nNumero Movil y minutos consumidos: " + c.getMovilnumero() + " -> " + c.getMinutosMovil() + "min", font1);
+            Chunk datos = new Chunk("\nDatos consumidos: " + c.getDatosMoviles() + "GB", font1);
+            document.add(movil);
+            document.add(datos);
+        }
+
+        Chunk total = new Chunk("\nPrecio Total: " + calculoprecio(c) + "€", font1);
+        document.add(total);
+
 
         document.newPage();
-        document.add(numeromovil);
-        document.add(table2);
+        RestTemplate restTemplate = new RestTemplate();
 
-        document.newPage();
-        document.add(new Chunk("Registro de datos del numero: " + c.getMovil().getNumero(), font));
-        document.add(table3);
+        if (c.getFijo() != null) {
+
+            Chunk numerofijo = new Chunk("Registro de llamadas del numero: " + c.getFijo().getNumero(), font);
+
+            CallRecord[] fijorecord = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getFijo().getIdapi() + "/callrecords?carrier=" + c.getFijo().getCarrier(), CallRecord[].class);
+
+            PdfPTable table = new PdfPTable(3);
+            table.addCell("Numero Destino");
+            table.addCell("Duracion");
+            table.addCell("Fecha");
+
+
+            for (int i = 0; i < fijorecord.length; i++) {
+                if (fijorecord[i].getFecha().isBefore(LocalDateTime.now()) && fijorecord[i].getFecha().isAfter(LocalDateTime.now().minusMonths(1))) {
+                    table.addCell(fijorecord[i].getDestinationPhoneNumber());
+                    table.addCell(fijorecord[i].getDuracion());
+                    table.addCell(fijorecord[i].getFecha().toString());
+                }
+            }
+
+            document.add(numerofijo);
+            document.add(table);
+        }
+
+        if (c.getMovil() != null) {
+
+            Chunk numeromovil = new Chunk("Registro de llamadas del numero: " + c.getMovil().getNumero(), font);
+
+            CallRecord[] movilrecord = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/callrecords?carrier=" + c.getMovil().getCarrier(), CallRecord[].class);
+            PdfPTable table2 = new PdfPTable(3);
+            table2.addCell("Numero Destino");
+            table2.addCell("Duracion");
+            table2.addCell("Fecha");
+
+            for (int i = 0; i < movilrecord.length; i++) {
+                if (movilrecord[i].getFecha().isBefore(LocalDateTime.now()) && movilrecord[i].getFecha().isAfter(LocalDateTime.now().minusMonths(1))) {
+                    table2.addCell(movilrecord[i].getDestinationPhoneNumber());
+                    table2.addCell(movilrecord[i].getDuracion());
+                    table2.addCell(movilrecord[i].getFecha().toString());
+                }
+            }
+
+            document.newPage();
+            document.add(numeromovil);
+            document.add(table2);
+
+            DataUsageRecord[] datosmovil = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/datausagerecords?carrier=" + c.getMovil().getCarrier(), DataUsageRecord[].class);
+
+            PdfPTable table3 = new PdfPTable(2);
+            table3.addCell("Megas Consumidos");
+            table3.addCell("Fecha");
+
+            for (int i = 0; i < datosmovil.length; i++) {
+                if (LocalDate.parse(datosmovil[i].getDate()).isBefore(LocalDate.now()) && LocalDate.parse(datosmovil[i].getDate()).isAfter(LocalDate.now().minusMonths(1))) {
+                    table3.addCell(String.valueOf(datosmovil[i].getMegaBytes()));
+                    table3.addCell(datosmovil[i].getDate());
+                }
+            }
+            document.newPage();
+            document.add(new Chunk("Registro de datos del numero: " + c.getMovil().getNumero(), font));
+            document.add(table3);
+        }
 
 
         document.close();
 
 
     }
+
+    public BigDecimal calculoprecio(Contrato c) {
+
+        BigDecimal total = c.getTarifa().getPrecio();
+        BigDecimal min = BigDecimal.valueOf(0.5);
+        BigDecimal gb = BigDecimal.valueOf(2);
+
+        if (c.getFijo() != null) {
+            total = total.add(min.multiply(BigDecimal.valueOf(Double.valueOf(c.getMinutosFijo().toString())).subtract(BigDecimal.valueOf(c.getTarifa().getMinutosFijo()))));
+        }
+        if (c.getMovil() != null) {
+            total = total.add(min.multiply(BigDecimal.valueOf(Double.valueOf(c.getMinutosMovil().toString())).subtract(BigDecimal.valueOf(c.getTarifa().getMinutosMovil()))));
+            total = total.add(gb.multiply(BigDecimal.valueOf(Double.valueOf(c.getDatosMoviles().toString())).subtract(BigDecimal.valueOf(c.getTarifa().getDatosMoviles()))));
+        }
+
+        return total;
+    }
+
 
 }
 

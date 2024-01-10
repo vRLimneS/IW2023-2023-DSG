@@ -2,7 +2,6 @@ package com.example.application.services;
 
 
 import com.example.application.data.Usuario;
-import com.example.application.views.LandingPage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +33,7 @@ public class EmailRealService implements EmailService {
         // Generate the server URL
         String serverUrl = "http://";
         serverUrl += InetAddress.getLoopbackAddress().getHostAddress();
-        serverUrl += ":" + serverPort + "/";
+        serverUrl += ":" + serverPort + "/web/";
         return serverUrl;
 
     }
@@ -46,11 +45,10 @@ public class EmailRealService implements EmailService {
 
         MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
 
-        String subject = "Welcome";
-        String body = "You should active your account. "
-                + "Go to " + getServerUrl() + "useractivation "
-                + "and introduce your mail and the following code: "
-                + user.getId();
+        String subject = "Bienvenido a la compañia";
+        String body = "Debes activar tu cuenta. "
+                + "Vuelve a la pagina e introduce el siguiente codigo: "
+                + user.gettoken();
 
 
         try {
@@ -76,7 +74,7 @@ public class EmailRealService implements EmailService {
 
         String titulo = "Bienvenido a la compañia";
         String cuerpo = "Para recuperar la contraseña vaya a la siguiente direccion: "
-                + LandingPage.class;
+                + getServerUrl() + "useractivation";
 
         try {
             helper.setFrom(defaultMail);

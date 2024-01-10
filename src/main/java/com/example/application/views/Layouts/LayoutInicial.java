@@ -1,9 +1,7 @@
 package com.example.application.views.Layouts;
 
-import com.example.application.views.Comunes.ServiciosView;
-import com.example.application.views.DepATC.AtcclienteadminView;
+import com.example.application.views.Clientes.inicio;
 import com.example.application.views.LandingPage;
-import com.example.application.views.Marketing.CrearTarifas;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.tabs.Tab;
@@ -34,11 +32,11 @@ public class LayoutInicial extends AppLayout {
 
 
         RouterLink Inicio = new RouterLink("Inicio", LandingPage.class);
-        RouterLink HomeCliente = new RouterLink("HomeClientes", ServiciosView.class);
-        RouterLink HomeDepATC = new RouterLink("HomeDepATC", AtcclienteadminView.class);
-        RouterLink HomeMarketing = new RouterLink("HomeMarketing", CrearTarifas.class);
-        RouterLink AtcCliente = new RouterLink("AtcCliente", atcclientenoregistrados.class);
-        RouterLink HomeAdmin = new RouterLink("HomeAdmin", CrearTarifas.class);
+        RouterLink HomeCliente = new RouterLink("HomeClientes", inicio.class);
+        RouterLink HomeDepATC = new RouterLink("HomeDepATC", inicio.class);
+        RouterLink HomeMarketing = new RouterLink("HomeMarketing", inicio.class);
+        RouterLink AtcCliente = new RouterLink("AtcCliente", inicio.class);
+        RouterLink HomeAdmin = new RouterLink("HomeAdmin", inicio.class);
 
         //Creamos la tabla asociada a esa ruta y la unimos a la tabla general del layout
 

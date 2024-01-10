@@ -4,7 +4,6 @@ import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.services.UsuarioService;
 import com.example.application.views.Layouts.LayoutInicial;
-import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -105,11 +104,12 @@ public class Registro extends VerticalLayout {
                     Notification.show("El nombre de usuario ya existe.\n Por favor, elija otro nombre de usuario").setPosition(Notification.Position.MIDDLE);
                 } else {
                     TipoRol rol = TipoRol.CLIENTE;
-                    usuarioService.registerUser(new Usuario(Nombre.getValue(), username.getValue(), Apellido.getValue(), Contrasena.getValue(),
-                            rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
+                    Usuario usuario = new Usuario(Nombre.getValue(), username.getValue(), Apellido.getValue(), Contrasena.getValue(),
+                            rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), false);
+                    usuarioService.registerUser(usuario);
                     Notification.show("Usuario registrado correctamente");
 
-                    UI.getCurrent().navigate(LoginBasic.class);
+                    UI.getCurrent().navigate(useractivation.class, String.valueOf(usuario.getId()));
                 }
             } else {
                 Notification.show("Las contraseñas no coinciden");

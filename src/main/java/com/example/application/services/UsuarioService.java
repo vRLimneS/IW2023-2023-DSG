@@ -44,7 +44,7 @@ public class UsuarioService {
         user.setRol(user.getRol());
         try {
             usuarioRepository.save(user);
-            //emailService.sendRegistrationEmail(user);
+            emailService.sendRegistrationEmail(user);
             return true;
         } catch (DataIntegrityViolationException e) {
             return false;
@@ -102,5 +102,9 @@ public class UsuarioService {
 
     public boolean existsByUsername(String value) {
         return usuarioRepository.existsByUsername(value);
+    }
+
+    public boolean existsByEmail(String value) {
+        return usuarioRepository.existsByEmail(value);
     }
 }

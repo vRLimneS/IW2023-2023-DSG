@@ -1,16 +1,15 @@
 package com.example.application.views.Clientes;
 
+import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-
 import jakarta.annotation.security.RolesAllowed;
 
-@RolesAllowed({"CLIENTE","ADMIN"})
+@RolesAllowed({"CLIENTE", "ADMIN", "ATCCLT", "MARKETING"})
 @Route(value = "Inicio", layout = LayoutPrincipal.class)
 public class inicio extends VerticalLayout {
 
