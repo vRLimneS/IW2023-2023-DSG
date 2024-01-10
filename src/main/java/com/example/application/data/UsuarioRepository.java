@@ -15,8 +15,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
 
     Optional<Usuario> findByEmail(String name);
 
-    boolean existsByEmail(String email);
-
     Usuario findByUsername(String name);
 
     Usuario findById(UUID userId);
@@ -29,4 +27,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
     List<Usuario> findByActiveTrue();
 
     boolean existsByUsername(String value);
+
+    boolean existsByDNI(String value);
+
+    boolean existsByEmail(String value);
+
 }

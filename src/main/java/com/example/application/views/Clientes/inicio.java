@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.RolesAllowed;
 
-@RolesAllowed({"CLIENTE", "ADMIN", "ATCCLT", "MARKETING"})
+@RolesAllowed({"CLIENTE","ADMIN", "MARKETING", "ATCCLT"})
 @Route(value = "Inicio", layout = LayoutPrincipal.class)
 public class inicio extends VerticalLayout {
 
@@ -74,15 +74,15 @@ public class inicio extends VerticalLayout {
 
         Span subtitle = new Span();
         subtitle.addClassNames(LumoUtility.FontSize.SMALL, LumoUtility.TextColor.SECONDARY);
-        subtitle.setText("Card subtitle");
+        subtitle.setText("Proximamente");
 
         Paragraph description = new Paragraph(
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.");
+                "Estas son las futuras tarifas que se van a añadir el 14 de febrero");
         description.addClassName(LumoUtility.Margin.Vertical.MEDIUM);
 
         Span badge = new Span();
         badge.getElement().setAttribute("theme", "badge");
-        badge.setText("Label");
+        badge.setText("Activar aviso");
 
         card.add(image, header, subtitle, description, badge);
         container.add(card);

@@ -93,7 +93,7 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                                         url.getValue());
 
                                 // Actualiza la tarifa existente
-                                Tarifa existingTarifa = TarifaService.findByNombre(nombtarifa);
+                                Tarifa existingTarifa = tarifaService.findByNombre(nombtarifa);
                                 if (existingTarifa != null) {
                                     existingTarifa.setNombre(tarifaToUpdate.getNombre());
                                     existingTarifa.setDescripcion(tarifaToUpdate.getDescripcion());
@@ -150,15 +150,15 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
     public void setParameter(BeforeEvent beforeEvent, String s) {
         nombtarifa = s;
         Nombre.setValue(nombtarifa);
-        Descripcion.setValue(TarifaService.findByNombre(nombtarifa).getDescripcion());
-        Precio.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getPrecio()));
-        minutosFijos.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosFijo()));
-        minutosMoviles.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosMovil()));
-        velocidad.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
-        gigas.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getDatosMoviles()));
-        permanencia.setValue(TarifaService.findByNombre(nombtarifa).getPermanencia() + " meses");
-        estado.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getEstado()));
-        url.setValue(TarifaService.findByNombre(nombtarifa).getUrl());
+        Descripcion.setValue(tarifaService.findByNombre(nombtarifa).getDescripcion());
+        Precio.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPrecio()));
+        minutosFijos.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosFijo()));
+        minutosMoviles.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosMovil()));
+        velocidad.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
+        gigas.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getDatosMoviles()));
+        permanencia.setValue(tarifaService.findByNombre(nombtarifa).getPermanencia() + " meses");
+        estado.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getEstado()));
+        url.setValue(tarifaService.findByNombre(nombtarifa).getUrl());
 
 
         Nombre.setWidth("400px");
@@ -173,16 +173,16 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
         estado.setWidth("400px");
         url.setWidth("400px");
 
-        Nombre.setValue(TarifaService.findByNombre(nombtarifa).getNombre());
-        Descripcion.setValue(TarifaService.findByNombre(nombtarifa).getDescripcion());
-        permanencia.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getPermanencia()));
-        Precio.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getPrecio()));
-        minutosFijos.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosFijo()));
-        minutosMoviles.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosMovil()));
-        velocidad.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
-        gigas.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getDatosMoviles()));
-        estado.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getEstado()));
-        url.setValue(TarifaService.findByNombre(nombtarifa).getUrl());
+        Nombre.setValue(tarifaService.findByNombre(nombtarifa).getNombre());
+        Descripcion.setValue(tarifaService.findByNombre(nombtarifa).getDescripcion());
+        permanencia.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPermanencia()));
+        Precio.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPrecio()));
+        minutosFijos.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosFijo()));
+        minutosMoviles.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosMovil()));
+        velocidad.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
+        gigas.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getDatosMoviles()));
+        estado.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getEstado()));
+        url.setValue(tarifaService.findByNombre(nombtarifa).getUrl());
 
         Nombre.getStyle().set("padding", "var(--lumo-space-s)");
         Descripcion.getStyle().set("padding", "var(--lumo-space-s)");

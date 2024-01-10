@@ -8,17 +8,19 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
 
 @RolesAllowed({"MARKETING", "ADMIN", "CLIENTE"})
 @Route(value = "creartarifas", layout = LayoutPrincipal.class)
 public class CrearTarifas extends VerticalLayout {
+
     private final TarifaService tarifaService;
     private final AuthenticatedUser authenticatedUser;
 
@@ -28,6 +30,7 @@ public class CrearTarifas extends VerticalLayout {
 
         H1 title = new H1("Crear Tarifas");
         add(title);
+
         TextField NombreTarifa = new TextField();
         NombreTarifa.setLabel("Nombre Tarifa");
         TextArea DescripcionTarifa = new TextArea();
@@ -51,7 +54,7 @@ public class CrearTarifas extends VerticalLayout {
         TextField Url = new TextField();
         Url.setLabel("Url");
 
-        com.vaadin.flow.component.button.Button boton = new Button();
+        Button boton = new Button();
         boton.setText("Crear Tarifa");
         boton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout vl2 = new VerticalLayout();
@@ -68,17 +71,16 @@ public class CrearTarifas extends VerticalLayout {
         Permanencia.getStyle().set("padding", "var(--lumo-space-s)");
         Estado.getStyle().set("padding", "var(--lumo-space-s)");
         Url.getStyle().set("padding", "var(--lumo-space-s)");
-        boton.getStyle().set("padding", "var(--lumo-space-s)");
-
 
         NombreTarifa.setWidth("50%");
+        DescripcionTarifa.setWidth("50%");
+        DescripcionTarifa.setHeight("200px");
         PrecioTarifa.setWidth("50%");
         MinutosMovil.setWidth("50%");
         Datos.setWidth("50%");
         SMS.setWidth("50%");
         MinutosFijo.setWidth("50%");
         VelocidadFibra.setWidth("50%");
-        DescripcionTarifa.setWidth("50%");
         Permanencia.setWidth("50%");
         Estado.setWidth("50%");
         Url.setWidth("50%");
@@ -86,10 +88,13 @@ public class CrearTarifas extends VerticalLayout {
         add(NombreTarifa, DescripcionTarifa, PrecioTarifa, MinutosMovil, Datos, SMS, MinutosFijo, VelocidadFibra,
                 Permanencia, Estado, Url, boton);
         setHorizontalComponentAlignment(Alignment.CENTER, title, NombreTarifa, PrecioTarifa, MinutosMovil, Datos, SMS,
-                MinutosFijo, VelocidadFibra, DescripcionTarifa, Permanencia, Estado, Url, boton);
+                MinutosFijo, VelocidadFibra, DescripcionTarifa, Permanencia, Estado, Url,  boton);
         setSizeFull();
         boton.addClickListener(e -> {
-            if (NombreTarifa.getValue().isEmpty() || PrecioTarifa.getValue().isEmpty()) {
+            if (NombreTarifa.getValue().isEmpty() || PrecioTarifa.getValue().isEmpty() || MinutosMovil.getValue().isEmpty()
+                    || Datos.getValue().isEmpty() || SMS.getValue().isEmpty() || MinutosFijo.getValue().isEmpty()
+                    || VelocidadFibra.getValue().isEmpty() || DescripcionTarifa.getValue().isEmpty()
+                    || Permanencia.getValue().isEmpty() || Estado.getValue().isEmpty() || Url.getValue().isEmpty()) {
                 Notification.show("Rellene todos los campos");
             } else {
                 try {
@@ -115,9 +120,13 @@ public class CrearTarifas extends VerticalLayout {
                     Estado.clear();
                     Url.clear();
 
+                } catch (DataIntegrityViolationException ex) {
+                    Notification.show("Error al intentar guardar la tarifa: Ya existe una tarifa con ese nombre",
+                            5000, Notification.Position.MIDDLE);
                 } catch (Exception ex) {
-                    ex.printStackTrace();  // Imprime la traza de la excepción en la consola
-                    Notification.show("Error al intentar guardar la tarifa: " + ex.getMessage(), 5000, Notification.Position.MIDDLE);
+                    ex.printStackTrace();
+                    Notification.show("Error al intentar guardar la tarifa: " + ex.getMessage(),
+                            5000, Notification.Position.MIDDLE);
                 }
             }
         });

@@ -2,7 +2,9 @@ package com.example.application.views.Layouts;
 
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
+import com.example.application.views.Admin.AdminConsultas;
 import com.example.application.views.Admin.AdminTarifas;
+import com.example.application.views.Admin.AdminUsuariosView;
 import com.example.application.views.Clientes.PublicTarifasView;
 import com.example.application.views.Clientes.atccliente;
 import com.example.application.views.Clientes.inicio;
@@ -30,7 +32,7 @@ import jakarta.annotation.security.RolesAllowed;
 
 import java.util.Optional;
 
-@RolesAllowed("CLIENTE, ATCCLT, MARKETING")
+@RolesAllowed("CLIENTE, ATCCLT, MARKETING, ADMIN")
 public class LayoutPrincipal extends AppLayout {
 
     private final AuthenticatedUser authenticatedUser;
@@ -54,7 +56,6 @@ public class LayoutPrincipal extends AppLayout {
         Tabs tabs = new Tabs();
         tabs.getStyle().set("margin", "auto");
 
-
         authenticatedUser.get().ifPresent(user -> {
             if (user.getRol().equals(TipoRol.CLIENTE)) {
                 tabs.add(new Tab(new RouterLink("Inicio", inicio.class)));
@@ -76,17 +77,17 @@ public class LayoutPrincipal extends AppLayout {
                 tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
             }
             if (user.getRol().equals(TipoRol.ADMIN)) {
+                tabs.add(new Tab(new RouterLink("Inicio", inicio.class)));
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
                 tabs.add(new Tab(new RouterLink("TarifasCliente", PublicTarifasView.class)));
-                tabs.add(new Tab(new RouterLink("Consultas", AtcclienteadminView.class)));
+                tabs.add(new Tab(new RouterLink("Consultas", AdminConsultas.class)));
                 tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
                 tabs.add(new Tab(new RouterLink("TarifasMarketing", AdminTarifas.class)));
-                tabs.add(new Tab(new RouterLink("Atc. Cliente", atccliente.class)));
+                tabs.add(new Tab(new RouterLink("Usuarios", AdminUsuariosView.class)));
             }
         });
         return tabs;
     }
-
 
     private Footer createFooter() {
         Footer layout = new Footer();
