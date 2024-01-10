@@ -3,8 +3,8 @@ package com.example.application.views.Admin;
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.services.UsuarioService;
+import com.example.application.views.Comunes.PoliticaPrivacidad;
 import com.example.application.views.Layouts.LayoutPrincipal;
-import com.example.application.views.login.LoginBasic;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -17,10 +17,9 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Arrays;
-
-import static com.example.application.data.TipoRol.CLIENTE;
-
 
 @RolesAllowed("ADMIN")
 @Route(value = "AdminRegistro", layout = LayoutPrincipal.class)
@@ -61,6 +60,13 @@ public class AdminRegistro extends VerticalLayout {
 
         ComboBox<TipoRol> rolComboBox = new ComboBox<>("Rol", Arrays.asList(TipoRol.values()));
 
+        //boton para aceptar politica  de privacidad
+        Button botonPolitica = new Button("Politica de privacidad");
+        botonPolitica.addClickListener(click -> {
+            UI.getCurrent().navigate(String.valueOf(PoliticaPrivacidad.class));
+        });
+
+
         Button boton = new Button();
         boton.setText("Registrarse");
         boton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -92,7 +98,8 @@ public class AdminRegistro extends VerticalLayout {
 
         setAlignItems(Alignment.CENTER);
 
-        vl2.add(username, Nombre, Apellido, DNI, Correo, Contrasena, ConfirmarContrasena, Direccion, FechaNacimiento, rolComboBox);
+        vl2.add(username, Nombre, Apellido, DNI, Correo, Contrasena, ConfirmarContrasena, Direccion, FechaNacimiento,
+                rolComboBox, botonPolitica);
         vl2.setAlignItems(Alignment.CENTER);
         vl2.setWidth("69%");
         add(vl2, boton);
@@ -102,19 +109,57 @@ public class AdminRegistro extends VerticalLayout {
                     Contrasena.isEmpty() || ConfirmarContrasena.isEmpty() || Direccion.isEmpty() || FechaNacimiento.isEmpty()) {
                 Notification.show("Todos los campos son obligatorios");
             } else if (Contrasena.getValue().equals(ConfirmarContrasena.getValue())) {
-                // Codificar la contraseña antes de guardarla
-                //String contraseñaCodificada = passwordEncoder.encode(Contrasena.getValue());
+                if (usuarioService.existsByUsername(username.getValue())) {
+                    Notification.show("El nombre de usuario ya existe.\n Por favor, elija otro nombre de usuario").setPosition(Notification.Position.MIDDLE);
+                } else if (usuarioService.existsByDNI(DNI.getValue())) {
+                    Notification.show("El DNI ya existe.\n Por favor, elija otro DNI").setPosition(Notification.Position.MIDDLE);
+                } else if (usuarioService.existsByEmail(Correo.getValue())) {
+                    Notification.show("El Correo ya existe.\n Por favor, elija otro Correo").setPosition(Notification.Position.MIDDLE);
+                } else if (!validarDNI(DNI.getValue())) {
+                    Notification.show("El DNI no es válido").setPosition(Notification.Position.MIDDLE);
+                } else if (!esMayorDeEdad(FechaNacimiento.getValue())) {
+                    Notification.show("Debe ser mayor de edad para registrarse").setPosition(Notification.Position.MIDDLE);
+                } else {
+                    try {
+                        System.out.println("Antes de registrar el usuario");
+                        usuarioService.registerUser(new Usuario(Nombre.getValue(), username.getValue(), Apellido.getValue(), Contrasena.getValue(),
+                                rolComboBox.getValue(), DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
+                        System.out.println("Después de registrar el usuario");
 
-                TipoRol rol = CLIENTE;
-                usuarioService.registerUser(new Usuario(Nombre.getValue(),username.getValue(), Apellido.getValue(), Contrasena.getValue(),
-                        rolComboBox.getValue(), DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), true));
-                Notification.show("Usuario registrado correctamente");
-
-                UI.getCurrent().navigate(LoginBasic.class);
+                        Notification.show("Usuario registrado correctamente");
+                        UI.getCurrent().navigate(AdminUsuariosView.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Notification.show("Error al registrar el usuario").setPosition(Notification.Position.MIDDLE);
+                    }
+                }
             } else {
                 Notification.show("Las contraseñas no coinciden");
             }
         });
+    }
 
+    private boolean validarDNI(String dni) {
+        if (dni == null || !dni.matches("\\d{8}[0-9A-Za-z]")) {
+            return false;
+        }
+
+        char letraCalculada = calcularLetraDNI(dni.substring(0, 8));
+        char letraDNI = dni.charAt(8);
+
+        return letraCalculada == letraDNI;
+    }
+
+    private char calcularLetraDNI(String numerosDNI) {
+        String caracteres = "TRWAGMYFPDXBNJZSQVHLCKE";
+        int modulo = Integer.parseInt(numerosDNI) % caracteres.length();
+        return caracteres.charAt(modulo);
+    }
+
+    private boolean esMayorDeEdad(LocalDate fechaNacimiento) {
+        LocalDate fechaActual = LocalDate.now();
+        Period period = Period.between(fechaNacimiento, fechaActual);
+        int edad = period.getYears();
+        return edad >= 18;
     }
 }

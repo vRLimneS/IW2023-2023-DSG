@@ -103,4 +103,12 @@ public class UsuarioService {
     public boolean existsByUsername(String value) {
         return usuarioRepository.existsByUsername(value);
     }
+
+    public boolean existsByDNI(String value) {
+        return usuarioRepository.existsByDNI(value);
+    }
+
+    public boolean existsByEmail(String value) {
+        return usuarioRepository.existsByEmail(value);
+    }
 }

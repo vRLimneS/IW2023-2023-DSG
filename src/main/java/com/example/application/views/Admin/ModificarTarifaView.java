@@ -68,52 +68,21 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                     dialog.setCancelable(true);
                     dialog.addCancelListener(event -> Notification.show("Cancelado"));
 
-                dialog.setRejectable(true);
-                dialog.setRejectText("Descartar");
-                dialog.addRejectListener(event -> {
-                    Notification.show("Descartar");
-                    UI.getCurrent().navigate(AdminTarifas.class);
-                });
+                    dialog.setRejectable(true);
+                    dialog.setRejectText("Descartar");
+                    dialog.addRejectListener(event -> {
+                        Notification.show("Descartar");
+                        UI.getCurrent().navigate(AdminTarifas.class);
+                    });
 
-            dialog.setConfirmText("Guardar");
-            dialog.addConfirmListener(event -> {
-                if (Nombre.getValue().isEmpty() || Precio.getValue().isEmpty() || Descripcion.getValue().isEmpty() ||
-                        minutosFijos.getValue().isEmpty() || minutosMoviles.getValue().isEmpty() ||
-                        velocidad.getValue().isEmpty() || gigas.getValue().isEmpty() ||
-                        permanencia.getValue().isEmpty() || estado.getValue().isEmpty() || url.getValue().isEmpty()) {
-                    Notification.show("Rellene todos los campos");
-                        }
-                
-                else {
-                    try {
-                        // Construye el objeto Tarifa con los parámetros del constructor
-                        Tarifa tarifaToUpdate = new Tarifa(Nombre.getValue(), Descripcion.getValue(),
-                                new BigDecimal(Precio.getValue().replace(",", "")),
-                                Integer.parseInt(minutosMoviles.getValue()), Integer.parseInt(minutosFijos.getValue()),
-                                Integer.parseInt(velocidad.getValue()), Integer.parseInt(gigas.getValue()),
-                                Boolean.parseBoolean(estado.getValue()), Integer.parseInt(permanencia.getValue()),
-                                url.getValue());
-                    
-
-                        // Actualiza la tarifa existente
-                        Tarifa existingTarifa = tarifaService.findByNombre(nombtarifa);
-                        if (existingTarifa != null) {
-                            existingTarifa.setNombre(tarifaToUpdate.getNombre());
-                            existingTarifa.setDescripcion(tarifaToUpdate.getDescripcion());
-                            existingTarifa.setPrecio(tarifaToUpdate.getPrecio());
-                            existingTarifa.setMinutosMovil(tarifaToUpdate.getMinutosMovil());
-                            existingTarifa.setMinutosFijo(tarifaToUpdate.getMinutosFijo());
-                            existingTarifa.setVelocidadFibra(tarifaToUpdate.getVelocidadFibra());
-                            existingTarifa.setDatosMoviles(tarifaToUpdate.getDatosMoviles());
-                            existingTarifa.setEstado(tarifaToUpdate.getEstado());
-                            existingTarifa.setPermanencia(tarifaToUpdate.getPermanencia());
-                            existingTarifa.setUrl(tarifaToUpdate.getUrl());
-
-                            tarifaService.save(existingTarifa);
-                            Notification.show("Tarifa modificada correctamente");
-                            
-                        } 
-                        else {
+                    dialog.setConfirmText("Guardar");
+                    dialog.addConfirmListener(event -> {
+                        if (Nombre.getValue().isEmpty() || Precio.getValue().isEmpty() || Descripcion.getValue().isEmpty() ||
+                                minutosFijos.getValue().isEmpty() || minutosMoviles.getValue().isEmpty() ||
+                                velocidad.getValue().isEmpty() || gigas.getValue().isEmpty() ||
+                                permanencia.getValue().isEmpty() || estado.getValue().isEmpty() || url.getValue().isEmpty()) {
+                            Notification.show("Rellene todos los campos");
+                        } else {
                             try {
                                 // Construye el objeto Tarifa con los parámetros del constructor
                                 Tarifa tarifaToUpdate = new Tarifa(Nombre.getValue(), Descripcion.getValue(),
@@ -124,7 +93,7 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                                         url.getValue());
 
                                 // Actualiza la tarifa existente
-                                Tarifa existingTarifa = TarifaService.findByNombre(nombtarifa);
+                                Tarifa existingTarifa = tarifaService.findByNombre(nombtarifa);
                                 if (existingTarifa != null) {
                                     existingTarifa.setNombre(tarifaToUpdate.getNombre());
                                     existingTarifa.setDescripcion(tarifaToUpdate.getDescripcion());
@@ -142,7 +111,7 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                                 } else {
                                     Notification.show("No se encontró la tarifa a modificar");
                                 }
-                                
+
 
                             } catch (Exception ex) {
                                 ex.printStackTrace();
@@ -152,14 +121,8 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
                             UI navigate = UI.getCurrent();
                             navigate.navigate(AdminTarifas.class);
                         }
-                    
-                    
-                    }
-                    catch(Exception ex){
-                            
-                    }
-                }
-            });
+
+                    });
 
                     dialog.open();
 
@@ -187,15 +150,15 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
     public void setParameter(BeforeEvent beforeEvent, String s) {
         nombtarifa = s;
         Nombre.setValue(nombtarifa);
-        Descripcion.setValue(TarifaService.findByNombre(nombtarifa).getDescripcion());
-        Precio.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getPrecio()));
-        minutosFijos.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosFijo()));
-        minutosMoviles.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosMovil()));
-        velocidad.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
-        gigas.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getDatosMoviles()));
-        permanencia.setValue(TarifaService.findByNombre(nombtarifa).getPermanencia() + " meses");
-        estado.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getEstado()));
-        url.setValue(TarifaService.findByNombre(nombtarifa).getUrl());
+        Descripcion.setValue(tarifaService.findByNombre(nombtarifa).getDescripcion());
+        Precio.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPrecio()));
+        minutosFijos.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosFijo()));
+        minutosMoviles.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosMovil()));
+        velocidad.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
+        gigas.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getDatosMoviles()));
+        permanencia.setValue(tarifaService.findByNombre(nombtarifa).getPermanencia() + " meses");
+        estado.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getEstado()));
+        url.setValue(tarifaService.findByNombre(nombtarifa).getUrl());
 
 
         Nombre.setWidth("400px");
@@ -210,16 +173,16 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
         estado.setWidth("400px");
         url.setWidth("400px");
 
-        Nombre.setValue(TarifaService.findByNombre(nombtarifa).getNombre());
-        Descripcion.setValue(TarifaService.findByNombre(nombtarifa).getDescripcion());
-        permanencia.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getPermanencia()));
-        Precio.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getPrecio()));
-        minutosFijos.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosFijo()));
-        minutosMoviles.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getMinutosMovil()));
-        velocidad.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
-        gigas.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getDatosMoviles()));
-        estado.setValue(String.valueOf(TarifaService.findByNombre(nombtarifa).getEstado()));
-        url.setValue(TarifaService.findByNombre(nombtarifa).getUrl());
+        Nombre.setValue(tarifaService.findByNombre(nombtarifa).getNombre());
+        Descripcion.setValue(tarifaService.findByNombre(nombtarifa).getDescripcion());
+        permanencia.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPermanencia()));
+        Precio.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getPrecio()));
+        minutosFijos.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosFijo()));
+        minutosMoviles.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getMinutosMovil()));
+        velocidad.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getVelocidadFibra()));
+        gigas.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getDatosMoviles()));
+        estado.setValue(String.valueOf(tarifaService.findByNombre(nombtarifa).getEstado()));
+        url.setValue(tarifaService.findByNombre(nombtarifa).getUrl());
 
         Nombre.getStyle().set("padding", "var(--lumo-space-s)");
         Descripcion.getStyle().set("padding", "var(--lumo-space-s)");

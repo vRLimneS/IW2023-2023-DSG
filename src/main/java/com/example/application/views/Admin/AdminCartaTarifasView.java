@@ -82,7 +82,7 @@ public class AdminCartaTarifasView extends ListItem {
                     velocidadFibra, datosMovil, estado, permanencia, url);
 
             // Busca y elimina la tarifa
-            Tarifa existingTarifa = TarifaService.findByNombre(tarifaToDelete.getNombre());
+            Tarifa existingTarifa = tarifaService.findByNombre(tarifaToDelete.getNombre());
 
             if (existingTarifa != null) {
                 tarifaService.delete(existingTarifa);
