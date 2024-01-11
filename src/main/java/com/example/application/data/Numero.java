@@ -4,6 +4,8 @@ import com.vaadin.flow.component.notification.Notification;
 import jakarta.persistence.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -124,6 +126,24 @@ public class Numero extends AbstractEntity {
         return consumido;
     }
 
+    public float getConsumidoHoy() {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        CallRecord[] callRecords = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + this.idapi + "/callrecords?carrier=" + this.carrier, CallRecord[].class);
+
+        for (CallRecord callRecord : callRecords) {
+            if (callRecord.getFecha().equals(LocalDateTime.now())) {
+                this.consumido += callRecord.getSeconds();
+            }
+        }
+        //Pasa a minutos
+        this.consumido = this.consumido / 60;
+        this.consumido = Math.round(this.consumido * 100) / 100f;
+
+        return consumido;
+    }
+
     public float getDatosMoviles() {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -142,6 +162,31 @@ public class Numero extends AbstractEntity {
         }
 
         return datosconsumidos;
+    }
+
+
+    public float getDatosMovilesHoy() {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        DataUsageRecord[] dataUsageRecords = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + this.idapi + "/datausagerecords?carrier=" + this.carrier, DataUsageRecord[].class);
+
+        for (DataUsageRecord dataUsageRecord : dataUsageRecords) {
+            if (LocalDate.parse(dataUsageRecord.getDate()).equals(LocalDate.now())) {
+                this.datosconsumidos += dataUsageRecord.getMegaBytes();
+            }
+        }
+
+        if (this.datosconsumidos > 0) {
+            this.datosconsumidos = this.datosconsumidos / 1024;
+            this.datosconsumidos = Math.round(this.datosconsumidos * 100) / 100f;
+        } else {
+            this.datosconsumidos = 0;
+        }
+
+        return datosconsumidos;
+
+
     }
 
     public List<CallRecord> getCallRecords() {
@@ -183,4 +228,5 @@ public class Numero extends AbstractEntity {
     public void setCompartir(boolean compartir) {
         this.compartir = compartir;
     }
+
 }

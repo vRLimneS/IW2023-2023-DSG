@@ -153,6 +153,34 @@ public class Contrato extends AbstractEntity {
         }
     }
 
+    public Object getMinutosFijoHoy() {
+
+        if (fijo != null) {
+            float total = fijo.getConsumidoHoy();
+            if (total >= 0) {
+                return total;
+            } else {
+                return "No tiene minutos fijo";
+            }
+        } else {
+            return "No tiene fijo";
+        }
+    }
+
+    public Object getMinutosMovilHoy() {
+
+        if (movil != null) {
+            float total = movil.getConsumidoHoy();
+            if (total >= 0) {
+                return total;
+            } else {
+                return "No tiene minutos movil";
+            }
+        } else {
+            return "No tiene movil";
+        }
+    }
+
     public Object getMinutosMovil() {
         if (movil != null) {
             float total = movil.getConsumidoTotal();
@@ -179,4 +207,11 @@ public class Contrato extends AbstractEntity {
 
     }
 
+    public Object getDatosMovilesHoy() {
+        if (movil != null) {
+            return movil.getDatosMovilesHoy();
+
+        } else
+            return "No tiene movil";
+    }
 }

@@ -136,10 +136,13 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         H2 Fijo = new H2("Fijo");
         H4 NumeroFijo = new H4(c.getFijonumero().toString());
         vl.add(Fijo, NumeroFijo, new H2("Mins Consumidos"), new H4(c.getMinutosFijo().toString()));
+        vl.add(new H2("Mins Hoy"), new H4(c.getMinutosFijoHoy().toString()));
         vl.add(new H2("Mins Totales"), new H4(Integer.toString(t.getMinutosFijo())));
         vl2.add(new H2("Movil"), new H4(c.getMovilnumero().toString()), new H2("Mins Consumidos"), new H4(c.getMinutosMovil().toString()));
+        vl2.add(new H2("Mins Hoy"), new H4(c.getMinutosMovilHoy().toString()));
         vl2.add(new H2("Mins Totales"), new H4(Integer.toString(t.getMinutosMovil())));
         vl3.add(new H2("Datos"), new H4(c.getDatosMoviles() + "GB"));
+        vl3.add(new H2("Datos Hoy"), new H4(c.getDatosMovilesHoy() + "GB"));
         vl3.add(new H2("Datos Totales"), new H4(t.getDatosMoviles() + "GB"));
         vl4.add(new H2("Velocidad"), new H4(c.getVelocidadFibra() + "MB"));
         vl5.add(new H2("Fecha Inicio"), new H4(c.getFechaInicio().toString()), new H2("Fecha Fin"), new H4(c.getFechaFin().toString()));
