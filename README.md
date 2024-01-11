@@ -17,4 +17,4 @@ El proyecto consiste en el desarrollo de una aplicación web de telefonía móvi
 - Administrador de sistemas -> Gonzalo
 
 ## Rúbrica de evaluación
-https://docs.google.com/spreadsheets/d/1VQGEs_qNf-XY2jb1XwjVrr3ApGdyAUA6_ahjDb5SOhA
+https://docs.google.com/spreadsheets/d/1uV92kWkTKDu_FZXJ3WG7lfF-QhePOr0nRqxC7VZNO3M/edit#gid=215236084
