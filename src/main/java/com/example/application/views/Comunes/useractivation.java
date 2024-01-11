@@ -32,32 +32,34 @@ public class useractivation extends VerticalLayout implements HasUrlParameter<St
     @Override
     public void setParameter(BeforeEvent event, String parameter) {
         Optional<Usuario> usuario = usuarioService.findById(UUID.fromString(parameter));
-        Usuario user = usuario.get();
+        if (usuario.isPresent()) {
+            Usuario user = usuario.get();
 
-        Dialog dialog = new Dialog();
+            Dialog dialog = new Dialog();
 
-        dialog.open();
+            dialog.open();
 
-        TextField token = new TextField("token");
+            TextField token = new TextField("token");
 
-        Button activar = new Button("Activar");
-        activar.addClickListener(e -> {
-            if (token.getValue().equals(user.gettoken())) {
-                user.setActive(true);
-                usuarioService.save(user);
-                Notification.show("Usuario activado", 300, Notification.Position.MIDDLE);
-                UI.getCurrent().navigate(LoginBasic.class);
-            } else {
-                Notification.show("Token incorrecto", 300, Notification.Position.MIDDLE);
-                token.clear();
+            Button activar = new Button("Activar");
+            activar.addClickListener(e -> {
+                if (token.getValue().equals(user.gettoken())) {
+                    user.setActive(true);
+                    usuarioService.save(user);
+                    Notification.show("Usuario activado", 300, Notification.Position.MIDDLE);
+                    UI.getCurrent().navigate(LoginBasic.class);
+                } else {
+                    Notification.show("Token incorrecto", 300, Notification.Position.MIDDLE);
+                    token.clear();
 
-            }
-        });
+                }
+            });
 
-        dialog.add(token, activar);
+            dialog.add(token, activar);
 
-        add(dialog);
+            add(dialog);
 
+        }
     }
 
 }

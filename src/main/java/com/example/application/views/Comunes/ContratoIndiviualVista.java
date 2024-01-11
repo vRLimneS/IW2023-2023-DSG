@@ -375,19 +375,22 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
 
             DataUsageRecord[] datosmovil = restTemplate.getForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com/" + c.getMovil().getIdapi() + "/datausagerecords?carrier=" + c.getMovil().getCarrier(), DataUsageRecord[].class);
 
-            PdfPTable table3 = new PdfPTable(2);
-            table3.addCell("Megas Consumidos");
-            table3.addCell("Fecha");
+            if (datosmovil != null) {
 
-            for (int i = 0; i < datosmovil.length; i++) {
-                if (LocalDate.parse(datosmovil[i].getDate()).isBefore(LocalDate.now()) && LocalDate.parse(datosmovil[i].getDate()).isAfter(LocalDate.now().minusMonths(1))) {
-                    table3.addCell(String.valueOf(datosmovil[i].getMegaBytes()));
-                    table3.addCell(datosmovil[i].getDate());
+                PdfPTable table3 = new PdfPTable(2);
+                table3.addCell("Megas Consumidos");
+                table3.addCell("Fecha");
+
+                for (int i = 0; i < datosmovil.length; i++) {
+                    if (LocalDate.parse(datosmovil[i].getDate()).isBefore(LocalDate.now()) && LocalDate.parse(datosmovil[i].getDate()).isAfter(LocalDate.now().minusMonths(1))) {
+                        table3.addCell(String.valueOf(datosmovil[i].getMegaBytes()));
+                        table3.addCell(datosmovil[i].getDate());
+                    }
                 }
+                document.newPage();
+                document.add(new Chunk("Registro de datos del numero: " + c.getMovil().getNumero(), font));
+                document.add(table3);
             }
-            document.newPage();
-            document.add(new Chunk("Registro de datos del numero: " + c.getMovil().getNumero(), font));
-            document.add(table3);
         }
 
 

@@ -48,7 +48,9 @@ public class ModificarTarifaView extends HorizontalLayout implements HasUrlParam
         this.contratoService = contratoService;
         this.authenticatedUser = authenticatedUser;
         Optional<Usuario> user = authenticatedUser.get();
-        UUID id = user.get().getId();
+        if (user.isPresent()) {
+            UUID id = user.get().getId();
+        }
         this.tarifaService = tarifaService;
 
         VerticalLayout vl = new VerticalLayout();

@@ -37,20 +37,22 @@ public class ServiciosView extends VerticalLayout {
 
         grid = new Grid<>(Contrato.class, false);
         grid.setAllRowsVisible(true);
-        grid.setItems(contratoService.findBy_estadoContratoAndUsuarioId(EstadoContrato.ACTIVO, user.get().getId()));
-        grid.addColumn(Contrato::getTarifanombre).setHeader("Tarifa");
-        grid.addColumn(Contrato::getFijonumero).setHeader("Fijo");
-        grid.addColumn(Contrato::getMinutosFijo).setHeader("Minutos Fijo");
-        grid.addColumn(Contrato::getMovilnumero).setHeader("Movil");
-        grid.addColumn(Contrato::getMinutosMovil).setHeader("Minutos Movil");
-        grid.addColumn(Contrato::getDatosMoviles).setHeader("Datos Moviles");
-        grid.addColumn(Contrato::getVelocidadFibra).setHeader("Velocidad Fibra");
-        grid.addColumn(Contrato::getFechaFin).setHeader("Fecha Fin Contrato");
+        if (user.isPresent()) {
+            grid.setItems(contratoService.findBy_estadoContratoAndUsuarioId(EstadoContrato.ACTIVO, user.get().getId()));
+            grid.addColumn(Contrato::getTarifanombre).setHeader("Tarifa");
+            grid.addColumn(Contrato::getFijonumero).setHeader("Fijo");
+            grid.addColumn(Contrato::getMinutosFijo).setHeader("Minutos Fijo");
+            grid.addColumn(Contrato::getMovilnumero).setHeader("Movil");
+            grid.addColumn(Contrato::getMinutosMovil).setHeader("Minutos Movil");
+            grid.addColumn(Contrato::getDatosMoviles).setHeader("Datos Moviles");
+            grid.addColumn(Contrato::getVelocidadFibra).setHeader("Velocidad Fibra");
+            grid.addColumn(Contrato::getFechaFin).setHeader("Fecha Fin Contrato");
 
-        grid.addItemClickListener(event -> {
-                    UI.getCurrent().navigate(ContratoIndiviualVista.class, event.getItem().getId().toString());
-                }
-        );
+            grid.addItemClickListener(event -> {
+                        UI.getCurrent().navigate(ContratoIndiviualVista.class, event.getItem().getId().toString());
+                    }
+            );
+        }
 
 
         add(grid);

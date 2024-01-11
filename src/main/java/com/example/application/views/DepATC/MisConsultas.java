@@ -37,48 +37,54 @@ public class MisConsultas extends Div {
 
     private void setupGrid(AuthenticatedUser authenticatedUser) {
         Optional<Usuario> usuario = authenticatedUser.get();
-        grid = new Grid<>(Consulta.class, false);
-        grid.setAllRowsVisible(true);
-        grid.addColumn(Consulta::getEmail).setHeader("Email");
-        grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
-        grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
-        grid.addColumn(Consulta::getEstado).setHeader("Estado");
+        if (usuario.isPresent()) {
+            grid = new Grid<>(Consulta.class, false);
+            grid.setAllRowsVisible(true);
+            grid.addColumn(Consulta::getEmail).setHeader("Email");
+            grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
+            grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
+            grid.addColumn(Consulta::getEstado).setHeader("Estado");
 
-        grid.addComponentColumn(qconsulta -> {
-            Button boton = new Button("Terminar");
-            boton.addClickListener(click -> {
-                {
-                    if (qconsulta.getEstado().equals("ATENDIDO") && usuario.get().getUsername().equals(qconsulta.getUsername())) {
-                        qconsulta.setEstado("RESUELTO");
-                        consultaService.save(qconsulta);
-                        Notification.show("Consulta terminada");
-                        UI.getCurrent().getPage().reload();
+            grid.addComponentColumn(qconsulta -> {
+                Button boton = new Button("Terminar");
+                boton.addClickListener(click -> {
+                    {
+                        if (qconsulta.getEstado().equals("ATENDIDO") && usuario.get().getUsername().equals(qconsulta.getUsername())) {
+                            qconsulta.setEstado("RESUELTO");
+                            consultaService.save(qconsulta);
+                            Notification.show("Consulta terminada");
+                            UI.getCurrent().getPage().reload();
+                        }
                     }
-                }
-            });
-            return boton;
-        }).setHeader("Terminar");
+                });
+                return boton;
+            }).setHeader("Terminar");
 
 
-        grid.setItems(consultaService.findBy_estadoConsultaAndUsername("ATENDIDO", usuario.get().getUsername()));
-        grid.getDataProvider().refreshAll();
+            grid.setItems(consultaService.findBy_estadoConsultaAndUsername("ATENDIDO", usuario.get().getUsername()));
+            grid.getDataProvider().refreshAll();
 
-        add(grid);
+            add(grid);
+        }
+
+
     }
 
 
     private void setupGrid2(AuthenticatedUser authenticatedUser) {
         Optional<Usuario> usuario = authenticatedUser.get();
-        grid = new Grid<>(Consulta.class, false);
-        grid.setAllRowsVisible(true);
-        grid.addColumn(Consulta::getEmail).setHeader("Email");
-        grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
-        grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
-        grid.addColumn(Consulta::getEstado).setHeader("Estado");
-        grid.setItems(consultaService.findBy_estadoConsultaAndUsername("RESUELTO", usuario.get().getUsername()));
-        grid.getDataProvider().refreshAll();
+        if (usuario.isPresent()) {
+            grid = new Grid<>(Consulta.class, false);
+            grid.setAllRowsVisible(true);
+            grid.addColumn(Consulta::getEmail).setHeader("Email");
+            grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
+            grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
+            grid.addColumn(Consulta::getEstado).setHeader("Estado");
+            grid.setItems(consultaService.findBy_estadoConsultaAndUsername("RESUELTO", usuario.get().getUsername()));
+            grid.getDataProvider().refreshAll();
 
-        add(grid);
+            add(grid);
+        }
     }
 
 }

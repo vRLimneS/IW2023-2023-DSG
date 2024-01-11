@@ -44,84 +44,88 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
 
         this.contratoService = contratoService;
         this.authenticatedUser = authenticatedUser;
-        Optional<Usuario> user = authenticatedUser.get();
-        UUID id = user.get().getId();
         this.tarifaService = tarifaService;
+        Optional<Usuario> user = authenticatedUser.get();
 
-        VerticalLayout vl = new VerticalLayout();
-        VerticalLayout vl2 = new VerticalLayout();
-        VerticalLayout vl3 = new VerticalLayout();
-
-        TextField NumeroTarjeta = new TextField("Numero Tarjeta");
-        NumeroTarjeta.setWidth("300px");
-        NumeroTarjeta.setHeight("65px");
-        NumeroTarjeta.setPlaceholder("0000 0000 0000 0000");
-        TextField Titular = new TextField("Titular");
-        Titular.setPlaceholder("Nombre Apellido");
-        Titular.setWidth("300px");
-        TextField FechaCaducidad = new TextField("Fecha Caducidad");
-        FechaCaducidad.setWidth("300px");
-        FechaCaducidad.setPlaceholder("MM/AA");
-        TextField CVV = new TextField("CVV");
-        CVV.setWidth("300px");
-        CVV.setPlaceholder("000");
-        Button boton = new Button("Contratar");
-
-        NumeroTarjeta.getStyle().setPadding("var(--lumo-space-s)");
-        Titular.getStyle().setPadding("var(--lumo-space-s)");
-        FechaCaducidad.getStyle().setPadding("var(--lumo-space-s)");
-        CVV.getStyle().setPadding("var(--lumo-space-s)");
-        NumeroTarjeta.getStyle().set("margin", "auto");
-        Titular.getStyle().set("margin", "auto");
-        FechaCaducidad.getStyle().set("margin", "auto");
-        CVV.getStyle().set("margin", "auto");
-        boton.getStyle().set("margin", "auto");
+        if (user.isPresent()) {
+            UUID id = user.get().getId();
 
 
-        boton.addClickListener(click -> {
-            if (!NumeroTarjeta.getValue().matches("\\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d") || NumeroTarjeta.isEmpty() || Titular.isEmpty() || !FechaCaducidad.getValue().matches("\\d\\d/\\d\\d") || FechaCaducidad.isEmpty() || CVV.isEmpty() || !CVV.getValue().matches("\\d\\d\\d")) {
-                Notification.show("Revise todos los campos");
-            } else {
-                ConfirmDialog dialog = new ConfirmDialog();
-                dialog.setHeader("Confirmar Pago");
-                dialog.setText(
-                        "Esta seguro de que desea contratar esta tarifa?");
+            VerticalLayout vl = new VerticalLayout();
+            VerticalLayout vl2 = new VerticalLayout();
+            VerticalLayout vl3 = new VerticalLayout();
 
-                dialog.setCancelable(true);
-                dialog.addCancelListener(event -> Notification.show("Cancelado"));
+            TextField NumeroTarjeta = new TextField("Numero Tarjeta");
+            NumeroTarjeta.setWidth("300px");
+            NumeroTarjeta.setHeight("65px");
+            NumeroTarjeta.setPlaceholder("0000 0000 0000 0000");
+            TextField Titular = new TextField("Titular");
+            Titular.setPlaceholder("Nombre Apellido");
+            Titular.setWidth("300px");
+            TextField FechaCaducidad = new TextField("Fecha Caducidad");
+            FechaCaducidad.setWidth("300px");
+            FechaCaducidad.setPlaceholder("MM/AA");
+            TextField CVV = new TextField("CVV");
+            CVV.setWidth("300px");
+            CVV.setPlaceholder("000");
+            Button boton = new Button("Contratar");
+
+            NumeroTarjeta.getStyle().setPadding("var(--lumo-space-s)");
+            Titular.getStyle().setPadding("var(--lumo-space-s)");
+            FechaCaducidad.getStyle().setPadding("var(--lumo-space-s)");
+            CVV.getStyle().setPadding("var(--lumo-space-s)");
+            NumeroTarjeta.getStyle().set("margin", "auto");
+            Titular.getStyle().set("margin", "auto");
+            FechaCaducidad.getStyle().set("margin", "auto");
+            CVV.getStyle().set("margin", "auto");
+            boton.getStyle().set("margin", "auto");
 
 
-                dialog.setRejectable(true);
-                dialog.setRejectText("Descartar");
-                dialog.addRejectListener(event -> {
-                    Notification.show("Descartar");
-                    UI.getCurrent().navigate(PublicTarifasView.class);
-                });
+            boton.addClickListener(click -> {
+                if (!NumeroTarjeta.getValue().matches("\\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d") || NumeroTarjeta.isEmpty() || Titular.isEmpty() || !FechaCaducidad.getValue().matches("\\d\\d/\\d\\d") || FechaCaducidad.isEmpty() || CVV.isEmpty() || !CVV.getValue().matches("\\d\\d\\d")) {
+                    Notification.show("Revise todos los campos");
+                } else {
+                    ConfirmDialog dialog = new ConfirmDialog();
+                    dialog.setHeader("Confirmar Pago");
+                    dialog.setText(
+                            "Esta seguro de que desea contratar esta tarifa?");
 
-                dialog.setConfirmText("Guardar");
-                dialog.addConfirmListener(event -> {
-                    contratar(contratoService, NumeroTarjeta.getValue(), Titular.getValue(), FechaCaducidad.getValue(), CVV.getValue(), id, nombtarifa);
-                    UI.getCurrent().navigate(PublicTarifasView.class);
-                });
+                    dialog.setCancelable(true);
+                    dialog.addCancelListener(event -> Notification.show("Cancelado"));
 
-                dialog.open();
 
-                getStyle().set("position", "fixed").set("top", "0").set("right", "0")
-                        .set("bottom", "0").set("left", "0").set("display", "flex")
-                        .set("align-items", "center").set("justify-content", "center");
-            }
-        });
+                    dialog.setRejectable(true);
+                    dialog.setRejectText("Descartar");
+                    dialog.addRejectListener(event -> {
+                        Notification.show("Descartar");
+                        UI.getCurrent().navigate(PublicTarifasView.class);
+                    });
 
-        vl.setSpacing(false);
-        vl2.setSpacing(false);
+                    dialog.setConfirmText("Guardar");
+                    dialog.addConfirmListener(event -> {
+                        contratar(contratoService, NumeroTarjeta.getValue(), Titular.getValue(), FechaCaducidad.getValue(), CVV.getValue(), id, nombtarifa);
+                        UI.getCurrent().navigate(PublicTarifasView.class);
+                    });
 
-        vl.add(Nombre, Descripcion, permanencia);
-        vl2.add(Precio, minutosFijos, minutosMoviles, gigas, velocidad);
-        vl3.add(NumeroTarjeta, Titular, FechaCaducidad, CVV, boton);
+                    dialog.open();
 
-        vl2.setAlignItems(Alignment.CENTER);
+                    getStyle().set("position", "fixed").set("top", "0").set("right", "0")
+                            .set("bottom", "0").set("left", "0").set("display", "flex")
+                            .set("align-items", "center").set("justify-content", "center");
+                }
+            });
 
-        add(vl, vl2, vl3);
+            vl.setSpacing(false);
+            vl2.setSpacing(false);
+
+            vl.add(Nombre, Descripcion, permanencia);
+            vl2.add(Precio, minutosFijos, minutosMoviles, gigas, velocidad);
+            vl3.add(NumeroTarjeta, Titular, FechaCaducidad, CVV, boton);
+
+            vl2.setAlignItems(Alignment.CENTER);
+
+            add(vl, vl2, vl3);
+        }
     }
 
     @Override

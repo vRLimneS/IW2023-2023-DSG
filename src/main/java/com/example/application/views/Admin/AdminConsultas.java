@@ -58,7 +58,7 @@ public class AdminConsultas extends Div {
             return boton;
         }).setHeader("Quitar");
 
-        if (usuario.get() != null) {
+        if (usuario.isPresent()) {
             grid.setItems(consultaService.findBy_estadoConsultaAndUsername("ATENDIDO", usuario.get().getUsername()));
             grid.getDataProvider().refreshAll();
         }
