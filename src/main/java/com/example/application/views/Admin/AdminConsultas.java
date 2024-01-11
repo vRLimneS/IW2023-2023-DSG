@@ -58,9 +58,10 @@ public class AdminConsultas extends Div {
             return boton;
         }).setHeader("Quitar");
 
-
-        grid.setItems(consultaService.findBy_estadoConsultaAndUsername("ATENDIDO", usuario.get().getUsername()));
-        grid.getDataProvider().refreshAll();
+        if (usuario.get() != null) {
+            grid.setItems(consultaService.findBy_estadoConsultaAndUsername("ATENDIDO", usuario.get().getUsername()));
+            grid.getDataProvider().refreshAll();
+        }
 
         add(grid);
     }

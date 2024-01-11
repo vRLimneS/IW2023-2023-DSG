@@ -31,6 +31,7 @@ public class MisConsultas extends Div {
         this.authenticatedUser = authenticatedUser;
         this.consultaService = consultaService;
         this.setupGrid(authenticatedUser);
+        this.setupGrid2(authenticatedUser);
 
     }
 
@@ -44,20 +45,19 @@ public class MisConsultas extends Div {
         grid.addColumn(Consulta::getEstado).setHeader("Estado");
 
         grid.addComponentColumn(qconsulta -> {
-            Button boton = new Button("Quitar");
+            Button boton = new Button("Terminar");
             boton.addClickListener(click -> {
                 {
                     if (qconsulta.getEstado().equals("ATENDIDO") && usuario.get().getUsername().equals(qconsulta.getUsername())) {
-                        qconsulta.BorrarUsuario();
-                        qconsulta.setEstado("PENDIENTE");
+                        qconsulta.setEstado("RESUELTO");
                         consultaService.save(qconsulta);
-                        Notification.show("Consulta desasignada");
+                        Notification.show("Consulta terminada");
                         UI.getCurrent().getPage().reload();
                     }
                 }
             });
             return boton;
-        }).setHeader("Quitar");
+        }).setHeader("Terminar");
 
 
         grid.setItems(consultaService.findBy_estadoConsultaAndUsername("ATENDIDO", usuario.get().getUsername()));
@@ -66,5 +66,19 @@ public class MisConsultas extends Div {
         add(grid);
     }
 
+
+    private void setupGrid2(AuthenticatedUser authenticatedUser) {
+        Optional<Usuario> usuario = authenticatedUser.get();
+        grid = new Grid<>(Consulta.class, false);
+        grid.setAllRowsVisible(true);
+        grid.addColumn(Consulta::getEmail).setHeader("Email");
+        grid.addColumn(Consulta::getAsunto).setHeader("Asunto");
+        grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
+        grid.addColumn(Consulta::getEstado).setHeader("Estado");
+        grid.setItems(consultaService.findBy_estadoConsultaAndUsername("RESUELTO", usuario.get().getUsername()));
+        grid.getDataProvider().refreshAll();
+
+        add(grid);
+    }
 
 }

@@ -96,17 +96,19 @@ public class ContratoService {
 
         RestTemplate restTemplate = new RestTemplate();
         fijo = restTemplate.postForObject("http://omr-simulator.us-east-1.elasticbeanstalk.com", fijo, CustomerLine.class);
-        Numero fijo2 = new Numero();
-        fijo2.setNumero(fijo.getPhoneNumber());
-        fijo2.setTipo("FIJO");
-        fijo2.setConsumido(0);
-        if (tipo.equals("FIJO"))
-            fijo2.setMax(tarifa.getMinutosFijo());
-        else
-            fijo2.setMax(tarifa.getMinutosMovil());
-        fijo2.setIdapi(fijo.getId());
-        fijo2.setCarrier(fijo.getCarrier());
-        return fijo2;
+        if (fijo != null) {
+            Numero fijo2 = new Numero();
+            fijo2.setNumero(fijo.getPhoneNumber());
+            fijo2.setTipo("FIJO");
+            fijo2.setConsumido(0);
+            if (tipo.equals("FIJO"))
+                fijo2.setMax(tarifa.getMinutosFijo());
+            else
+                fijo2.setMax(tarifa.getMinutosMovil());
+            fijo2.setIdapi(fijo.getId());
+            fijo2.setCarrier(fijo.getCarrier());
+            return fijo2;
+        } else return null;
     }
 
     public Contrato findById(UUID id) {

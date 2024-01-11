@@ -82,7 +82,11 @@ public class Consulta extends AbstractEntity {
     }
 
     public void setUsuario(Optional<Usuario> usuario) {
-        this.usuario = usuario.get();
+
+        if (usuario.isPresent()) {
+            this.usuario = usuario.get();
+        }
+
     }
 
     public Object getCliente() {
@@ -90,7 +94,10 @@ public class Consulta extends AbstractEntity {
     }
 
     public void setCliente(Optional<Usuario> cliente) {
-        this.cliente = cliente.get();
+
+        if (cliente.isPresent()) {
+            this.cliente = cliente.get();
+        }
     }
 
     public String getUsername() {
