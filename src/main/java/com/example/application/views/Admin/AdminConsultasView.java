@@ -70,7 +70,9 @@ public class AdminConsultasView extends Div {
         grid.addComponentColumn(consulta -> {
             Button button = new Button("Quitar");
             button.addClickListener(click -> {
-                if (consulta.getEstado().equals("ATENDIDO")) {
+                if (consulta.getEstado().equals("RESUELTO")) {
+                    Notification.show("Consulta ya Resuelta");
+                } else if (consulta.getEstado().equals("ATENDIDO")) {
                     consulta.BorrarUsuario();
                     consulta.setEstado("PENDIENTE");
                     consultaService.save(consulta);
