@@ -82,17 +82,21 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         VerticalLayout vl5 = new VerticalLayout();
         HorizontalLayout hl2 = new HorizontalLayout();
 
+
         Checkbox roaming = new Checkbox("Activar Roaming");
-        roaming.setValue(n.getRoaming());
         Checkbox compartir = new Checkbox("Compartir Datos");
-        compartir.setValue(n.getCompartir());
         Button bloquear = new Button("Bloquear Numero");
         HorizontalLayout hl3 = new HorizontalLayout();
         Button baja = new Button("Dar de Baja Contrato");
         Button pdf = new Button("Descargar PDF");
         hl3.setAlignSelf(Alignment.CENTER, roaming);
         hl3.setAlignSelf(Alignment.CENTER, compartir);
-        hl3.add(pdf, baja, bloquear, roaming, compartir);
+        if (c.getMovil() != null) {
+            roaming.setValue(c.getMovil().getRoaming());
+            compartir.setValue(c.getMovil().getCompartir());
+            hl3.add(pdf, baja, bloquear, roaming, compartir);
+        } else
+            hl3.add(pdf, baja, bloquear);
 
 
         baja.addClickListener(e -> {
@@ -288,7 +292,7 @@ public class ContratoIndiviualVista extends VerticalLayout implements HasUrlPara
         document.open();
         Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
         Font font1 = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
-        Chunk titular = new Chunk("\nNombre Titular: " + c.getUsuario().getNombre() + "\n", font1);
+        Chunk titular = new Chunk("\n\nNombre Titular: " + c.getUsuario().getNombre() + " " + c.getUsuario().getApellidos(), font1);
         Chunk dni = new Chunk("\nDNI: " + c.getUsuario().getDNI() + "\n", font1);
 
         Paragraph paragraph = new Paragraph("Contrato " + c.getTarifanombre(), font);

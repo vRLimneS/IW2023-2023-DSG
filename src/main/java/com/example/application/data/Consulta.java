@@ -23,11 +23,12 @@ public class Consulta extends AbstractEntity {
 
     private Estadoconsulta _estadoConsulta = Estadoconsulta.PENDIENTE;
 
-    public Consulta(String email, String asunto, String mensaje, Usuario usuario) {
+    public Consulta(String email, String asunto, String mensaje, Usuario usuario, String username) {
         this.email = email;
         this.asunto = asunto;
         this.mensaje = mensaje;
         this.cliente = usuario;
+        this.usernameCliente = username;
     }
 
     public Consulta(String email, String asunto, String mensaje) {

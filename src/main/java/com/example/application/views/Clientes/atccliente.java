@@ -5,10 +5,8 @@ import com.example.application.data.Usuario;
 import com.example.application.services.ConsultaService;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.example.application.views.Security.AuthenticatedUser;
-import com.vaadin.flow.component.Shortcuts;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
@@ -31,8 +29,8 @@ import java.util.Optional;
 @Uses(Icon.class)
 public class atccliente extends Div {
 
-    private ConsultaService consultaService;
-    private AuthenticatedUser authenticatedUser;
+    private final ConsultaService consultaService;
+    private final AuthenticatedUser authenticatedUser;
 
     public atccliente(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
 
@@ -64,7 +62,6 @@ public class atccliente extends Div {
         asunto.setWidth("600px");
 
 
-
         Button buton = new Button("Enviar");
         HorizontalLayout hl2 = new HorizontalLayout();
         hl2.setAlignSelf(FlexComponent.Alignment.END, buton);
@@ -73,19 +70,19 @@ public class atccliente extends Div {
         email.getStyle().set("padding", "var(--lumo-space-s)");
         mensaje.getStyle().set("padding", "var(--lumo-space-s)");
         vl.getStyle().set("padding", "var(--lumo-space-s)");
-        vl.add(email,asunto, hl2);
+        vl.add(email, asunto, hl2);
 
 
-            add(vl);
+        add(vl);
         this.setupGrid(authenticatedUser);
 
 
         buton.addClickListener(e -> {
-            if(email.getValue().isEmpty() || mensaje.getValue().isEmpty() || asunto.getValue().isEmpty()){
+            if (email.getValue().isEmpty() || mensaje.getValue().isEmpty() || asunto.getValue().isEmpty()) {
                 Notification.show("Rellene todos los campos");
-            }else {
+            } else {
                 if (authenticatedUser.get().isPresent()) {
-                    consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue(), authenticatedUser.get().get()));
+                    consultaService.save(new Consulta(email.getValue(), asunto.getValue(), mensaje.getValue(), authenticatedUser.get().get(), authenticatedUser.get().get().getUsername()));
                     Notification.show("Consulta enviada");
                     email.clear();
                     mensaje.clear();
@@ -104,7 +101,7 @@ public class atccliente extends Div {
 
     }
 
-    public void setupGrid(AuthenticatedUser authenticatedUser){
+    public void setupGrid(AuthenticatedUser authenticatedUser) {
         Optional<Usuario> usuario = authenticatedUser.get();
         Grid<Consulta> grid = new Grid<>(Consulta.class, false);
         grid.setAllRowsVisible(true);
@@ -114,9 +111,9 @@ public class atccliente extends Div {
         grid.addColumn(Consulta::getEstado).setHeader("Estado");
         grid.addColumn(Consulta::getUsername).setHeader("Usuario");
 
-        for (Consulta c : consultaService.findByCliente(usuario.get())){
-                grid.setItems(consultaService.findByCliente(usuario.get()));
-                grid.getDataProvider().refreshAll();
+        for (Consulta c : consultaService.findByCliente(usuario.get())) {
+            grid.setItems(consultaService.findByCliente(usuario.get()));
+            grid.getDataProvider().refreshAll();
         }
 
         add(grid);

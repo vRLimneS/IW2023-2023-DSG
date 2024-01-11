@@ -24,9 +24,9 @@ public class AdminConsultasView extends Div {
 
     private static Grid<Consulta> grid;
     private static Div hint;
-    private ConsultaService consultaService;
+    private final ConsultaService consultaService;
 
-    private AuthenticatedUser authenticatedUser;
+    private final AuthenticatedUser authenticatedUser;
 
     public AdminConsultasView(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
         this.consultaService = consultaService;
@@ -45,6 +45,7 @@ public class AdminConsultasView extends Div {
         grid.addColumn(Consulta::getMensaje).setHeader("Mensaje");
         grid.addColumn(Consulta::getEstado).setHeader("Estado");
         grid.addColumn(Consulta::getUsernameCliente).setHeader("Cliente");
+        grid.addColumn(Consulta::getUsername).setHeader("Usuario");
         grid.addComponentColumn(consulta -> {
             Button button = new Button("Asignar");
             button.addClickListener(click -> {
@@ -65,7 +66,20 @@ public class AdminConsultasView extends Div {
             });
             return button;
         }).setHeader("Asignar");
-        grid.addColumn(Consulta::getUsername).setHeader("Usuario");
+
+        grid.addComponentColumn(consulta -> {
+            Button button = new Button("Quitar");
+            button.addClickListener(click -> {
+                if (consulta.getEstado().equals("ATENDIDO")) {
+                    consulta.BorrarUsuario();
+                    consulta.setEstado("PENDIENTE");
+                    consultaService.save(consulta);
+                    Notification.show("Consulta desasignada");
+                    grid.getDataProvider().refreshAll();
+                }
+            });
+            return button;
+        }).setHeader("Quitar");
 
 
         grid.setItems(consultaService.findAll());

@@ -23,8 +23,8 @@ public class AdminConsultas extends Div {
     private static final List<Consulta> consultas = new ArrayList<>();
     private static Grid<Consulta> grid;
     private static Div hint;
-    private ConsultaService consultaService;
-    private AuthenticatedUser authenticatedUser;
+    private final ConsultaService consultaService;
+    private final AuthenticatedUser authenticatedUser;
 
     public AdminConsultas(ConsultaService consultaService, AuthenticatedUser authenticatedUser) {
         this.authenticatedUser = authenticatedUser;

@@ -2,7 +2,7 @@ package com.example.application.views.Layouts;
 
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
-import com.example.application.views.Admin.AdminConsultas;
+import com.example.application.views.Admin.AdminConsultasView;
 import com.example.application.views.Admin.AdminTarifas;
 import com.example.application.views.Admin.AdminUsuariosView;
 import com.example.application.views.Clientes.PublicTarifasView;
@@ -80,8 +80,7 @@ public class LayoutPrincipal extends AppLayout {
                 tabs.add(new Tab(new RouterLink("Inicio", inicio.class)));
                 tabs.add(new Tab(new RouterLink("Crear Tarifas", CrearTarifas.class)));
                 tabs.add(new Tab(new RouterLink("TarifasCliente", PublicTarifasView.class)));
-                tabs.add(new Tab(new RouterLink("Consultas", AdminConsultas.class)));
-                tabs.add(new Tab(new RouterLink("Servicios", ServiciosView.class)));
+                tabs.add(new Tab(new RouterLink("Consultas", AdminConsultasView.class)));
                 tabs.add(new Tab(new RouterLink("TarifasMarketing", AdminTarifas.class)));
                 tabs.add(new Tab(new RouterLink("Usuarios", AdminUsuariosView.class)));
             }

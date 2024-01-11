@@ -107,4 +107,8 @@ public class UsuarioService {
     public boolean existsByEmail(String value) {
         return usuarioRepository.existsByEmail(value);
     }
+
+    public boolean existsByDNI(String value) {
+        return usuarioRepository.existsByDNI(value);
+    }
 }
