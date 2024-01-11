@@ -21,11 +21,8 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.awt.*;
 
 @AnonymousAllowed
 @PageTitle("registro")
@@ -120,18 +117,18 @@ public class Registro extends VerticalLayout {
                 if (Nombre.isEmpty() || Apellido.isEmpty() || DNI.isEmpty() || Correo.isEmpty() ||
                         Contrasena.isEmpty() || ConfirmarContrasena.isEmpty() || Direccion.isEmpty() || FechaNacimiento.isEmpty()) {
                     Notification.show("Todos los campos son obligatorios");
-                } else if (Contrasena.getValue().equals(ConfirmarContrasena.getValue())) {
+                } else if (Contrasena.getValue().equals(ConfirmarContrasena.getValue()) && Contrasena.getValue().length() >= 8) {
                     // Resto del código de registro
                     if (usuarioService.existsByUsername(username.getValue())) {
                         Notification.show("El nombre de usuario ya existe.\n Por favor, elija otro nombre de usuario").setPosition(Notification.Position.MIDDLE);
-                    } else if(usuarioService.existsByDNI(DNI.getValue())){
+                    } else if (usuarioService.existsByDNI(DNI.getValue())) {
                         Notification.show("El DNI ya existe.\n Por favor, elija otro DNI").setPosition(Notification.Position.MIDDLE);
-                    } else if(usuarioService.existsByEmail(Correo.getValue())){
+                    } else if (usuarioService.existsByEmail(Correo.getValue())) {
                         Notification.show("El Correo ya existe.\n Por favor, elija otro Correo").setPosition(Notification.Position.MIDDLE);
                     } else {
                         TipoRol rol = TipoRol.CLIENTE;
                         Usuario usuario = new Usuario(Nombre.getValue(), username.getValue(), Apellido.getValue(), Contrasena.getValue(),
-                            rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), false);
+                                rol, DNI.getValue(), Correo.getValue(), Direccion.getValue(), FechaNacimiento.getValue(), false);
                         usuarioService.registerUser(usuario);
                         Notification.show("Usuario registrado correctamente");
 

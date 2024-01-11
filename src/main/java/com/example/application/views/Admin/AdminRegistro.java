@@ -108,7 +108,7 @@ public class AdminRegistro extends VerticalLayout {
             if (Nombre.isEmpty() || Apellido.isEmpty() || DNI.isEmpty() || Correo.isEmpty() ||
                     Contrasena.isEmpty() || ConfirmarContrasena.isEmpty() || Direccion.isEmpty() || FechaNacimiento.isEmpty()) {
                 Notification.show("Todos los campos son obligatorios");
-            } else if (Contrasena.getValue().equals(ConfirmarContrasena.getValue())) {
+            } else if (Contrasena.getValue().equals(ConfirmarContrasena.getValue()) && Contrasena.getValue().length() >= 8) {
                 if (usuarioService.existsByUsername(username.getValue())) {
                     Notification.show("El nombre de usuario ya existe.\n Por favor, elija otro nombre de usuario").setPosition(Notification.Position.MIDDLE);
                 } else if (usuarioService.existsByDNI(DNI.getValue())) {
