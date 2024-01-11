@@ -19,6 +19,8 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -82,7 +84,8 @@ public class PasareladePago extends HorizontalLayout implements HasUrlParameter<
 
 
             boton.addClickListener(click -> {
-                if (!NumeroTarjeta.getValue().matches("\\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d") || NumeroTarjeta.isEmpty() || Titular.isEmpty() || !FechaCaducidad.getValue().matches("\\d\\d/\\d\\d") || FechaCaducidad.isEmpty() || CVV.isEmpty() || !CVV.getValue().matches("\\d\\d\\d")) {
+                String fecha = "1/";
+                if (!NumeroTarjeta.getValue().matches("\\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d \\d\\d\\d\\d") || NumeroTarjeta.isEmpty() || Titular.isEmpty() || !FechaCaducidad.getValue().matches("\\d\\d/\\d\\d") || LocalDate.parse(fecha + FechaCaducidad.getValue(), DateTimeFormatter.ofPattern("d/MM/yy")).isBefore(LocalDate.now()) || FechaCaducidad.isEmpty() || CVV.isEmpty() || !CVV.getValue().matches("\\d\\d\\d")) {
                     Notification.show("Revise todos los campos");
                 } else {
                     ConfirmDialog dialog = new ConfirmDialog();

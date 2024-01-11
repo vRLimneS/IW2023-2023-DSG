@@ -3,7 +3,6 @@ package com.example.application.views.Admin;
 import com.example.application.data.TipoRol;
 import com.example.application.data.Usuario;
 import com.example.application.services.UsuarioService;
-import com.example.application.views.Comunes.PoliticaPrivacidad;
 import com.example.application.views.Layouts.LayoutPrincipal;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -60,12 +59,6 @@ public class AdminRegistro extends VerticalLayout {
 
         ComboBox<TipoRol> rolComboBox = new ComboBox<>("Rol", Arrays.asList(TipoRol.values()));
 
-        //boton para aceptar politica  de privacidad
-        Button botonPolitica = new Button("Politica de privacidad");
-        botonPolitica.addClickListener(click -> {
-            UI.getCurrent().navigate(String.valueOf(PoliticaPrivacidad.class));
-        });
-
 
         Button boton = new Button();
         boton.setText("Registrarse");
@@ -99,7 +92,7 @@ public class AdminRegistro extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
 
         vl2.add(username, Nombre, Apellido, DNI, Correo, Contrasena, ConfirmarContrasena, Direccion, FechaNacimiento,
-                rolComboBox, botonPolitica);
+                rolComboBox);
         vl2.setAlignItems(Alignment.CENTER);
         vl2.setWidth("69%");
         add(vl2, boton);
