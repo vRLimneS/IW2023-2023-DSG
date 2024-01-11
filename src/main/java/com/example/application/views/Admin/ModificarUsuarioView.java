@@ -27,9 +27,6 @@ import java.util.UUID;
 @Route(value = "ModificarUsuario", layout = LayoutPrincipal.class)
 public class ModificarUsuarioView extends HorizontalLayout implements HasUrlParameter<String> {
 
-    private UsuarioService usuarioService;
-    private AuthenticatedUser authenticatedUser;
-
     TextField Username = new TextField("Username");
     TextField Nombre = new TextField("Nombre");
     TextField Apellidos = new TextField("Apellidos");
@@ -40,15 +37,17 @@ public class ModificarUsuarioView extends HorizontalLayout implements HasUrlPara
     DatePicker FechaNacimiento = new DatePicker();
     TextField Direccion = new TextField("Direccion");
     TextField Estado = new TextField("Estado (false no se muestra, true se muestra)");
-
+    private final UsuarioService usuarioService;
+    private final AuthenticatedUser authenticatedUser;
     private String nobUsuario;
 
     public ModificarUsuarioView(UsuarioService usuarioService, AuthenticatedUser authenticatedUser) {
         this.usuarioService = usuarioService;
         this.authenticatedUser = authenticatedUser;
         Optional<Usuario> user = authenticatedUser.get();
-        UUID id = user.get().getId();
-
+        if (user.isPresent()) {
+            UUID id = user.get().getId();
+        }
         VerticalLayout vl = new VerticalLayout();
         VerticalLayout vl2 = new VerticalLayout();
         VerticalLayout vl3 = new VerticalLayout();
